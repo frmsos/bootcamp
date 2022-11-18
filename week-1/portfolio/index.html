@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Francisco Sosa's portfolio">
+    <title>Portfolio</title>
+    <style>
+        table, th, td {
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+        th{
+            text-align: left;
+        }
+        </style>
+
+</head>
+
+<body>
+    <header>
+        <h1>Francisco Sosa</h1>
+    </header>
+
+    <div class="photo">
+        <img src="fs.jpg" alt="francisco's photo" width="100px" height="100px" style="border: 5px solid black" >
+    </div>
+    <div class="socialmedia_links">
+        <p>
+            <a href="https://github.com/frmsos">
+                <img src="github.png" alt="github logo" width="35px" height="20px">
+                my github        
+            </a>
+            <a href="https://www.linkedin.com/in/francisco-msosa/">
+                <img src="linkedin.png" alt="linkedin logo" width="18px" height="18px">
+                my linkedin      
+            </a>    
+            <a href="mailto:frmsos@gmail.com">
+                <img src="email.png" alt="email logo" width="18px" height="18px">
+                my mail      
+            </a>   
+        </p>
+    </div>
+    <div class="quiensoy">
+        <h2>Quien soy</h2>
+        <p>Soy una persona con mucha pasión por la tecnologìa y el aprendizaje. Me gustan los desafíos y el crecimiento constante que los mismos generan.</p>
+
+    </div>
+    <div class="tecnologias">
+        <h2>Tecnologías</h2>
+        <table width="32%">
+            <tr>
+                <th>Front-end</th>
+                <th>Python</th>
+                <th>JavaScript</th>
+                <th>Database</th>
+                <th>Concept</th>
+            </tr>
+            <tr>
+                <td>HTML5</td>
+                <td>Django</td>
+                <td>Express</td>
+                <td>MySQL</td>
+                <td>AJAX</td>
+            </tr>
+            <tr>
+                <td>CSS3</td>
+                <td>Flask</td>
+                <td>Mongoose</td>
+                <td>MongoDB</td>
+                <td>OOP</td>
+                <tr>
+                    <td>Bootstrap</td>
+                    <td>Unitest</td>
+                    <td>React</td>
+                    <td></td>
+                    <td>REST</td>
+                </tr>
+            </tr>
+        </table>
+    </div>
+    <div class="pasatiempos">
+        <h2>Pasatiempos</h2>
+        <ul>
+            <li>Lectura</li>
+            <li>Ver series y pelìculas</li>
+            <li>Practicar deportes, como la natación y el padel</li>
+            <li>Cocinar</li>
+        </ul>
+    </div>
+    <div class="contactme">
+        <h2>Contactame!</h2>
+        <form action="/process" method="post">
+            <label for="name">Nombre</label>
+            <input type="text" name="name">
+            <label for="email">Email</label>
+            <input type="text" name="email">
+            <div>
+                <textarea id="message" name="message" rows="4" cols="50"></textarea>
+            </div>
+            <input type="submit" value="Enviar mensaje" >
+        </form>
+
+    </div>
+
+    
+</body>
+</html>

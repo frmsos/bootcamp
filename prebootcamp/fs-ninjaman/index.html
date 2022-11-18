@@ -1,0 +1,208 @@
+<html>
+    <head>
+        <title>NinjaMan</title>
+    </head>
+    <style type="text/css">
+                    * {
+                margin: 0;
+                padding: 0;
+            }
+            .wall {
+                background-color: blue;
+                height: 40px;
+                width: 40px;
+                display: inline-block;
+            }
+            .sushi {
+                background-color: black;
+                height: 40px;
+                width: 40px;
+                display: inline-block;
+                background-image: url('sushi.png');
+                background-size: contain;
+            }
+            .onigiri {
+                background-color: black;
+                height: 40px;
+                width: 40px;
+                display: inline-block;
+                background-image: url('onigiri.png');
+                background-size: contain;
+            }
+            .blank {
+                background-color: black;
+                height: 40px;
+                width: 40px;
+                display: inline-block;
+            }
+            #ninjaman {
+                background-color: black;
+                height: 40px;
+                width: 40px;
+                display: inline-block;
+                background-image: url('ninja.gif');
+                background-size: contain;
+                position: absolute;
+                top: 40px;
+                left: 40px;
+            }
+            .points {
+                background-color: red;
+                height: 40px;
+                width: 40px;
+                display: inline-block;
+            }
+    </style>
+    <body>
+        <div id='world'></div>
+        <div id='ninjaman'></div>
+        <div id='points'></div>
+ </body>
+    <script type="text/javascript">
+        var puntaje = 0;
+        var cont_sushi = 0;
+        var cont_onigiri = 0;
+        var world = [
+            [1,1,1,1,1],
+            [1,1,3,1,1],
+            [1,2,0,3,1],
+            [1,2,2,0,1],
+            [1,1,2,3,1],
+            [1,2,0,2,1],
+            [1,2,0,2,1],
+            [1,1,0,2,1],
+            [1,2,0,2,1],
+            [1,2,1,2,1],
+            [1,1,1,1,1],
+
+        ];
+        var worldDict ={
+            0: 'blank',
+            1: 'wall',
+            2: 'sushi',
+            3: 'onigiri'
+        };
+        var ninjaman = {
+        x: 1,
+        y: 1 
+    };
+        function drawWorld(){
+            var output = "";
+            for(var row=0; row <world.length; row++)
+            {
+                output += "<div class = 'row'>"
+                for(var x= 0; x<world[row].length;x++){
+                    output +=  "<div class = '" + worldDict[world[row][x]]+"'></div>" 
+                    
+                }
+                output += "</div>"
+            }
+            document.getElementById('world').innerHTML = output;
+        }
+    function drawNinjaman(){
+        document.getElementById('ninjaman').style.top = ninjaman.y*40 + 'px';
+        document.getElementById('ninjaman').style.left = ninjaman.x*40 + 'px';
+    }
+    function drawPoints(){
+        var output = [];
+        output += "<H1>Puntaje:" + puntaje +"</H1>"
+        output += "<H1>Cant- de sushi comidos:" + cont_sushi +"</H1>"
+        output += "<H1>Cant- de onigiri comidos:" + cont_onigiri +"</H1>"
+        document.getElementById('points').innerHTML = output;
+    }
+    function random_world(){
+        for(var i=1;i<world.length-1;i++)
+        {
+            for(var j=1;j<world[i].length-1;j++){
+                if(world[i][j] != 0){
+                    world[i][j] = Math.trunc(Math.random()*3) + 0;
+                }
+                
+            }
+        }
+        console.log(world);
+    }
+    random_world();
+    drawWorld();
+    drawNinjaman();
+    document.onkeydown = function(e){
+        console.log("x",ninjaman.x);
+        console.log("y",ninjaman.y);
+        if(e.keyCode == 37){ //left
+            var temp1 = world[ninjaman.y][ninjaman.x-1];
+            if(temp1 != 1)
+            {
+                ninjaman.x--;
+                if(temp1 ==2){
+                    puntaje += 10;
+                    cont_sushi++;
+                }
+                else if(temp1 ==3){
+                    puntaje +=5;
+                    cont_onigiri++;
+                }
+
+            }
+        }
+        if(e.keyCode == 39){ //right
+            temp1 = world[ninjaman.y][ninjaman.x+1];
+            if( temp1 != 1)
+            {
+                ninjaman.x++;
+                if(temp1 ==2){
+                    puntaje += 10;
+                    cont_sushi++;
+                }
+                else if(temp1 ==3){
+                    puntaje +=5;
+                    cont_onigiri++;
+                }
+
+
+            }
+        }
+        if(e.keyCode == 40){ //down
+            temp1 = world[ninjaman.y+1][ninjaman.x];
+            if(temp1 != 1)
+            {
+                ninjaman.y++;
+                if(temp1 ==2){
+                    puntaje += 10;
+                    cont_sushi++;
+                }
+                else if(temp1 ==3){
+                    puntaje +=5;
+                    cont_onigiri++;
+                }
+
+            }
+        }
+        if(e.keyCode == 38){ //up
+            temp1 = world[ninjaman.y-1][ninjaman.x];
+            if( temp1 != 1)
+            {
+                    ninjaman.y--;
+                    if(temp1 ==2){
+                    puntaje += 10;
+                    cont_sushi++;
+                }
+                else if(temp1 ==3){
+                    puntaje +=5;
+                    cont_onigiri++;
+                }
+
+            }
+        }
+        world[ninjaman.y][ninjaman.x] = 0;
+        drawNinjaman();
+        drawWorld();
+        drawPoints();
+        console.log(puntaje);
+    }
+
+
+//sushi 10, onigiri 5
+
+
+    </script>
+</html>

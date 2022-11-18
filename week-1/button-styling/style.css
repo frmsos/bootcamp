@@ -1,0 +1,43 @@
+.searchbutton{
+    position:absolute;
+    top:50px;
+    left:66px;
+}
+.searchbutton button{
+    color:darkcyan;
+    background-color: rgba(211, 211, 211, 0.384);
+    border:1px solid darkcyan;
+    width: 150px;
+    height: 30px;
+    font-weight: bold;
+    font-size: 15px;
+    border-radius: 15px;
+}
+.plusbutton{
+    position: absolute;
+    top: 95px; 
+    left: 66px;
+}
+.plusbutton button{
+    color: white;
+    background-color: #00C9A7;
+    border-style: none;
+    width: 40px;
+    height: 40px;
+    font-size: 25px;
+    font-weight: bold;
+    border-radius: 50%;
+}
+.createbutton{
+    position: absolute;
+    top: 150px; 
+    left: 66px;
+}
+.createbutton button{
+    color: white;
+    background-color: rgb(19, 112, 224);
+    width: 170px;
+    height: 38px;
+    font-size: 17px;
+    box-shadow: 3px 3px black;
+}

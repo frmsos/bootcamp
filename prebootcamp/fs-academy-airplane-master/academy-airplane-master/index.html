@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+	<style type="text/css">
+		#ocean{
+			background-image: url("ocean.jpg");
+			width: 900px;
+			height: 700px;
+		}
+		.player{
+			position: absolute;
+			background-image: url("player.png");
+			width: 70px;
+			height: 75px;
+
+		}
+		.enemy{
+			position: absolute;
+			background-image: url("enemy.png");
+			width: 70px;
+			height: 75px;
+
+		}
+		.missile{
+			position: absolute;
+			background-color: red;
+			width: 2px;
+			height: 10px;
+		}
+	</style>
+	<div id="ocean">
+		<div id="players"></div>
+		<div id="enemies"></div>
+		<div id="missiles"></div>
+	</div>
+
+
+
+
+
+	<script type="text/javascript">
+		var player = {
+			left: 450,
+			top: 620
+		};
+	var enemies = [
+		{left: 350, top:200},
+		{left: 450, top:250},
+		{left: 550, top:150},
+		{left: 250, top:350}
+	];
+	var missiles = [];
+	function drawPlayer(){
+		content = "<div class= 'player' style='left:"+player.left+"px; top: "+player.top+"px'></div>"
+		document.getElementById("players").innerHTML = content;
+	}	
+	function drawEnemies(){
+		content = "";
+		for( var idx=0; idx<enemies.length; idx++){
+			content += "<div class= 'enemy' style='left:"+enemies[idx].left+"px; top: "+enemies[idx].top+"px'></div>"
+		}
+		console.log("idx",idx);
+		document.getElementById("enemies").innerHTML = content;
+	}
+	function moveEnemies(){
+
+		for( var idx=0; idx<enemies.length; idx++){
+			enemies[idx].top +=1; 
+		}
+	}
+	function gameLoop(){
+		drawPlayer();
+		moveEnemies();
+		drawEnemies();
+		moveMissiles();
+		drawMissiles();
+		setTimeout(gameLoop,10);
+	}
+	function drawMissiles(){
+		content = "";
+		for( var idx=0; idx<missiles.length; idx++){
+			content += "<div class= 'missile' style='left:"+missiles[idx].left+"px; top: "+missiles[idx].top+"px'></div>";
+			document.getElementById("missiles").innerHTML = content;
+		}
+	}
+	function moveMissiles(){
+
+for( var idx=0; idx<missiles.length; idx++){
+	missiles[idx].top -=4; 
+}
+}
+
+	document.onkeydown = function(e){
+		if(e.keyCode == 37){ //left
+			player.left -= 10;
+
+		}
+		if(e.keyCode == 39){ //right
+			player.left += 10;
+		
+		}
+		if(e.keyCode == 40 && player.top <625){ //down
+			player.top += 10;
+		
+		}
+		if(e.keyCode == 38 && player.top > 500 ){ //up
+			player.top -= 10;
+		
+		}
+		if(e.keyCode == 32){ //missiles shot
+			missiles.push({left: (player.left+34), top: (player.top-8) });
+
+		}
+		gameLoop();
+
+
+	}
+	</script>
+</body>
+</html>
