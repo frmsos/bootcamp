@@ -1,0 +1,37 @@
+img{
+    width:250px;
+    height: 250px;
+}
+.container{
+    width: 950px;
+    background-color: lightgray;
+    color: darkslategray;
+    text-align: center;
+    font-family: sans-serif;
+    margin: 0px auto;
+    padding: 15px;
+}
+.topcontainer{
+    width: 920px;
+    background-color: deepskyblue;
+    padding: 15px;
+    margin-bottom: 15px;
+    justify-content: space-evenly;
+    display: flex;
+}
+.mediumcontainer{
+    width: 920px;
+    background-color: indianred;
+    padding: 15px;
+    margin-bottom: 15px;
+    justify-content: space-evenly;
+    display: flex;
+}
+.bottomcontainer{
+    width: 920px;
+    background-color: white;
+    padding: 15px;
+    margin-bottom: 15px;
+    justify-content: space-evenly;
+    display: flex;
+}
