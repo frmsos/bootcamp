@@ -1,0 +1,33 @@
+.row{
+    display: flex;
+    margin-top: 5%;
+    margin-left: 5%;
+    margin-right: 5%;
+    margin-top: 2%;
+
+}
+.col{
+    background-color: red;
+    height:50px;
+    margin-right: 5%;
+}
+div.col:nth-child(1){
+    background-color: red;
+    flex:1;
+}
+div.col:nth-child(2){
+    background-color: darkblue;
+    flex:1;
+}
+div.col:nth-child(3){
+    background-color: yellow;
+    flex:1;
+}
+div.col:nth-child(4){
+    background-color: darkcyan;
+    flex:1;
+}
+div.col:nth-child(5){
+    background-color:brown;
+    flex:1;
+}
