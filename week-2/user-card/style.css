@@ -1,0 +1,31 @@
+.container{
+    width: 50%;
+    height: 80%;
+    margin-left: 10%;
+}
+.head{
+    margin-top: 10%;
+    background-color:rgba(1,163,193);
+    height: px;
+}
+.user-circle{
+
+    position: relative;
+    left: 10px;
+    top: 16px;
+    width: fit-content;
+    height: 30px;
+}
+.content{
+    border: 3px solid lightgrey;
+    border-top-color: white;
+}
+h1{
+    margin-left: 10px;
+}
+.map-logo{
+
+width: fit-content;
+}
+
+
