@@ -1,49 +1,51 @@
 *{
     font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+header{
+    display: flex;   
+    width: 100%; 
+    background-color: black;
+
+}
+
+h1{
+    margin-left: 5rem;
+    margin-right: 2rem;
+    padding: 0.4rem;
+    font-size: 2rem;
+}
+nav{
+    background-color: black;
+    display: flex;
+    border: none;
+    font-size: 1rem;
+    color: white;
+    width: 100%;
 }
 a{
     color: lightgrey;
     text-decoration:none;
+    margin-right: 1rem;
+    font-size: 1rem;
+    padding-top: 1rem;
 }
-body{
-    margin-top: 0;
-    margin-left: 0;
-}
-.nav{
-    background-color: rgb(39, 32, 32);
-    width: 300px;
-    display: flex;
-}
-.nav h1{
+button{
     color: white;
-    font-size: 6.5px;
-    margin-top: 2px;
-    margin-left: 2px;
-}
-.nav-links{
-    font-size: 4px;
-    display: flex;
-    justify-content: flex-end;
-    width: 300px;
-    text-align: center;
-
-
-}
-ul{
-    list-style-type: none;
-}
-li{
-    margin-right: 5px;
-}
-.btn{
-    color: white;
-    background-color: lightseagreen;
-    font-size: 4px;
-    width: 30px;
+    background-color: #18a2b8;
+    font-size: 1rem;
+    width: 6rem;
+    border: none;
     padding: 0;
-    border: 0.5px solid black;
-    text-align: center;
-    display: inline-block;
-    box-shadow: 0.5px 1px black ;
     font-weight: bold;
+    height: 2rem;
+    margin-top: 0.6rem;
+    cursor: pointer;
+    margin-right: 6rem;
 }
+.btncontainer{
+    background-color: black;
+    justify-content: flex-end;
+}
+

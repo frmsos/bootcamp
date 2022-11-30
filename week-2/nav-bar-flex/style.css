@@ -40,10 +40,11 @@ li{
     background-color: lightseagreen;
     font-size: 4px;
     width: 30px;
-    padding: 0;
+    padding: 0rem;
     border: 0.5px solid black;
     text-align: center;
     display: inline-block;
     box-shadow: 0.5px 1px black ;
     font-weight: bold;
+    align-items: center;
 }
