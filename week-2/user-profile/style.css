@@ -53,26 +53,28 @@ codigo actual
 
 */
 
-.head{
+.user_header{
     margin-top: 5%;
     background-color:#14a2b8;
 }
 .user_container{
-    width: 40%;
+    width: 75%;
     margin-left: 5rem;
 }
 .username{
     border: 3px solid lightgrey;
     border-top-color: white;
 }
-.user-circle{
+.user_circle{
     position: relative;
     left: 2rem;
-    top: 1.6rem;
-    height: 4.5rem;
+    top: 2rem;
+    height: 6rem;
+    width: 6rem;
+    border-radius: 50%;
 }
 h2{
-    margin-top: 1.2rem;
+    margin-top: 2rem;
     margin-left: 2rem;
     margin-bottom: 1rem;
 }
@@ -113,7 +115,7 @@ p{
     background-color:#333333;
 }
 .education_container{
-    width: 40%;
+    width: 75%;
     margin-left: 5rem;
 }
 .education_content{
@@ -140,11 +142,99 @@ p{
     width: 50%;
 }
 .right_container{
-    width:50%;
+    width: 50%;
 }
 main{
     display: flex;
 }
+.connrequest_container{
+    width: 50%;
+    margin-left: 2rem;
+}
+.connrequest_header{
+    margin-top: 5%;
+    background-color:#333333;
 
+}
 
+.connrequest_content{
+    border: 3px solid lightgrey;
+    border-top-color: white;
+}
+.connrequest_header h3{
+    margin-bottom: 0rem;
+    padding: 0.5rem;
+    color: white;
+    display: inline-block;
+    
+}
+.connrequest_info{
+    border: 3px solid lightgrey;
+    border-top-color: white;
+}
+.connrequest_user{
+    display: flex;
+    margin-top: 1rem;
+}
+.connrequest_number{
+    color: black;
+    background-color: #c7c7c7;
+    margin-left: 1rem;
+    text-align: center;
+    display: inline-block;
+    border-radius: 50%;
+    font-weight: bold;
+    width: 1.3rem;
+    height: 1.3rem;
+    position: relative;
+    bottom: 0.23rem;
+}
+.connrequest_solicitors{
+    border-radius: 50%;
+    width: 3rem;
+    height: 3rem;
+    margin-left: 1rem;
+}
+h4{
+    font-weight: bold;
+    margin-top: 0.5rem;
+    margin-left: 0.5rem;
+    width: 4rem;
+}
+.connrequest_user a{
+    padding: 0rem;
+}
+.accept_button{
+    margin-top: 0;
+    width: 2.5rem;
+    font-size: 0;
+    padding: 0rem;
+}
+.connrequest_buttons{
+    margin-left: 2rem;
+}
+.connrequest_number2{
+    color: black;
+    background-color: #c7c7c7;
+    margin-left: 1rem;
+    text-align: center;
+    display: inline-block;
+    border-radius: 50%;
+    font-weight: bold;
+    width: 2.5rem;
+    height: 1.4rem;
+    position: relative;
+    bottom: 0.2rem;
+    padding-top: 0.rem;
+}
+.viewmore
+{
+    border: 3px solid lightgrey;
+    padding: 1rem;
+}
+.viewmore a{
+    color: black;
+    cursor: pointer;
+    text-decoration: underline;
 
+}
