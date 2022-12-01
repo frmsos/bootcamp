@@ -9,7 +9,6 @@ header{
     background-color: black;
 
 }
-
 h1{
     margin-left: 5rem;
     margin-right: 2rem;
@@ -48,4 +47,71 @@ button{
     background-color: black;
     justify-content: flex-end;
 }
+/*
+parte retocada
+codigo actual
+
+*/
+
+.head{
+    margin-top: 5%;
+    background-color:#14a2b8;
+}
+.user_card{
+    width: 40%;
+    margin-left: 5rem;
+}
+.username{
+    border: 3px solid lightgrey;
+    border-top-color: white;
+}
+.user-circle{
+    position: relative;
+    left: 2rem;
+    top: 1.6rem;
+    height: 4.5rem;
+}
+h2{
+    margin-top: 1.2rem;
+    margin-left: 2rem;
+    margin-bottom: 1rem;
+}
+.map-logo{
+    width: fit-content;
+    height: 1.3rem;
+    margin-right: 0.5rem;
+}
+h3
+{
+    font-weight: normal;
+    margin-bottom: 1rem;
+}
+
+p{
+    font-weight: normal;
+    margin-bottom: 2px;
+    margin-left: 2rem;
+}
+.location{
+    margin-left: 2rem;
+    display: flex;
+}
+.gear{
+    margin-left: 2rem;
+    width: 1.3rem;
+    margin-top: 1rem;
+}
+.edit{
+    margin-top: 1rem;
+    margin-left: 0.5rem;
+    color: black;
+    text-decoration: underline;
+}
+
+
+
+
+
+
+
 
