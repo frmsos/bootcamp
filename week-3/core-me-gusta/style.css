@@ -1,0 +1,33 @@
+*{
+    margin: o;
+    padding: 0;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+.userContainer{
+    width: 30%;
+    border: black solid 0.3rem;
+}
+.userFirstRow{
+    display: flex;
+}
+.userFirstRow h3{
+    margin-left: 1rem;
+}
+.likeButton{
+    color: black;
+    height: 2rem;
+    width: 4.7rem;
+    font-weight: bold;
+    background-color: #ffd966;
+    border: black solid 0.2rem;
+    box-shadow: 0.1rem 0.2rem black;
+    margin: auto;
+}
+.userLikes{
+    margin: auto;
+}
+.userContainer > h3{
+    margin-left: 1rem;
+    margin: 1rem;
+    font-weight: normal;
+}
