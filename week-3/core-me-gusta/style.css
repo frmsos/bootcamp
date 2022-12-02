@@ -3,9 +3,45 @@
     padding: 0;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
-.userContainer{
-    width: 30%;
+header{
+    width: 100%;
+}
+h1{
+    width: 45%;
+    background-color: black;
+    color: white;
+    margin-left: 4rem;
+    justify-content: center;
+}
+header > p{
+    margin-left: 16rem;
+    font-size: 1.5rem;
+}
+main{
+    display: flex;
+}
+
+.userDataContainer{
+    width: 50%;
     border: black solid 0.3rem;
+    margin-left: 4rem;
+    align-items: center;
+    padding: 1rem;
+}
+.userProfilePic{
+    border-radius: 50%;
+    border: black solid 0.3rem;
+    width: 6rem;
+    display: block;
+}
+a > userProfilePic{
+    display: block;
+}
+
+.userContainer{
+    width: 59%;
+    border: black solid 0.3rem;
+    margin-bottom: 1rem;
 }
 .userFirstRow{
     display: flex;
