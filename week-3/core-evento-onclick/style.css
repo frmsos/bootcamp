@@ -1,0 +1,116 @@
+*{
+    margin: 0;
+    padding: 0;
+    font-family: 'Roboto', sans-serif;
+}
+header{
+    width: 100%;
+}
+.dojonaryContainer{
+    display: flex;
+    background-color: #cccccc;
+    padding: 1rem;
+    margin-left: 5rem;
+    margin-right: 5rem;
+}
+.dojonaryStyle{
+    font-weight: bold;
+    justify-items: flex-end;
+}
+.searchBox{
+    margin-left: 6rem;
+    width: 17rem;
+    margin-right: 15rem;
+    height: 2rem;
+}
+.loginButton{
+    color: white;
+    height: 2rem;
+    width: 4rem;
+    font-weight: bold;
+    background-color: #2b78e4;
+    border: black solid 0.2rem;
+    box-shadow: 0.1rem 0.2rem black;
+
+}
+.btncontainer{
+    justify-content: flex-end;
+
+}
+main{
+    width: 100%;
+    display: flex;
+    margin-top: 2rem;
+}
+.leftContainer{
+    width: 45%;
+}
+.rightContainer{
+    width: 24%;
+}
+.topLeftContainer{
+    margin-left: 5rem;
+    display: flex;
+    border: black solid 0.2rem;
+}
+.bottomLeftContainer{
+    margin-top: 1.2rem;
+    margin-left: 5rem;
+    display: flex;
+    border: black solid 0.2rem;
+}
+.nounColumn h2{
+    margin-top: 1rem;
+    margin-left: 1rem;
+}
+.nounColumn h3{
+    margin-left: 1.3rem;
+    margin-top: 0.5rem;
+    font-style: italic;
+}
+.nounColumn h4{
+    margin-left: 1rem;
+    margin-top: 0.5rem;
+}
+.likesCounter{
+    color: black;
+    height: 2rem;
+    width: 4.7rem;
+    font-weight: bold;
+    background-color: #ffd966;
+    border: black solid 0.2rem;
+    box-shadow: 0.1rem 0.2rem black;
+    margin-top: 1.5rem;
+    margin-left: 1rem;
+    margin-bottom: 1rem;
+}
+.definitionColumn{
+    padding-top: 4rem;
+    margin-left: 2rem;
+}
+.definitionColumn p{
+    font-size: 1.3rem;
+}
+.addDefinitionButton{
+    color: black;
+    height: 2rem;
+    width: 10rem;
+    font-weight: bold;
+    background-color: #93c47d;
+    border: black solid 0.2rem;
+    box-shadow: 0.1rem 0.2rem black;
+
+}
+
+span{
+    font-weight: bold;
+}
+.topRightContainer{
+    margin-left: 2rem;
+    display: flex;
+    border: black solid 0.2rem;
+}
+.addDefinitiontext{
+    margin-left: 2rem;
+    font-size: 1.5rem;
+}
