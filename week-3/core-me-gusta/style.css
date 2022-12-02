@@ -48,6 +48,7 @@ a > userProfilePic{
 }
 .userFirstRow h3{
     margin-left: 1rem;
+    width: 25%;
 }
 .likeButton{
     color: black;
