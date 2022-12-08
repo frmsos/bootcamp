@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perfil</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <nav>
+            <h1 id="kkk">Perfil</h1>
+            <a href="#">Inicio</a>
+            <a href="#" class="active">Mi Perfil</a>
+            <a href="#">Encontrar Conexiones</a>        
+        </nav>
+        <div class="btncontainer">
+                <button>Cerrar Sesión</button>
+        </div>
+    </header>
+    <main>
+        <div class="left_container">
+            <article class="user_container">
+                <div class="user_header">
+                    <img class="user_circle" src="./images/bruce.jpeg">
+                </div>
+                <div class="usernameContainer">
+                    <h2 id="username">Bruce Wayne</h2>
+                    <div class="location">
+                        <img class="map-logo" src="./icons/map-marker.png">
+                        <h3>Gotham City</h3>
+                    </div>
+                        <p>Developer | Engineer | Problem Solver</p>
+                        <p>Master of shadows and the Internet!</p>
+                    <img class="gear" src="./icons/gear.png">
+                    <a class="edit" href="" onclick="clickEdit()">Editar perfil</a>
+                </div>
+            </article>
+            <article class="education_container">
+                <div class="education_header">
+                    <h3>Formacion</h3>
+                </div>
+                <div class="education_info">
+                    <h2>Coding Dojo - Full Stack Bootcamp</h2>
+                    <p ><h3 class="dates"> Dic 2022 - Mar 2023</h3> </p>
+                    <p class="cert_description">Triple black belt en Python, MERN y C#</p> 
+            </article>
+        </div>
+
+
+
+
+
+        <div class="right_container">
+            <article class="connrequest_container">
+                <div class="connrequest_header">
+                    <div class="connrequest_number"><span id="connectionNumberRequest">2</span></div>
+                    <h3>Pedidos de Conexión</h3>
+                </div>
+                <div class="connrequest_info">
+                    <div class="connrequest_user" id="requestUserTodd">
+                        <img class="connrequest_solicitors" src="./images/todd-s.jpg">
+                        <h4>Todd E</h4>
+                        <div class="connrequest_buttons">
+                            <img class="accept_button" src="./icons/accept-circle.png" alt="accept button" onclick="clickAccept('requestUserTodd')">
+                            <img class="accept_button" src="./icons/close-circle.png" alt="reject button"  onclick="clickReject('requestUserTodd')">
+                        </div>
+                    </div>
+                    <div class="connrequest_user" id="requestUserPhil">
+                        <img class="connrequest_solicitors" src="./images/phil-s.jpg">
+                        <h4>Phil K</h4>
+                            <div class="connrequest_buttons">
+                                <img class="accept_button" src="./icons/accept-circle.png" alt="accept button" onclick="clickAccept('requestUserPhil')">
+                                <img class="accept_button" src="./icons/close-circle.png" alt="reject button" onclick="clickReject('requestUserPhil')">
+                            </div>
+                        </div>
+                        
+                    </div>
+            </article>
+            <article class="yourconn_container">
+                <article class="connrequest_container">
+                    <div class="connrequest_header">
+                        <div class="connrequest_number2"><span id="connectionsNumber">500</span>+</div>
+                        <h3>Tus conexiones</h3>
+                    </div>
+                    <div class="connrequest_info">
+                        <div class="connrequest_user">
+                            <img class="connrequest_solicitors" src="./images/adrien-s.jpg">
+                            <h4>Adrien D</h4>
+                        </div>
+                        <div class="connrequest_user">
+                            <img class="connrequest_solicitors" src="./images/anne-s.jpg">
+                            <h4>Anne J</h4>
+                            </div>
+                            <div class="connrequest_user">
+                                <img class="connrequest_solicitors" src="./images/alayne-s.jpg">
+                                <h4>Alayne T</h4>
+                            </div>
+                            <div class="connrequest_user">
+                                <img class="connrequest_solicitors" src="./images/arry-s.jpg">
+                                <h4>Arry Y</h4>
+                                </div>
+                        </div>
+                        <div class="viewmore">
+                            <a>Ver Más</a>
+                        </div>
+
+            </article>
+        </div>
+    </main>
+
+    <script src="script.js"></script>
+
+
+    
+</body>
+</html>
+
+
+

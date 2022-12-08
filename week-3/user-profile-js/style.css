@@ -1,0 +1,240 @@
+*{
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+header{
+    display: flex;   
+    width: 100%; 
+    background-color: black;
+
+}
+h1{
+    margin-left: 5rem;
+    margin-right: 2rem;
+    padding: 0.4rem;
+    font-size: 2rem;
+}
+nav{
+    background-color: black;
+    display: flex;
+    border: none;
+    font-size: 1rem;
+    color: white;
+    width: 100%;
+}
+a{
+    color: lightgrey;
+    text-decoration:none;
+    margin-right: 1rem;
+    font-size: 1rem;
+    padding-top: 1rem;
+}
+button{
+    color: white;
+    background-color: #18a2b8;
+    font-size: 1rem;
+    width: 6rem;
+    border: none;
+    padding: 0;
+    font-weight: bold;
+    height: 2rem;
+    margin-top: 0.6rem;
+    cursor: pointer;
+    margin-right: 6rem;
+}
+.btncontainer{
+    background-color: black;
+    justify-content: flex-end;
+}
+/*
+parte retocada
+codigo actual
+
+*/
+
+.user_header{
+    margin-top: 5%;
+    background-color:#14a2b8;
+}
+.user_container{
+    width: 75%;
+    margin-left: 5rem;
+}
+.usernameContainer{
+    border: 3px solid lightgrey;
+    border-top-color: white;
+}
+.user_circle{
+    position: relative;
+    left: 2rem;
+    top: 2rem;
+    height: 6rem;
+    width: 6rem;
+    border-radius: 50%;
+}
+h2{
+    margin-top: 2rem;
+    margin-left: 2rem;
+    margin-bottom: 1rem;
+}
+.map-logo{
+    width: fit-content;
+    height: 1.3rem;
+    margin-right: 0.5rem;
+}
+h3
+{
+    font-weight: normal;
+    margin-bottom: 1rem;
+}
+
+p{
+    font-weight: normal;
+    margin-bottom: 2px;
+    margin-left: 2rem;
+}
+.location{
+    margin-left: 2rem;
+    display: flex;
+}
+.gear{
+    margin-left: 2rem;
+    width: 1.3rem;
+    margin-top: 1rem;
+}
+.edit{
+    margin-top: 1rem;
+    margin-left: 0.5rem;
+    color: black;
+    text-decoration: underline;
+}
+
+.education_header{
+    margin-top: 5%;
+    background-color:#333333;
+}
+.education_container{
+    width: 75%;
+    margin-left: 5rem;
+}
+.education_content{
+    border: 3px solid lightgrey;
+    border-top-color: white;
+}
+.education_header h3{
+    margin-bottom: 0rem;
+    margin-left: 1.3rem;
+    padding: 0.5rem;
+    color: white;
+}
+.education_info{
+    border: 3px solid lightgrey;
+    border-top-color: white;
+}
+.dates{
+    color: grey;
+    font-weight: bold;
+    margin-left: 2rem;
+}
+.left_container
+{
+    width: 50%;
+}
+.right_container{
+    width: 50%;
+}
+main{
+    display: flex;
+}
+.connrequest_container{
+    width: 50%;
+    margin-left: 2rem;
+}
+.connrequest_header{
+    margin-top: 5%;
+    background-color:#333333;
+
+}
+
+.connrequest_content{
+    border: 3px solid lightgrey;
+    border-top-color: white;
+}
+.connrequest_header h3{
+    margin-bottom: 0rem;
+    padding: 0.5rem;
+    color: white;
+    display: inline-block;
+    
+}
+.connrequest_info{
+    border: 3px solid lightgrey;
+    border-top-color: white;
+}
+.connrequest_user{
+    display: flex;
+    margin-top: 1rem;
+}
+.connrequest_number{
+    color: black;
+    background-color: #c7c7c7;
+    margin-left: 1rem;
+    text-align: center;
+    display: inline-block;
+    border-radius: 50%;
+    font-weight: bold;
+    width: 1.3rem;
+    height: 1.3rem;
+    position: relative;
+    bottom: 0.23rem;
+}
+.connrequest_solicitors{
+    border-radius: 50%;
+    width: 3rem;
+    height: 3rem;
+    margin-left: 1rem;
+}
+h4{
+    font-weight: bold;
+    margin-top: 0.5rem;
+    margin-left: 0.5rem;
+    width: 4rem;
+}
+.connrequest_user a{
+    padding: 0rem;
+}
+.accept_button{
+    margin-top: 0;
+    width: 2.5rem;
+    font-size: 0;
+    padding: 0rem;
+}
+.connrequest_buttons{
+    margin-left: 2rem;
+}
+.connrequest_number2{
+    color: black;
+    background-color: #c7c7c7;
+    margin-left: 1rem;
+    text-align: center;
+    display: inline-block;
+    border-radius: 50%;
+    font-weight: bold;
+    width: 2.5rem;
+    height: 1.4rem;
+    position: relative;
+    bottom: 0.2rem;
+    padding-top: 0.rem;
+}
+.viewmore
+{
+    border: 3px solid lightgrey;
+    padding: 1rem;
+}
+.viewmore a{
+    color: black;
+    cursor: pointer;
+    text-decoration: underline;
+
+}
