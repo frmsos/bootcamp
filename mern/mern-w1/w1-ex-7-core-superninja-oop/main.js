@@ -18,11 +18,12 @@ class ninja{
         this.health +=10;
     }
 }
-//
+//creamos la clase heredera
 class Sensei extends ninja{
     constructor(name, health, wisdom){
         super(name);
-        this.wisdom = 10;
+        ///valores predeterminados
+        this.wisdom = 10; 
         this.speed = 10;
         this.health = 200;
         this.strength = 10;
