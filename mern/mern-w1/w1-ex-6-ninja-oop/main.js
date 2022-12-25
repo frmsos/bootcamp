@@ -15,7 +15,7 @@ class Ninja{
         console.log("Ninja ", this.name, " \n", "Fuerza: ", this.strength, "\n", "Velocidad: ", this.speed, "\n", "Salud: ", this.health);
     }
     drinkSake(){
-        this.speed +=10;
+        this.health +=10;
     }
 }
 //probamos
