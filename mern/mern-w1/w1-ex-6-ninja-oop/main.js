@@ -1,5 +1,5 @@
 //creamos la clase ninja
-class ninja{
+class Ninja{
     //atributos
     constructor(name, health){
         this.name = name;
@@ -19,7 +19,7 @@ class ninja{
     }
 }
 //probamos
-ninja2 = new ninja('peter', 10);
+ninja2 = new Ninja('peter', 10);
 ninja2.showStats();
 ninja2.drinkSake();
 ninja2.showStats();
