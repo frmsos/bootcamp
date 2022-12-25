@@ -15,9 +15,7 @@ class ninja{
         console.log(`Nombre: ${this.name}. Fuerza: ${this.strength}. Velocidad: ${this.speed}. Salud: ${this.health}.`);
     }
     drinkSake(){
-        console.log('here', this.speed);
         this.health +=10;
-        console.log('hereewe', this.speed);
     }
 }
 //
