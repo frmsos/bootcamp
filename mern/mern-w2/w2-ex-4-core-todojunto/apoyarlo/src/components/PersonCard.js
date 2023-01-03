@@ -12,7 +12,6 @@ class PersonCard extends Component{
         let ageCounter = this.state.age;
         ageCounter++;
         this.setState( { age: ageCounter } );
-        console.log(ageCounter);
    }
    
     render(){
