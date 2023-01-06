@@ -7,10 +7,10 @@ import PersonCard from './components/PersonCard';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <PersonCard  firstName={"Jane"} lastName="Dane" age={"45"} haircolor="Black"/>
-    <PersonCard  firstName={"John"} lastName="Smith" age={"88"} haircolor="Brown"/>
-    <PersonCard  firstName={"Millard"} lastName="Fillmore" age={"50"} haircolor="Brown"/>
-    <PersonCard  firstName={"Maria"} lastName="Smith" age={"62"} haircolor="Brown"/>
+    <PersonCard  firstName={"Jane"} lastName="Dane" age={"45"} hairColor="Black"/>
+    <PersonCard  firstName={"John"} lastName="Smith" age={"88"} hairColor="Brown"/>
+    <PersonCard  firstName={"Millard"} lastName="Fillmore" age={"50"} hairColor="Brown"/>
+    <PersonCard  firstName={"Maria"} lastName="Smith" age={"62"} hairColor="Brown"/>
   </React.StrictMode>
 );
 
