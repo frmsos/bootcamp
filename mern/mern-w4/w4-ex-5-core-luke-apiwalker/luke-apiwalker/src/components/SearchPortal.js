@@ -14,7 +14,7 @@ const SearchPortal = (props) => {
     const [validOptions, setValidOptions] = useState(null);
     const [clicked, setClicked] = useState(false);
 
-const onClickBtn = event => {
+const OnClickBtn = event => {
     alert('bingpot');
     const validBoolean = ( option !== '' ) && ( !(isNaN(idValue))  ) 
     setValidOptions(validBoolean);
@@ -69,9 +69,7 @@ return (
                 </div>
                 
                 <div className='buttonContainer'>
-                    <Link to="/clicked">
-                        <button type="button" className="btn btn-warning" id='searchButton'> Search </button>
-                    </Link>
+                        <button type="button" className="btn btn-warning" id='searchButton' onClick={OnClickBtn}> Search </button>
                     
                 </div>
         </div>
