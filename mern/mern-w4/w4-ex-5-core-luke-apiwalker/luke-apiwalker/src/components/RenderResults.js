@@ -32,18 +32,14 @@ const [renderData, setRenderData] = useState('');
  return (
     <div>
 
-        {
+       {
         <ul>
             {renderData.length !== 0 ? Object.keys(renderData).map( (key, index) =>{
                 return <li key={index}>   {key} :  {renderData[key]}  </li> ;
             }  ) : null}
         </ul> 
     
-    }
-        
-
-    jgk
-    
+    }ßß
     </div>
   )
 }
