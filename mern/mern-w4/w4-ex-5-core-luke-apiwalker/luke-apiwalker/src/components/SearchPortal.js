@@ -19,8 +19,8 @@ const SearchPortal = (props) => {
         setOption('people');
         setValidOptions(isEnterByRoute);
         console.log('estoy en useeffect');
-
-    },[enteredID]);
+// eslint-disable-next-line
+    },[enteredID]); 
 
 
 

@@ -1,15 +1,13 @@
 import React from 'react';
 import axios from 'axios';
 import { useState } from 'react';
-import { Navigate, useParams} from 'react-router-dom';
-import SearchPortal from './SearchPortal';
+import { Navigate} from 'react-router-dom';
+
 
 
 
 const RenderResults = (props) => {
 const [isError, setIsError] = useState(false);
-let newOption;
-let newID;
 const clicked = props.clicked;
 const setClicked = props.setClicked;
 console.log('llegue a la funcion de render'); 

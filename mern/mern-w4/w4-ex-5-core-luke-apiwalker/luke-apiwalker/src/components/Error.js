@@ -3,10 +3,6 @@ import "../App.css";
 import { Link } from 'react-router-dom';
 
 const Error = (props) => {
-    const idValue = props.idValue;
-    const setIDValue = props.setIDValue;
-    const option = props.option;
-    const setOption = props.setOption;
   return (
     <div> 
         <h2> Estos no son los droides que esta buscando </h2>
