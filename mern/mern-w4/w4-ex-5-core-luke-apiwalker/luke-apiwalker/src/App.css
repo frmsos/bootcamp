@@ -139,4 +139,7 @@
   width: 450px;
   height: 400px;
 }
-
+.bottomContainer{
+  display: block;
+  margin-top: 2rem;
+}

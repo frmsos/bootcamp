@@ -1,21 +1,33 @@
 import '../App.css';
-import {useState} from 'react';
-import {Link} from 'react-router-dom';
+import {useEffect} from 'react';
+import {useParams} from 'react-router-dom';
+import RenderResults from './RenderResults';
 
 const SearchPortal = (props) => {
-    const idValue = props.idValue;
-    const setIDValue = props.setIDValue;
-    const option = props.option;
-    const setOption = props.setOption;
+
+
+    const {idValue, setIDValue} = props;
+    const {option, setOption} = props;
+    const {clicked, setClicked} = props;
+    const {validOptions, setValidOptions} = props;
+    const {enteredID} = useParams();
+    const isEnterByRoute = isNaN(enteredID) ? false : true;
+
+    useEffect( () => {
+        setClicked(!clicked);
+        setIDValue(enteredID);
+        setOption('people');
+        setValidOptions(isEnterByRoute);
+        console.log('estoy en useeffect');
+
+    },[enteredID]);
+
 
 
     console.log('potttt', idValue);
 
-    const [validOptions, setValidOptions] = useState(null);
-    const [clicked, setClicked] = useState(false);
 
 const OnClickBtn = event => {
-    alert('bingpot');
     const validBoolean = ( option !== '' ) && ( !(isNaN(idValue))  ) 
     setValidOptions(validBoolean);
     if(!validBoolean){ //si es valid options no actualiza!!!! ver por que
@@ -55,7 +67,7 @@ return (
                             <div onClick={(e) => OnClickIcon(e, "People")}><ion-icon name="person-outline"></ion-icon> People</div>
                             <div onClick={(e) => OnClickIcon(e, "Films")}><ion-icon name="film-outline"></ion-icon> Films</div>
                             <div onClick={(e) => OnClickIcon(e, "Starships")}><ion-icon name="rocket-outline"></ion-icon> Starships</div>
-                            <div onClick={(e) => OnClickIcon(e, "Vehicules")}><ion-icon name="car-outline"></ion-icon> Vehicules</div>
+                            <div onClick={(e) => OnClickIcon(e, "Vehicles")}><ion-icon name="car-outline"></ion-icon> Vehicules</div>
                             <div onClick={(e) => OnClickIcon(e, "Species")}><ion-icon name="prism-outline"></ion-icon> Species</div>
                             <div onClick={(e) => OnClickIcon(e, "Planets")}><ion-icon name="planet-outline"></ion-icon> Planets</div>
                         </div>
@@ -73,6 +85,14 @@ return (
                     
                 </div>
         </div>
+        <div className='bottomContainer'>
+                    {
+                        validOptions ? <RenderResults option={option} setOption={setOption}
+                        idValue={idValue} setIDValue={setIDValue} clicked={clicked} setClicked={setClicked}
+                        validOptions={validOptions} setValidOptions={setValidOptions}
+                        /> : null 
+                    }
+                </div>
     </div>
     )
 }
