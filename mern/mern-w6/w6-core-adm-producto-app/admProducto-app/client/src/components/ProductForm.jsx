@@ -11,7 +11,7 @@ const Main = () => {
   const [description, setDescription] = useState('');
 
   const submitHandler = (e) => {
-    e.preventDefault();
+   // e.preventDefault();
     console.log('onsubmit');
     axios.post('http://localhost:8000/api/products/create', {
       title,

@@ -12,7 +12,21 @@ module.exports = {
     Product.create(request.body)
       .then(newProduct => response.json({product : newProduct}))
       .catch(error => response.json( {message : "Error creating a new product", error: error} ));
+  },
+  listProducts : (request, response) => {
+    console.log('list products');
+    Product.find()
+    .then( allProducts => response.json( { products : allProducts } ))
+    .catch( error => response.json({message : "Error listing all products", error: error}  ))
+  },
+  listProductByID : (request, response) => {
+    console.log('list product by id', request.params.id);
+    Product.findOne({ _id: request.params.id })
+    .then(reqProduct => response.json( {products : reqProduct }))
+    .catch( error => response.json({message : "Error listing one product", error: error}  ))
   }
+
+};
   
 
 
@@ -28,4 +42,4 @@ module.exports = {
 
 
 
-};  
+  
