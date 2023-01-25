@@ -7,11 +7,4 @@ module.exports = app => {
   app.put("/api/products/update/:id", productController.updateProduct);
   app.delete("/api/products/delete/:id", productController.deleteProduct);
 
-
-  // app.get("/api/jokes/random", Controller.random);
-  // app.get("/api/jokes/:id", Controller.findOneJoke);
-  // app.put("/api/jokes/update/:id", Controller.updateExistingJoke);
-  // app.post("/api/jokes/new", Controller.createNewJoke);
-  // app.delete("/api/jokes/delete/:id", Controller.deleteJoke);
-
 };
