@@ -44,7 +44,7 @@ const Main = () => {
           <input type="text" className="form-control" placeholder="Insert Product Description" aria-label="ProductDescription" aria-describedby="basic-addon1" onChange={ e=> setDescription(e.target.value)}/>
         </div>
         <div className='buttonContainer'>
-          <button type="submit" className="btn btn-success btn-submit">Success</button>
+          <button type="submit" className="btn btn-success btn-submit">Create product</button>
         </div>
         
       </form>

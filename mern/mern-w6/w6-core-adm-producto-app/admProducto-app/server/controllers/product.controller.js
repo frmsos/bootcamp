@@ -24,7 +24,19 @@ module.exports = {
     Product.findOne({ _id: request.params.id })
     .then(reqProduct => response.json( {products : reqProduct }))
     .catch( error => response.json({message : "Error listing one product", error: error}  ))
-  }
+  },
+  updateProduct : (request, response) =>{
+    console.log('update product by id', request.body.productDetails);
+    Product.updateOne({ _id: request.params.id }, request.body.productDetails )
+    .then(updatedProduct => response.json( {products : updatedProduct }))
+    .catch( error => response.json({message : "Error updating one product", error: error}  ))
+  },
+  deleteProduct : (request, response) => {
+    console.log('deleting function server', request.params.id);
+    Product.deleteOne({ _id: request.params.id })
+    .then(result => response.json({ result: result }))
+    .catch(err => response.json({ message: "Error deleting the product", error: err }));
+  },
 
 };
   
