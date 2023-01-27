@@ -46,7 +46,12 @@ const AuthorPage = (props) => {
                     setName(response.data.author.name);
                 } 
             )
+        .catch(  () => {
+                alert('Entered an invalid id, please try again...');
+                navigate('/');
 
+        }   )
+        //eslint-disable-next-line
     },[id]); //fin useEffect
 
 

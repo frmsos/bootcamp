@@ -36,3 +36,16 @@
     transform: rotate(360deg);
   }
 }
+.btn-info{
+  background-color: #6610f2;
+  border: #6610f2;
+  color: #ffff;
+  margin-right: 2rem;
+  width: 5rem;
+}
+.btn-danger{
+  width: 5rem;
+}
+.headers{
+  font-weight: bold;
+}

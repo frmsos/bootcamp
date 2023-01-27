@@ -36,7 +36,7 @@ module.exports = {
         console.log('deleting function server', request.params.id);
         Author.deleteOne({ _id: request.params.id })
         .then(result => response.json({ result: result }))
-        .catch(err => response.json({ message: "Error deleting the author", error: err }));
+        .catch(err => response.status(400).json({ message: "Error deleting the author", error: err }));
     }
     
 

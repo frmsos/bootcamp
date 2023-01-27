@@ -1,10 +1,11 @@
 import React, {useState, useEffect} from 'react';
 import axios from 'axios';
-import {Link, BrowserRouter} from 'react-router-dom';
-const Home = (props) => {
+import {Link} from 'react-router-dom';
+import '../App.css'
+const Home = () => {
     //Declaracion de variables
     const [authors, setAuthors] = useState([]);
-    const [loaded, setLoaded] = useState(false);
+
 
 
     //Declaracion de funciones
@@ -13,9 +14,8 @@ const Home = (props) => {
         axios.get('http://localhost:8000/api/authors/get')
         .then( response => {
             setAuthors(response.data.author);
-            setLoaded(true);
         } )
-    },[]); //fin useEffect
+    },[authors]); //fin useEffect
 
     return (
     <div>
@@ -24,10 +24,10 @@ const Home = (props) => {
         <h4> We have quotes by: </h4>
         <div className="container text-center">
             <div className="row">
-                <div className="col">
+                <div className="col headers">
                     Author
                 </div>
-                <div className="col">
+                <div className="col headers">
                     Actions Available
                 </div>
             </div>
@@ -37,7 +37,17 @@ const Home = (props) => {
                     (authors, idx) => {
                         return(
                             <div className='row' key={idx}> 
-                                
+                                <div className="col">
+                                    {authors.name}
+                                </div>
+                                <div className="col">
+                                    <Link to={`/edit/${authors._id}`}> 
+                                        <button type="button" className="btn btn-info">Edit</button>
+                                    </Link>
+                                    <Link to={`delete/${authors._id}`}>
+                                        <button type="button" className="btn btn-danger">Delete</button>
+                                    </Link>
+                                </div>
 
                             </div>
                         )
@@ -46,16 +56,6 @@ const Home = (props) => {
             //fin de ciclo js iteraciones    
             }
 
-
-
-            <div className="row">
-                <div className="col">
-                    Authobcbfdbdfr
-                </div>
-                <div className="col">
-                    Actions vdsvsdvsd
-                </div>
-            </div>
 
         </div>
     
