@@ -15,7 +15,7 @@ function App() {
           <Route path="*" element={<HomePage  showDetailsPage={showDetailsPage} setShowDetailsPage={setShowDetailsPage} />}>  </Route> 
         </Routes>
       </BrowserRouter>
- 
+
       
     
     </div>

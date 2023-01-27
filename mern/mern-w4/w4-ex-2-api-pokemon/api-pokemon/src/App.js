@@ -25,7 +25,7 @@ function App() {
         <ul>
             {
                 
-               pokeVector.length !== 0 ? pokeVector.results.map( (item, index) => {
+              pokeVector.length !== 0 ? pokeVector.results.map( (item, index) => {
                     return <li key={index}> {item.name}  </li> ;
                 } ) : ""
 
