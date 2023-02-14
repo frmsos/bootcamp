@@ -1,0 +1,9 @@
+#logo{
+    width: 20%;
+    height: 25%;
+    margin-right: 1rem;
+}
+#lownavBar{
+    background-color: white;
+    justify-content: center;
+}
