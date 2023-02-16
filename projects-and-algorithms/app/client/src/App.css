@@ -7,3 +7,15 @@
     background-color: white;
     justify-content: center;
 }
+ .carousel-inner img {
+    width: 100%;
+    height: 65%;
+  } 
+  .carousel-item{
+    width: 100%;
+    height: 65%;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+  }
