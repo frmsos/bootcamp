@@ -1,10 +1,12 @@
-import React from 'react'
-import Navbar from './Navbar'
+import React from 'react';
+import Navbar from './Navbar';
+import GridMenu from './GridMenu';
 import promo1 from '../images/promo1.png';
 import promo2 from '../images/promo2.png';
 import '../App.css'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.min.js';
+
 
 const Home = () => {
     return (
@@ -17,7 +19,7 @@ const Home = () => {
                 </div>
                 <div className="carousel-inner">
                     <div className="carousel-item active" id='carouselItems'>
-                        <img src={promo1} class="img-fluid" alt="..."/> 
+                        <img src={promo1} className="img-fluid" alt="..."/> 
                     </div>
                     <div className="carousel-item" id='carouselItems'>
                     <img src={promo2} className="img-fluid" alt="..."/>
@@ -32,6 +34,13 @@ const Home = () => {
                     <span className="visually-hidden">Next</span>
                 </button>
             </div>
+            <GridMenu/>
+
+
+
+
+
+
 
 
 
