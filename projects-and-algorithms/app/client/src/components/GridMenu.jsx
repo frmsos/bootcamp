@@ -18,7 +18,8 @@ export default function GridMenu() {
 
 
     return (
-        <div className='GridMenuContainer'>    
+        <div className='GridMenuContainer'> 
+            
             <Grid container spacing={2}>
                 
                     {  pizzaToppings.map(  (pizzatopping,index) => {

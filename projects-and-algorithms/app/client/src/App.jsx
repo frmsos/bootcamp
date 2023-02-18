@@ -14,7 +14,7 @@ const App = () => {
     <div>
       <ThemeProvider theme={LightTheme}>
         <CssBaseline/>
-        <Order/>
+        <Register/>
       </ThemeProvider>
     </div>
   )

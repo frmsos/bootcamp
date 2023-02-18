@@ -2,11 +2,11 @@ import * as React from 'react';
 import {AppBar, Box, Toolbar, IconButton, Typography, Menu, Container, Avatar, Button, Tooltip, MenuItem, Grid} from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import logo2 from '../images/logoWhite.png';
-
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 
 
 const pages = ['Promos', 'Menu', 'Tradizione', 'Contacto'];
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
+const settings = ['Cuenta', 'Salir'];
 
 function ResponsiveAppBar() {
     const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -103,6 +103,7 @@ function ResponsiveAppBar() {
                 <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
               </IconButton>
             </Tooltip>
+            <ShoppingCartIcon/>
             <Menu
               sx={{ mt: '45px' }}
               id="menu-appbar"
@@ -128,7 +129,7 @@ function ResponsiveAppBar() {
           </Box>
         </Toolbar>
       </Container>
-      <Grid container spacing={2} justify="center" id="lownavBar">
+      {/* <Grid container spacing={2} justify="center" id="lownavBar">
           <Grid item>
             <Button variant='contained' color='primary'>
               Nueva orden
@@ -144,7 +145,7 @@ function ResponsiveAppBar() {
               Sorprendeme!
             </Button>
           </Grid>
-        </Grid>
+        </Grid> */}
     </AppBar>
   );
 }
