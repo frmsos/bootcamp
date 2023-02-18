@@ -1,48 +1,43 @@
-import * as React from 'react';
-import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
-import CssBaseline from '@mui/material/CssBaseline';
-import TextField from '@mui/material/TextField';
-import Link from '@mui/material/Link';
-import Paper from '@mui/material/Paper';
-import Box from '@mui/material/Box';
-import Autocomplete from '@mui/material/Autocomplete';
-import Grid from '@mui/material/Grid';
+import {React, useState} from 'react';
+import {Avatar, Button, CssBaseline, TextField, Link, Paper, Box, Autocomplete, Grid, Typography, FormControl} from '@mui/material';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import loginImage from '../images/login.jpg';
 import logoBlack from '../images/logoBlack.png';
-function Copyright(props) {
-    return (
-        <Typography variant="body2" color="text.secondary" align="center" {...props}>
-            {'Credits: '}
-            <Link color="inherit" href="https://mui.com/material-ui/getting-started/templates/">
-                Based on and full credits to
-            </Link>{' '}
-            {new Date().getFullYear()}
-            {'.'}
-        </Typography>
-    );
-}
+import {useForm} from 'react-hook-form';
 
-const theme = createTheme();
 
-const departamentos = [ {label: 'Alto Paraguay' }, {label: 'Alto Paraná'}, {label: 'Amambay'}, {label: 'Asunción - Capital'}, {label: 'Boquerón'} , 
-{label: 'Caaguazú'}  , {label: 'Caazapá'}, {label: 'Canindeyú'} ,  {label:'Central'},  {label:'Concepción'},  {label:'Cordillera'}, 
-{label:'Guairá'},  {label:'Itapúa'},  {label:'Misiones'},  {label:'Ñeembucú'},  {label:'Paraguarí'},  {label:'Presidente Hayes'},  {label:'San Pedro'} ];
 
 export default function Login() {
-        const handleSubmit = (event) => {
-        event.preventDefault();
-        const data = new FormData(event.currentTarget);
-        console.log({
-        email: data.get('email'),
-        password: data.get('password'),
-        });
+    //VARIABLES DECLARATION
+    const theme = createTheme();
+    const states = [ {label: 'Alto Paraguay' }, {label: 'Alto Paraná'}, {label: 'Amambay'}, {label: 'Asunción - Capital'}, {label: 'Boquerón'} , 
+    {label: 'Caaguazú'}  , {label: 'Caazapá'}, {label: 'Canindeyú'} ,  {label:'Central'},  {label:'Concepción'},  {label:'Cordillera'}, 
+    {label:'Guairá'},  {label:'Itapúa'},  {label:'Misiones'},  {label:'Ñeembucú'},  {label:'Paraguarí'},  {label:'Presidente Hayes'},  {label:'San Pedro'} ];
+    // const [lastName, setLastname] = useState("");    const [name, setName] = useState("");
+    // const [lastName, setLastname] = useState("");
+    const {register, handleSubmit, formState: {errors}} = useForm();
+    ////////
+    //FUNCTIONS DECLARATION
+    const onSubmit = (data) => {
+        console.log(data);
     };
-
+    function Copyright(props) {
+        return (
+            <Typography variant="body2" color="text.secondary" align="center" {...props}>
+                {'Credits: '}
+                <Link color="inherit" href="https://mui.com/material-ui/getting-started/templates/">
+                    Based on and full credits to
+                </Link>{' '}
+                {new Date().getFullYear()}
+                {'.'}
+            </Typography>
+        );
+    }
+    ///////
+    ////JSX BEGINS
     return (
+        
             <ThemeProvider theme={theme}>
             <Grid container component="main" sx={{ height: '100vh' }}>
                 <CssBaseline />
@@ -69,36 +64,37 @@ export default function Login() {
                     }}
                 >   
                     <img src={logoBlack} alt="logo"/>
-                    <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+                    <Avatar sx={{ m: 1, bgcolor: '#008C45' }}>
                     <LockOutlinedIcon />
                     </Avatar>
                     <Typography component="h1" variant="h5">
                         Registrate
                     </Typography>
-            <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
+            <Box component="form" noValidate onSubmit={handleSubmit(onSubmit)} sx={{ mt: 3 }}>
                 <Grid container spacing={2}>
                     <Grid item xs={12} sm={6}>
                         <TextField
-                        autoComplete="given-name"
-                        name="firstName"
-                        required
-                        fullWidth
-                        id="firstName"
-                        label="Nombre"
-                        autoFocus
+                            autoComplete="given-name"
+                            name="firstName"
+                            required
+                            fullWidth
+                            id="firstName"
+                            label="Nombre"
+                            autoFocus
                         />
                     </Grid>
                     <Grid item xs={12} sm={6}>
                         <TextField
-                        required
-                        fullWidth
-                        id="lastName"
-                        label="Apellido"
-                        name="lastName"
-                        autoComplete="family-name"
+                            required
+                            fullWidth
+                            id="lastName"
+                            label="Apellido"
+                            name="lastName"
+                            autoComplete="family-name"
                         />
                     </Grid>
                     <Grid item xs={12}>
+                        <FormControl>
                         <TextField
                         required
                         fullWidth
@@ -106,7 +102,10 @@ export default function Login() {
                         label="Dirección de correo electrónico"
                         name="email"
                         autoComplete="email"
+                        {...register("email", {required: 'Required'})}
+                        error={!!errors?.email}
                         />
+                        </FormControl>
                     </Grid>
                     <Grid item xs={12}>
                         <TextField
@@ -131,8 +130,9 @@ export default function Login() {
                     <Grid item xs={12}>
                     <Autocomplete
                         disablePortal
+                        required
                         id="combo-box-demo"
-                        options={departamentos}
+                        options={states}
                         sx={{ width: 300 }}
                         renderInput={(params) => <TextField {...params} label="Departamento" />}
                         />
@@ -153,7 +153,7 @@ export default function Login() {
                 type="submit"
                 fullWidth
                 variant="contained"
-                sx={{ mt: 3, mb: 2 }}
+                sx={{ mt: 3, mb: 2, bgcolor : "#008C45" }}
                 >
                     Registrate
                 </Button>
@@ -172,3 +172,4 @@ export default function Login() {
             </ThemeProvider>
     );
 }
+//JSX ENDS
