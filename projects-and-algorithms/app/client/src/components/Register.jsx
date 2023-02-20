@@ -1,11 +1,13 @@
 import {React, useState} from 'react';
-import {Avatar, Button, CssBaseline, TextField, Link, Paper, Box, Autocomplete, Grid, Typography, FormControl} from '@mui/material';
+import {Avatar, Button, CssBaseline, TextField, Link, Paper, Box, Autocomplete, Grid, Typography, FormControl, IconButton} from '@mui/material';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import loginImage from '../images/login.jpg';
 import logoBlack from '../images/logoBlack.png';
 import {useForm} from 'react-hook-form';
-
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import { InputAdornment } from '@mui/material';
 
 
 export default function Login() {
@@ -17,6 +19,7 @@ export default function Login() {
     // const [lastName, setLastname] = useState("");    const [name, setName] = useState("");
     // const [lastName, setLastname] = useState("");
     const {register, handleSubmit, formState: {errors}} = useForm();
+    const [showPassword, setShowPassword] = useState(false);
     ////////
     //FUNCTIONS DECLARATION
     const onSubmit = (data) => {
@@ -34,10 +37,10 @@ export default function Login() {
             </Typography>
         );
     }
+    const handleClickPassword = () => setShowPassword(!showPassword);
     ///////
     ////JSX BEGINS
     return (
-        
             <ThemeProvider theme={theme}>
             <Grid container component="main" sx={{ height: '100vh' }}>
                 <CssBaseline />
@@ -81,7 +84,10 @@ export default function Login() {
                             id="firstName"
                             label="Nombre"
                             autoFocus
-                        />
+                            {...register("firstName", { required: true, minLength: 2, maxLength: 25 })}
+                            error={!!errors?.firstName}                        
+                            helperText = { errors?.firstName ? "Ingrese un nombre válido, como mínimo de 2 caracteres" : null }
+                            />
                     </Grid>
                     <Grid item xs={12} sm={6}>
                         <TextField
@@ -91,10 +97,12 @@ export default function Login() {
                             label="Apellido"
                             name="lastName"
                             autoComplete="family-name"
+                            {...register("lastName", { required: true, minLength: 2, maxLength: 25 })}
+                            error={!!errors?.lastName}                        
+                            helperText = { errors?.lastName ? "Ingrese un apellido válido, como mínimo de 2 caracteres" : null }
                         />
                     </Grid>
                     <Grid item xs={12}>
-                        <FormControl>
                         <TextField
                         required
                         fullWidth
@@ -102,10 +110,12 @@ export default function Login() {
                         label="Dirección de correo electrónico"
                         name="email"
                         autoComplete="email"
-                        {...register("email", {required: 'Required'})}
+                        {...register("email", {required: true, pattern: {
+                            value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                        }})}
                         error={!!errors?.email}
+                        helperText = { errors?.email ? "Ingrese una dirección de correo válida" : null }
                         />
-                        </FormControl>
                     </Grid>
                     <Grid item xs={12}>
                         <TextField
@@ -115,6 +125,9 @@ export default function Login() {
                         label="Dirección"
                         name="address"
                         autoComplete="address"
+                        {...register("address", { required: true, minLength: 4, maxLength: 50 })}
+                        error={!!errors?.address}                        
+                        helperText = { errors?.address ? "Ingrese una dirección válida, como mínimo de 4 caracteres" : null }
                         />
                     </Grid>
                     <Grid item xs={12}>
@@ -125,6 +138,9 @@ export default function Login() {
                         label="Ciudad"
                         name="city"
                         autoComplete="city"
+                        {...register("address", { required: true, minLength: 4, maxLength: 50 })}
+                        error={!!errors?.address}                        
+                        helperText = { errors?.address ? "Ingrese una dirección válida, como mínimo de 4 caracteres" : null }
                         />
                     </Grid>
                     <Grid item xs={12}>
@@ -134,7 +150,10 @@ export default function Login() {
                         id="combo-box-demo"
                         options={states}
                         sx={{ width: 300 }}
-                        renderInput={(params) => <TextField {...params} label="Departamento" />}
+                        renderInput={(params) => <TextField {...params} required label="Departamento" {...register("state", { required: true })}
+                        error={!!errors?.state}                        
+                        helperText = { errors?.state ? "Debe elegir una de las opciones" : null }/>}
+                        
                         />
                     </Grid>
                     <Grid item xs={12}>
@@ -143,9 +162,22 @@ export default function Login() {
                         fullWidth
                         name="password"
                         label="Contraseña"
-                        type="password"
+                        type= {showPassword ? "text" : "password"} 
                         id="password"
                         autoComplete="new-password"
+                        {...register("password", { required: true, minLength: 5, maxLength: 50 })}
+                        error={!!errors?.password}                        
+                        helperText = { errors?.password ? "Debe tener como mínimo 5 caracteres" : null }
+                        InputProps={{ // <-- This is where the toggle button is added.
+                            endAdornment: (
+                              <InputAdornment position="end">
+                                <IconButton onClick={handleClickPassword}
+>
+                                  {showPassword ? <Visibility /> : <VisibilityOff />}
+                                </IconButton>
+                              </InputAdornment>
+                            )}}
+                        
                         />
                     </Grid>
                 </Grid>
