@@ -1,5 +1,5 @@
 import {React, useState} from 'react';
-import {Avatar, Button, CssBaseline, TextField, Link, Paper, Box, Autocomplete, Grid, Typography, FormControl, IconButton} from '@mui/material';
+import {Avatar, Button, CssBaseline, TextField, Link, Paper, Box, Autocomplete, Grid, Typography, IconButton} from '@mui/material';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import loginImage from '../images/login.jpg';
@@ -16,8 +16,6 @@ export default function Login() {
     const states = [ {label: 'Alto Paraguay' }, {label: 'Alto Paraná'}, {label: 'Amambay'}, {label: 'Asunción - Capital'}, {label: 'Boquerón'} , 
     {label: 'Caaguazú'}  , {label: 'Caazapá'}, {label: 'Canindeyú'} ,  {label:'Central'},  {label:'Concepción'},  {label:'Cordillera'}, 
     {label:'Guairá'},  {label:'Itapúa'},  {label:'Misiones'},  {label:'Ñeembucú'},  {label:'Paraguarí'},  {label:'Presidente Hayes'},  {label:'San Pedro'} ];
-    // const [lastName, setLastname] = useState("");    const [name, setName] = useState("");
-    // const [lastName, setLastname] = useState("");
     const {register, handleSubmit, formState: {errors}} = useForm();
     const [showPassword, setShowPassword] = useState(false);
     ////////
@@ -168,14 +166,13 @@ export default function Login() {
                         {...register("password", { required: true, minLength: 5, maxLength: 50 })}
                         error={!!errors?.password}                        
                         helperText = { errors?.password ? "Debe tener como mínimo 5 caracteres" : null }
-                        InputProps={{ // <-- This is where the toggle button is added.
+                        InputProps={{ 
                             endAdornment: (
-                              <InputAdornment position="end">
-                                <IconButton onClick={handleClickPassword}
->
-                                  {showPassword ? <Visibility /> : <VisibilityOff />}
-                                </IconButton>
-                              </InputAdornment>
+                                <InputAdornment position="end">
+                                    <IconButton onClick={handleClickPassword}>                                   
+                                        {showPassword ? <Visibility /> : <VisibilityOff />}
+                                    </IconButton>
+                                </InputAdornment>
                             )}}
                         
                         />

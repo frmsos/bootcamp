@@ -1,4 +1,4 @@
-import React from 'react';
+import {React, useState} from 'react';
 import Navbar from './Navbar';
 import GridMenu from './GridMenu';
 import promo1 from '../images/promo1.png';
@@ -9,9 +9,10 @@ import 'bootstrap/dist/js/bootstrap.min.js';
 
 
 const Home = () => {
+    const [itemCount, setItemCount] = useState(0);
     return (
         <div>
-            <Navbar/>
+            <Navbar itemCount={itemCount} setItemCount={setItemCount}/>
             <div id="carouselExampleIndicators" className="carousel slide">
                 <div className="carousel-indicators">
                     <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" className="active" aria-current="true" aria-label="Slide 1"></button>
@@ -34,7 +35,7 @@ const Home = () => {
                     <span className="visually-hidden">Next</span>
                 </button>
             </div>
-            <GridMenu/>
+            <GridMenu itemCount={itemCount} setItemCount={setItemCount}/>
 
 
 

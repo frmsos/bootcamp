@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {AppBar, Box, Toolbar, IconButton, Typography, Menu, Container, Avatar, Button, Tooltip, MenuItem, Grid} from '@mui/material';
+import {AppBar, Box, Toolbar, IconButton, Typography, Menu, Container, Avatar, Button, Tooltip, MenuItem, Grid, Badge} from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import logo2 from '../images/logoWhite.png';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
@@ -8,7 +8,7 @@ import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 const pages = ['Promos', 'Menu', 'Tradizione', 'Contacto'];
 const settings = ['Cuenta', 'Salir'];
 
-function ResponsiveAppBar() {
+function ResponsiveAppBar(props) {
     const [anchorElNav, setAnchorElNav] = React.useState(null);
     const [anchorElUser, setAnchorElUser] = React.useState(null);
 
@@ -103,7 +103,10 @@ function ResponsiveAppBar() {
                 <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
               </IconButton>
             </Tooltip>
-            <ShoppingCartIcon/>
+            <Badge color="secondary" badgeContent={props.itemCount}>
+              <ShoppingCartIcon/>
+            </Badge>
+            
             <Menu
               sx={{ mt: '45px' }}
               id="menu-appbar"
