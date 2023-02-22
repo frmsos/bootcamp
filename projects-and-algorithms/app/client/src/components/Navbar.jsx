@@ -1,8 +1,9 @@
 import * as React from 'react';
-import {AppBar, Box, Toolbar, IconButton, Typography, Menu, Container, Avatar, Button, Tooltip, MenuItem, Grid, Badge} from '@mui/material';
+import {AppBar, Box, Toolbar, IconButton, Typography, Menu, Container, Avatar, Button, Tooltip, MenuItem, Badge} from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import logo2 from '../images/logoWhite.png';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import { Link } from 'react-router-dom';
 
 
 const pages = ['Promos', 'Menu', 'Tradizione', 'Contacto'];
@@ -31,8 +32,9 @@ function ResponsiveAppBar(props) {
     <AppBar position="static">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-        
-        <img  src={logo2} alt="Logo" id={"logo"}/>
+          <Link to="/" style={{width:180, marginRight:"2rem"}}> 
+            <img  src={logo2} alt="Logo" id={"logo"}/>
+          </Link>
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
             <IconButton
               size="large"
@@ -104,7 +106,9 @@ function ResponsiveAppBar(props) {
               </IconButton>
             </Tooltip>
             <Badge color="secondary" badgeContent={props.itemCount}>
-              <ShoppingCartIcon/>
+            <Link to="/cart" style={{color: "white"}}> 
+                <ShoppingCartIcon/>
+              </Link> 
             </Badge>
             
             <Menu
@@ -132,23 +136,6 @@ function ResponsiveAppBar(props) {
           </Box>
         </Toolbar>
       </Container>
-      {/* <Grid container spacing={2} justify="center" id="lownavBar">
-          <Grid item>
-            <Button variant='contained' color='primary'>
-              Nueva orden
-            </Button>
-          </Grid>
-          <Grid item>
-            <Button variant='contained' color='primary'>
-              Repetir orden
-            </Button>
-          </Grid>
-          <Grid item>
-            <Button variant='contained' color='primary'>
-              Sorprendeme!
-            </Button>
-          </Grid>
-        </Grid> */}
     </AppBar>
   );
 }

@@ -12,7 +12,7 @@ export default function GridMenu(props) {
                             "Deliciosa pizza de 4 quesos preseleccionados: Gorgonzola, Ricotta, Provola, Parmesano.", "Tradicional pizza con mozzarella fresa, Fiordillate y búfala.","Preparada con la receta tradicional: salsa de tomate, ajo y orégano.",
                         "Pizza con tomates y albahaca de la huerta y mozzarella de Campania."];
     let name = "";
-    let [requestItem, setRequestItem] = useState([]) ;
+    //let [requestItem, setRequestItem] = useState([]) ;
     let showButton;
     // class pizzaTopping {
     //     constructor(pizzaID, topping, description, cost, amount){
@@ -32,9 +32,9 @@ export default function GridMenu(props) {
     //FUNCTIONS DEFINITION
     const handleToppingSelect = (event, pizzatopping) =>{
         event.preventDefault();
-        setRequestItem( prev => [...prev, pizzatopping]);
+        props.setRequestItem( prev => [...prev, pizzatopping]);
         props.setItemCount(prev=> prev + 1);
-        console.log('add', props.itemCount, requestItem);
+        console.log('add', props.itemCount, props.requestItem);
     }
 
     const isThere = (pizzatopping, requestItem) =>{
@@ -52,7 +52,7 @@ export default function GridMenu(props) {
         event.preventDefault();
         console.log("recibiendo...", pizzatopping, requestItem)
         const newRequestedItem = requestItem.filter(item => item !== pizzatopping );
-        setRequestItem( newRequestedItem);
+        props.setRequestItem( newRequestedItem);
         props.setItemCount(prev=> prev - 1);
         console.log('removed', props.itemCount, newRequestedItem);
     }
@@ -88,14 +88,14 @@ export default function GridMenu(props) {
                                         </Typography>
                                     </CardContent>
                                     <CardActions>
-                                        {showButton = isThere(pizzatopping, requestItem)}
+                                        {showButton = isThere(pizzatopping, props.requestItem)}
                                         {!showButton ? 
                                         <IconButton size="small" onClick={ e => handleToppingSelect(e, pizzatopping )}>
                                             <AddIcon/> Agregar
                                         </IconButton>
                                         : null}
                                         {showButton ? 
-                                        <IconButton size="small" onClick={ e => handleToppingRemove(e, pizzatopping, requestItem )}>
+                                        <IconButton size="small" onClick={ e => handleToppingRemove(e, pizzatopping, props.requestItem )}>
                                             <RemoveIcon/> Quitar
                                     </IconButton>
                                         : null}

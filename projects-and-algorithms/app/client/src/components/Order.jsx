@@ -1,48 +1,39 @@
 import {React, useState} from 'react';
 import Navbar from './Navbar';
 import { styled } from '@mui/material/styles';
-import Box from '@mui/material/Box';
-import Paper from '@mui/material/Paper';
-import Grid from '@mui/material/Grid';
-import Autocomplete from '@mui/material/Autocomplete';
-import Typography from '@mui/material/Typography';
-import Button from '@mui/material/Button';
-import TextField from '@mui/material/TextField';
-import Card from '@mui/material/Card';
-import CardActions from '@mui/material/CardActions';
-import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
+import {Box, Paper, Grid, Autocomplete, Typography, Button, TextField, Card, CardActions, CardContent, CardMedia} from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { display } from '@mui/system';
+import {useForm} from 'react-hook-form';
 
 
 
 
+const Order = (props) => {
 
-const Order = () => {
+    //VARIABLES DECLARATIONS
     const method = [ {label: "Delivery"}, {label: "Carry-Out"} ];
     const crust = [ {label: "Masa fina"}, {label: "Masa gruesa"} ];
     const size = [ {label: "Pequeño"}, {label: "Mediano"}, {label: "Grande"} ];
     const pizzaToppings = ["formaggio", "mozzarella", "marinara", "margherita"];
     const qty =[ {label :"1"}, {label: "2"}, {label: "3"}];
     let name = "";
-
-
     const theme = createTheme();
-    
-    const Item = styled(Paper)(({ theme }) => ({
-        backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
-        ...theme.typography.body2,
-        padding: theme.spacing(1),
-        textAlign: 'center',
-        color: theme.palette.text.secondary,
-    }));
+    const {order, handleSubmit, formState: {errors}} = useForm();
 
+
+    //FUNCTIONS DECLARATIONS
+    const onSubmit = (data) => {
+        console.log(data);
+    };
+
+
+    
 
     
     return (
         <div>
-            <Navbar/>
+            <Navbar itemCount={props.itemCount} setItemCount={props.setItemCount}/>
             <ThemeProvider theme={theme}>
                 <div className='containerPage'>
                     <div className='containerSides'>
@@ -53,12 +44,13 @@ const Order = () => {
                             options={method}
                             sx={{ width: 300, p: 2 }}
                             renderInput={(params) => <TextField {...params} label="Tipo de Orden" />}
+                            
                         />
-                        {  pizzaToppings.map(  (pizzatopping,index) => {
+                        {  props.requestItem.map(  (pizzatopping,index) => {
                             name = pizzatopping.charAt(0).toUpperCase() + pizzatopping.slice(1);
                             return (
-                                <Grid item xs={12} key={index} spacing={3} sx={{p:2}} >
-                                    <Card sx={{ maxWidth: 500 }}>
+                                <Grid container item xs={12} key={index} spacing={3} sx={{p:3}} >
+                                    <Card sx={{ maxWidth: 500, p:2 }}>
                                         <CardMedia
                                             component="img"
                                             alt="pizza flavor"
@@ -101,7 +93,12 @@ const Order = () => {
                         )}  )   }
                     </div>
                     <div className='containerSides'>
-                        <Typography variant='h3' sx={{fontWeight:'bold', m:2} }> Resumen del Pedido </Typography>
+                        <Typography variant='h3' sx={{fontWeight:'bold', m:2} }> Historial de Pedidos </Typography>
+                    </div>
+                    <div className='containerSides'>
+                        <Typography variant='h3' sx={{fontWeight:'bold', m:2 } }> Resumen del Pedido </Typography>
+                        <Typography variant='h5' sx={{fontWeight:'bold', m:2}} style={{display: 'inline-block'}} > Tipo: </Typography>
+                        <Typography variant='h5' sx={{ m:2}} style={{display: 'inline-block'}}> Tipfsfesfo: </Typography>
                     </div>
                 </div>           
 

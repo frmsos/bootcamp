@@ -8,11 +8,10 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.min.js';
 
 
-const Home = () => {
-    const [itemCount, setItemCount] = useState(0);
+const Home = (props) => {
     return (
         <div>
-            <Navbar itemCount={itemCount} setItemCount={setItemCount}/>
+            <Navbar itemCount={props.itemCount} setItemCount={props.setItemCount}/>
             <div id="carouselExampleIndicators" className="carousel slide">
                 <div className="carousel-indicators">
                     <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" className="active" aria-current="true" aria-label="Slide 1"></button>
@@ -20,7 +19,7 @@ const Home = () => {
                 </div>
                 <div className="carousel-inner">
                     <div className="carousel-item active" id='carouselItems'>
-                        <img src={promo1} className="img-fluid" alt="..."/> 
+                        <img src={promo1} className="img-fluid" alt="..." /> 
                     </div>
                     <div className="carousel-item" id='carouselItems'>
                     <img src={promo2} className="img-fluid" alt="..."/>
@@ -35,7 +34,7 @@ const Home = () => {
                     <span className="visually-hidden">Next</span>
                 </button>
             </div>
-            <GridMenu itemCount={itemCount} setItemCount={setItemCount}/>
+            <GridMenu itemCount={props.itemCount} setItemCount={props.setItemCount} requestItem={props.requestItem} setRequestItem={props.setRequestItem} />
 
 
 
