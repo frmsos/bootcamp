@@ -12,21 +12,7 @@ export default function GridMenu(props) {
                             "Deliciosa pizza de 4 quesos preseleccionados: Gorgonzola, Ricotta, Provola, Parmesano.", "Tradicional pizza con mozzarella fresa, Fiordillate y búfala.","Preparada con la receta tradicional: salsa de tomate, ajo y orégano.",
                         "Pizza con tomates y albahaca de la huerta y mozzarella de Campania."];
     let name = "";
-    //let [requestItem, setRequestItem] = useState([]) ;
     let showButton;
-    // class pizzaTopping {
-    //     constructor(pizzaID, topping, description, cost, amount){
-    //         this.pizzaID = pizzaID;
-    //         this.topping = topping;
-    //         this.description = description;
-    //         this.cost = cost;
-    //         this.amount =  amount;
-    //     }
-    // }
-
-    
-
-    
 
 
     //FUNCTIONS DEFINITION
