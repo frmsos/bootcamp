@@ -6,7 +6,7 @@ import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import { Link } from 'react-router-dom';
 
 
-const pages = ['Promos', 'Menu', 'Tradizione', 'Contacto'];
+const pages = ['Menu', 'Tradizione', 'Contacto'];
 const settings = ['Cuenta', 'Salir'];
 
 function ResponsiveAppBar(props) {
