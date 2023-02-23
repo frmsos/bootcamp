@@ -24,7 +24,7 @@ const Order = (props) => {
     const [order, setOrder] = useState({type: "", items: []});
     //const [typeValue, setTypeValue] = useState(method[0].label);
     //const [toppingsOrder, setToppingsOrder] = useState([]);
-    let showButton;
+    let showButton ;
 
 
     //FUNCTIONS DECLARATIONS
@@ -35,8 +35,15 @@ const Order = (props) => {
             crust: data.crust,
             amount : data.amount
         }
+        //is there para ver si ya esta,
 
+        //si no, esto
         setOrder( {...order, items: [...order.items, item]} );
+
+        // si ya esta, hay que actualizar
+        //con filter un nueva vector
+        //...new vector , datanew set order
+        //se va a sobreescribir el vector order
         //console.log(item)
         console.log(order)
       //  console.log("prueba print", order.items[0].topping)
@@ -46,11 +53,15 @@ const Order = (props) => {
         //alert(pizzatopping)
         for(let i = 0; i < requestItem.length; i++)
         {
-            if(requestItem[i] === pizzatopping)
+            if(requestItem[i].topping === pizzatopping)
                 
-                return true;
+                {
+                    //alert('is here');
+                    return true;
+                }
 
         }
+        //alert('is not here')
         return false;
     }
     const handleToppingSelect = (event, pizzatopping) =>{
@@ -147,14 +158,15 @@ const Order = (props) => {
                                                         </IconButton>
                                                     </CardActions>
                                                             </Card>
-                                                    <Button
+                                                    {showButton = isThere(pizzatopping, order.items)}
+                                                        {!showButton ? <Button
                                                         type="submit"
                                                         fullWidth
                                                         variant="contained"
                                                         sx={{ mt: 3, mb: 2, ml: 1, bgcolor : "#008C45", width: "50%" }}
                                                         >
                                                         Agregar al carrito
-                                                    </Button>
+                                                    </Button> : null}
                                                 </Grid>
                                             </Box>
                                         
