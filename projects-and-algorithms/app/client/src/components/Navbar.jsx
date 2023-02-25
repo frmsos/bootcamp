@@ -3,6 +3,7 @@ import {AppBar, Box, Toolbar, IconButton, Typography, Menu, Container, Avatar, B
 import MenuIcon from '@mui/icons-material/Menu';
 import logo2 from '../images/logoWhite.png';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { Link } from 'react-router-dom';
 
 
@@ -64,11 +65,12 @@ function ResponsiveAppBar(props) {
                 display: { xs: 'block', md: 'none' },
               }}
             >
-              {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">{page}</Typography>
-                </MenuItem>
-              ))}
+              <MenuItem>
+                <Typography textAlign="center">Menu</Typography>
+              </MenuItem>
+              <MenuItem>
+                <Typography textAlign="center">Contacto</Typography>
+              </MenuItem>
             </Menu>
           </Box>
           <Typography
@@ -89,26 +91,31 @@ function ResponsiveAppBar(props) {
           >
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-            {pages.map((page) => (
+            <Link to="/" style={{color: "white", textDecoration: 'none'}}> 
               <Button
-                key={page}
                 onClick={handleCloseNavMenu}
                 sx={{ my: 2, color: 'white', display: 'block' }}
               >
-                {page}
+                Menu
               </Button>
-            ))}
+            </Link>
+              <Button
+                onClick={handleCloseNavMenu}
+                sx={{ my: 2, color: 'white', display: 'block' }}
+              >
+                Contacto
+              </Button>
           </Box>
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+              <AccountCircleIcon sx={{m:2}}/>
               </IconButton>
             </Tooltip>
             <Badge color="secondary" badgeContent={props.itemCount}>
             <Link to="/cart" style={{color: "white"}}> 
                 <ShoppingCartIcon/>
-              </Link> 
+            </Link> 
             </Badge>
             
             <Menu

@@ -16,7 +16,7 @@ const Order = (props) => {
     const method = [  "Delivery" , "Carry-Out" ];
     const crust = [ "Masa fina", "Masa gruesa"];
     const size = [ "Pequeño",  "Mediano",  "Grande" ] ;
-    const pizzaToppings = ["formaiuiiiooggio", "mozzarella", "marinara", "margherita"];
+    const pizzaToppings = ["formaggio", "mozzarella", "marinara", "margherita"];
     const qty =[ "1",  "2", "3"];
     let name = "";
     const theme = createTheme();
@@ -26,6 +26,9 @@ const Order = (props) => {
     const [opMode, setOpMode] = useState("");
     let showButton;
     const [orderType, setOrderType] = useState("");
+    const [subTotal, setSubTotal] =  useState(0);
+
+
 
 
     //FUNCTIONS DECLARATIONS
@@ -104,6 +107,48 @@ const Order = (props) => {
         console.log('despues', order.items)
         props.setItemCount(prev=> prev - 1);
     }
+    const calcularCosto = ( topping, amount, size, crust) => {
+        let costoItem = 0;
+        let sizeCost = 0;
+        let crustCost = 0 ;
+        let toppingCost = 0;
+        switch(topping){
+            case 'formaggio':
+                toppingCost = 40000;
+                break;
+            case 'mozzarella':
+                toppingCost = 25000;
+                break;
+            case 'marinara':
+                toppingCost = 25000;
+                break;
+            default:
+                toppingCost = 30000;
+        }
+        switch(size){
+            case 'Mediano':
+                sizeCost = 25000;
+                break;
+            case 'Grande':
+                sizeCost = 45000;
+                break;
+            default:
+                sizeCost = 15000;
+        }
+        switch(crust){
+            case 'Masa fina':
+                crustCost = 15000;
+                break;
+            default:
+                crustCost = 5000;
+
+        }
+        costoItem = amount * (sizeCost + crustCost + toppingCost);
+        console.log('costo es:' ,costoItem);
+        return costoItem;
+
+    }
+    
 
     
     return (
@@ -130,25 +175,25 @@ const Order = (props) => {
                                     name = pizzatopping.charAt(0).toUpperCase() + pizzatopping.slice(1);  
                                     return (
                                         <Box component="form" noValidate onSubmit={ handleSubmit( data => onSubmit(data, pizzatopping, opMode))}>
-                                            <Grid container item xs={12} key={index} spacing={3} sx={{p:3}} >
-                                                <Card sx={{ maxWidth: 500, p:2 }}>
+                                            <Grid container item xs={12} key={index} spacing={3} sx={{p:3}} id="Card">
+                                                <Card sx={{ maxWidth: 500, p:2 }} id='Card'>
                                                     <CardMedia
                                                         component="img"
                                                         alt="pizza flavor"
                                                         height="140"
                                                         image={require(`../images/menu/${pizzatopping}.jpeg`)}                                
                                                     />
-                                                    <CardContent>
+                                                    <CardContent id='Card'>
                                                         <Typography gutterBottom variant="h5" component="div">
                                                         {`${name}`}
                                                         </Typography>
-                                                        <Grid item xs={12} key={index} spacing={1} sx={{display: 'flex'}}>
+                                                        <Grid item xs={12} key={index} spacing={1} id='Card' >
                                                             <Autocomplete
                                                                 disablePortal
                                                                 id="combo-box-demo"
                                                                 options={size}
                                                                 isOptionEqualToValue = { (option, value) => option.value === value.value}
-                                                                sx={{ width: 140, p: 2 }}
+                                                                sx={{ width: 220, p: 2, display:'block' }}
                                                                 renderInput={(params) => <TextField {...params} label="Tamaño" {...register("size", { required: true }) }
                                                                 error={!!errors?.size}                        
                                                                 helperText = { errors?.size ? "Debe elegir una de las opciones" : null }/>}
@@ -158,7 +203,7 @@ const Order = (props) => {
                                                                 id="combo-box-demo"
                                                                 options={crust}
                                                                 isOptionEqualToValue = { (option, value) => option.value === value.value}
-                                                                sx={{ width: 140, p: 2 }}
+                                                                sx={{ width: 220, p: 2, display:'block' }}
                                                                 renderInput={(params) => <TextField {...params} label="Masa" {...register("crust", { required: true })}
                                                                 error={!!errors?.crust}                        
                                                                 helperText = { errors?.crust ? "Debe elegir una de las opciones" : null }/>}
@@ -168,7 +213,7 @@ const Order = (props) => {
                                                                 id="combo-box-demo"
                                                                 options={qty}
                                                                 isOptionEqualToValue = { (option, value) => option.value === value.value}
-                                                                sx={{ width: 140, p: 2 }}
+                                                                sx={{ width: 220, p: 2, display:'block' }}
                                                                 renderInput={(params) => <TextField {...params} label="Cantidad" {...register("amount", { required: true })}
                                                                 error={!!errors?.amount}                        
                                                                 helperText = { errors?.amount ? "Debe elegir una de las opciones" : null }/>}
@@ -180,7 +225,7 @@ const Order = (props) => {
                                                             <RemoveIcon/> Quitar
                                                         </IconButton>
                                                     </CardActions>
-                                                            </Card>
+                                                </Card>
                                                     {showButton = isThere(pizzatopping, order.items, 'bool')}
                                                         {!(showButton) ? 
                                                         <Button
@@ -188,7 +233,8 @@ const Order = (props) => {
                                                             fullWidth
                                                             variant="contained"
                                                             onClick={e=> setOpMode("add")}
-                                                            sx={{ mt: 3, mb: 2, ml: 1, bgcolor : "#008C45", width: "50%" }}
+                                                            id = 'AddToCard'
+                                                            sx={{ mt: 3, mb: 2, ml: 1, bgcolor : "#008C45", width: "50%", display: 'block' }}
                                                             >
                                                             Agregar al carrito
                                                         </Button> 
@@ -215,19 +261,25 @@ const Order = (props) => {
                         <Typography variant='h3' sx={{fontWeight:'bold', m:2} }> Resumen de Orden </Typography>
                         <Typography variant='h6' sx={{fontWeight:'bold', m:2, display: 'inline-block'} }> Tipo de orden: </Typography>
                         <Typography variant='h6' sx={{fontWeight:'normal', m:2, display: 'inline-block'} }> {orderType} </Typography>
-                        <Typography variant='body1' sx={{fontWeight:'normal', m:2} }> 
+                        <Typography variant='body1' sx={{fontWeight:'normal', m:2} }>
+                            <ul>
                             {
                                 order.items.map (   
                                     (details, index) => {
                                         return(
+                                            <li>
                                             <Typography variant='body1' sx={{fontWeight:'normal', m:2}} key={index}>
-                                                    {`${details.amount} tamaño ${details.size} de ${details.topping}  ${details.crust}` }
-                                            </Typography>        
+                                                    {`${details.amount} Pizza(s) ${details.size}(s) de ${details.topping}   |   ${details.crust}` }
+                                            </Typography>
+                                            <Typography variant='body1' sx={{fontWeight:'normal', m:2}} key={index}>
+                                                    Costo Item: Gs.{calcularCosto(details.topping, details.amount, details.size, details.cost )}
+                                            </Typography>
+                                            </li>        
                                         )
                                     }
                                 )
                             }
-                        
+                            </ul>
                         </Typography>
                     </div>
                 </div>           

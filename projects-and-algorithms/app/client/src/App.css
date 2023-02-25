@@ -36,5 +36,10 @@
         width: 100%;
     }
 }
-
+#AddToCard{
+    display: inline-block;
+}
+#Card{
+    display: block;
+}
 

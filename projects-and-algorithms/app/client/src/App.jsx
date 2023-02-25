@@ -11,7 +11,7 @@ import Register from './components/Register';
 import Account from './components/Account';
 import Order from './components/Order';
 const App = () => {
-  const [itemCount, setItemCount] = useState(1);
+  const [itemCount, setItemCount] = useState(0);
   let [requestItem, setRequestItem] = useState([]) ;
   console.log('en app', itemCount)
   return (
