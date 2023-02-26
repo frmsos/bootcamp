@@ -1,5 +1,5 @@
-import {React, useState} from 'react';
-import {Avatar, Button, CssBaseline, TextField,  Link, Paper, Box, Grid, Typography, IconButton} from '@mui/material';
+import {React, useEffect, useState} from 'react';
+import {Avatar, Button, CssBaseline, TextField,  Paper, Box, Grid, Typography, IconButton, Alert, Stack} from '@mui/material';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import loginImage from '../images/login.jpg';
@@ -8,25 +8,27 @@ import {useForm} from 'react-hook-form';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import { InputAdornment } from '@mui/material';
+import { Link, useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import { useContext } from 'react';
+import { userAuth } from '../contexts/userAuth';
 
-
-
-
-
-
-export default function Login() {
+export default function Login(props) {
 
 //VARIABLES DECLARATION
 const theme = createTheme();
 const {register, handleSubmit, formState: {errors}} = useForm();
 const [showPassword, setShowPassword] = useState(false);
-
+const navigate = useNavigate();
+const [loginOK, setLoginOK] = useState(false);
+const [loginNotOK, setLoginNotOK] = useState(false);
+const {isLoggedIn, setIsLoggedIn, cartPressed, setCartPressed} = useContext(userAuth);
 //FUNCTIONS DECLARATION
 function Copyright(props) {
     return (
         <Typography variant="body2" color="text.secondary" align="center" {...props}>
             {'Copyright © '}
-            <Link color="inherit" href="https://mui.com/material-ui/getting-started/templates/">
+            <Link to="https://mui.com/material-ui/getting-started/templates/">
                 Credits: Based on and full credits to
             </Link>{' '}
             {new Date().getFullYear()}
@@ -36,12 +38,44 @@ function Copyright(props) {
 }
 const onSubmit = (data) => {
     console.log(data);
+    axios.post('http://localhost:8000/api/pizzapp/login', 
+    {
+        email: data.email,
+        password: data.password
+    }, {withCredentials:true }
+    )
+    .then( (response) => {
+        //alert('afae')
+        setLoginOK(true);
+        setLoginNotOK(false);
+        console.log('antes', isLoggedIn);
+        setIsLoggedIn(true)
+        cartPressed ?  setTimeout(() => { navigate('/')}, 2100) : setTimeout(() => { navigate('/cart')}, 2100)
+        setTimeout(() => { navigate('/')}, 2100)
+    } )
+    .catch( (errorMsg) =>{
+        setLoginOK(false);
+        setLoginNotOK(true);
+        setIsLoggedIn(false);
+        setCartPressed(false);
+    }  )
 };
 const handleClickPassword = () => setShowPassword(!showPassword);
+
+
+useEffect( ()=>{
+    window.localStorage.setItem('loginStatus', JSON.stringify(isLoggedIn))
+    }, [isLoggedIn])
 
     //JSX BEGINS
     return (
         <ThemeProvider theme={theme}>
+            <Stack sx={{ width: '100%' }} spacing={2}>
+                {  loginNotOK ?  <Alert severity="error">Error: verifique los datos introducidos y vuelva a probar</Alert> : null} 
+                {/* <Alert severity="warning">This is a warning alert — check it out!</Alert>
+                <Alert severity="info">This is an info alert — check it out!</Alert> */}
+                {  loginOK ? <Alert severity="success">Login exitoso! Redirigiendo a la página principal</Alert> : null}
+            </Stack>
             <Grid container component="main" sx={{ height: '100vh' }}>
                 <CssBaseline />
                 <Grid
@@ -120,7 +154,7 @@ const handleClickPassword = () => setShowPassword(!showPassword);
                     </Button>
                     <Grid container>
                         <Grid item>
-                        <Link href="#" variant="body2">
+                        <Link to="/register">
                             {"No tenes todavía una cuenta? Registrate"}
                         </Link>
                         </Grid>

@@ -1,11 +1,13 @@
-import {React, useState} from 'react';
+import {React, useEffect, useState} from 'react';
 import Navbar from './Navbar';
-import { styled } from '@mui/material/styles';
-import {Box, Paper, Grid, Autocomplete, Typography, Button, TextField, Card, CardActions, CardContent, CardMedia, IconButton} from '@mui/material';
+import {Box, Grid, Autocomplete, Typography, Button, TextField, Card, CardActions, CardContent, CardMedia, IconButton} from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import {useForm} from 'react-hook-form';
 import RemoveIcon from '@mui/icons-material/Remove';
 import AddIcon from '@mui/icons-material/Add';
+import { useContext } from 'react';
+import { userAuth } from '../contexts/userAuth';
+import axios from 'axios';
 
 
 
@@ -16,17 +18,18 @@ const Order = (props) => {
     const method = [  "Delivery" , "Carry-Out" ];
     const crust = [ "Masa fina", "Masa gruesa"];
     const size = [ "Pequeño",  "Mediano",  "Grande" ] ;
-    const pizzaToppings = ["formaggio", "mozzarella", "marinara", "margherita"];
     const qty =[ "1",  "2", "3"];
     let name = "";
     const theme = createTheme();
     const {register, handleSubmit, formState: {errors}} = useForm();
     const [order, setOrder] = useState({type: "", items: []});
-    //const [typeValue, setTypeValue] = useState(method[0].label);
     const [opMode, setOpMode] = useState("");
     let showButton;
     const [orderType, setOrderType] = useState("");
     const [subTotal, setSubTotal] =  useState(0);
+    const {isLoggedIn, setIsLoggedIn} = useContext(userAuth);
+
+
 
 
 
@@ -90,12 +93,6 @@ const Order = (props) => {
         else
             return [false, null]
     }
-    const handleToppingSelect = (event, pizzatopping) =>{
-        event.preventDefault();
-        props.setRequestItem( prev => [...prev, pizzatopping]);
-        props.setItemCount(prev=> prev + 1);
-        console.log('add', props.itemCount, props.requestItem);
-    }
     const handleToppingRemove = (event, pizzatopping, requestItem) =>{
         event.preventDefault();
         const newRequestedItem = requestItem.filter(item => item !== pizzatopping );
@@ -112,43 +109,20 @@ const Order = (props) => {
         let sizeCost = 0;
         let crustCost = 0 ;
         let toppingCost = 0;
-        switch(topping){
-            case 'formaggio':
-                toppingCost = 40000;
-                break;
-            case 'mozzarella':
-                toppingCost = 25000;
-                break;
-            case 'marinara':
-                toppingCost = 25000;
-                break;
-            default:
-                toppingCost = 30000;
-        }
-        switch(size){
-            case 'Mediano':
-                sizeCost = 25000;
-                break;
-            case 'Grande':
-                sizeCost = 45000;
-                break;
-            default:
-                sizeCost = 15000;
-        }
-        switch(crust){
-            case 'Masa fina':
-                crustCost = 15000;
-                break;
-            default:
-                crustCost = 5000;
-
-        }
         costoItem = amount * (sizeCost + crustCost + toppingCost);
         console.log('costo es:' ,costoItem);
         return costoItem;
 
     }
-    
+    useEffect( () => {
+        axios.get('http://localhost:8000/api/pizzapp/toppings/get',{withCredentials : true})
+        .then(response => {
+            console.log(response.data);})
+
+            // eslint-disable-next-line
+        .catch()
+    }, []  ); 
+
 
     
     return (

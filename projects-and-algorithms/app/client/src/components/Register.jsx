@@ -1,5 +1,5 @@
 import {React, useState} from 'react';
-import {Avatar, Button, CssBaseline, TextField, Link, Paper, Box, Autocomplete, Grid, Typography, IconButton} from '@mui/material';
+import {Avatar, Button, CssBaseline, TextField, Paper, Box, Autocomplete, Grid, Typography, IconButton, Alert, Stack} from '@mui/material';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import loginImage from '../images/login.jpg';
@@ -8,6 +8,8 @@ import {useForm} from 'react-hook-form';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import { InputAdornment } from '@mui/material';
+import { Link, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 
 export default function Login() {
@@ -18,10 +20,36 @@ export default function Login() {
     {label:'Guairá'},  {label:'Itapúa'},  {label:'Misiones'},  {label:'Ñeembucú'},  {label:'Paraguarí'},  {label:'Presidente Hayes'},  {label:'San Pedro'} ];
     const {register, handleSubmit, formState: {errors}} = useForm();
     const [showPassword, setShowPassword] = useState(false);
+    const [registerOK, setRegisterOK] = useState(false);
+    const [registerNotOK, setRegisterNotOK] = useState(false);
+    const navigate = useNavigate();
     ////////
     //FUNCTIONS DECLARATION
     const onSubmit = (data) => {
         console.log(data);
+        axios.post('http://localhost:8000/api/pizzapp/register', 
+        {
+            firstName: data.firstName,
+            lastName: data.lastName,
+            email: data.email,
+            addresses: {
+                street: data.street,
+                city: data.city,
+                state: data.state
+            },
+            password: data.password
+        }, {withCredentials:true }
+        )
+        .then( () => {
+            //alert('afae')
+            setRegisterOK(true);
+            setRegisterNotOK(false);
+            setTimeout(() => { navigate('/');}, 2500);
+        } )
+        .catch( (errorMsg) =>{
+            setRegisterOK(false);
+            setRegisterNotOK(true);
+        }  )
     };
     function Copyright(props) {
         return (
@@ -72,6 +100,12 @@ export default function Login() {
                         Registrate
                     </Typography>
             <Box component="form" noValidate onSubmit={handleSubmit(onSubmit)} sx={{ mt: 3 }}>
+            <Stack sx={{ width: '100%' }} spacing={2}>
+                { registerNotOK ?  <Alert severity="error">Error: verifique los datos introducidos y vuelva a probar</Alert> : null} 
+                {/* <Alert severity="warning">This is a warning alert — check it out!</Alert>
+                <Alert severity="info">This is an info alert — check it out!</Alert> */}
+                { registerOK ? <Alert severity="success">Registro exitoso, redirigiendo al página principal</Alert> : null}
+            </Stack>
                 <Grid container spacing={2}>
                     <Grid item xs={12} sm={6}>
                         <TextField
@@ -120,12 +154,12 @@ export default function Login() {
                         required
                         fullWidth
                         id="address"
-                        label="Dirección"
-                        name="address"
-                        autoComplete="address"
-                        {...register("address", { required: true, minLength: 4, maxLength: 50 })}
-                        error={!!errors?.address}                        
-                        helperText = { errors?.address ? "Ingrese una dirección válida, como mínimo de 4 caracteres" : null }
+                        label="Calle"
+                        name="street"
+                        autoComplete="street"
+                        {...register("street", { required: true, minLength: 4, maxLength: 50 })}
+                        error={!!errors?.street}                        
+                        helperText = { errors?.street ? "Ingrese una dirección válida, como mínimo de 4 caracteres" : null }
                         />
                     </Grid>
                     <Grid item xs={12}>
@@ -136,9 +170,9 @@ export default function Login() {
                         label="Ciudad"
                         name="city"
                         autoComplete="city"
-                        {...register("address", { required: true, minLength: 4, maxLength: 50 })}
-                        error={!!errors?.address}                        
-                        helperText = { errors?.address ? "Ingrese una dirección válida, como mínimo de 4 caracteres" : null }
+                        {...register("city", { required: true, minLength: 4, maxLength: 50 })}
+                        error={!!errors?.city}                        
+                        helperText = { errors?.city ? "Ingrese una ciudad válida, como mínimo de 4 caracteres" : null }
                         />
                     </Grid>
                     <Grid item xs={12}>
@@ -151,6 +185,7 @@ export default function Login() {
                         renderInput={(params) => <TextField {...params} required label="Departamento" {...register("state", { required: true })}
                         error={!!errors?.state}                        
                         helperText = { errors?.state ? "Debe elegir una de las opciones" : null }/>}
+                        isOptionEqualToValue = { (option, value) => option.value === value.value}
                         
                         />
                     </Grid>
@@ -188,7 +223,7 @@ export default function Login() {
                 </Button>
                 <Grid container justifyContent="flex-end">
                 <Grid item>
-                    <Link href="#" variant="body2">
+                    <Link to='/login'>
                         Ya tenes una cuenta? Inicia sesión
                     </Link>
                 </Grid>

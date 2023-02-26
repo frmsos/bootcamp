@@ -8,23 +8,35 @@ import LightTheme from './components/LightTheme';
 import Home from './components/Home';
 import Login from './components/Login';
 import Register from './components/Register';
-import Account from './components/Account';
+//import Account from './components/Account';
 import Order from './components/Order';
+import { userAuth } from './contexts/userAuth';
 const App = () => {
-  const [itemCount, setItemCount] = useState(0);
-  let [requestItem, setRequestItem] = useState([]) ;
-  console.log('en app', itemCount)
+
+  //FUNCTIONS DECLARATION
+    //VARIABLES DECLARATION
+    const [itemCount, setItemCount] = useState(0);
+    let [requestItem, setRequestItem] = useState([]) ;
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [cartPressed, setCartPressed] = useState(false);
+    const value = { isLoggedIn, setIsLoggedIn, cartPressed, setCartPressed};
   return (
     <div>
       <ThemeProvider theme={LightTheme}>
         <CssBaseline/>
         <BrowserRouter>
+        <userAuth.Provider value={value}>
           <Routes>
-            {/* <Route path="/:id" element={<ProductDetails  showDetailsPage={showDetailsPage} setShowDetailsPage={setShowDetailsPage} />}>  </Route>
-            <Route path="/:id/edit" element={  <EditPage/> } >  </Route> */}
-            <Route path="*" element={<Home itemCount={itemCount} setItemCount={setItemCount} requestItem={requestItem} setRequestItem={setRequestItem}  />}>  </Route> 
-            <Route path="/cart" element={<Order itemCount={itemCount} setItemCount={setItemCount} requestItem={requestItem} setRequestItem={setRequestItem}/>}>  </Route> 
+              {/* <Route path="/:id" element={<ProductDetails  showDetailsPage={showDetailsPage} setShowDetailsPage={setShowDetailsPage} />}>  </Route>
+              <Route path="/:id/edit" element={  <EditPage/> } >  </Route> */}
+            
+              <Route path="/login" element={<Login itemCount={itemCount} setItemCount={setItemCount} requestItem={requestItem} setRequestItem={setRequestItem}  />}>  </Route> 
+              <Route path="/register" element={<Register itemCount={itemCount} setItemCount={setItemCount} requestItem={requestItem} setRequestItem={setRequestItem}   />}>  </Route> 
+              <Route path="*" element={<Home itemCount={itemCount} setItemCount={setItemCount} requestItem={requestItem} setRequestItem={setRequestItem}   />}>  </Route> 
+              <Route path="/cart" element={<Order itemCount={itemCount} setItemCount={setItemCount} requestItem={requestItem} setRequestItem={setRequestItem}  />}>  </Route>
+              
           </Routes>
+          </userAuth.Provider>
       </BrowserRouter>
       </ThemeProvider>
     </div>
