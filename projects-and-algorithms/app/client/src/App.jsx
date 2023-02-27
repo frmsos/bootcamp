@@ -8,6 +8,7 @@ import LightTheme from './components/LightTheme';
 import Home from './components/Home';
 import Login from './components/Login';
 import Register from './components/Register';
+import Checkout from './components/Checkout';
 //import Account from './components/Account';
 import Order from './components/Order';
 import { userAuth } from './contexts/userAuth';
@@ -19,7 +20,8 @@ const App = () => {
     let [requestItem, setRequestItem] = useState([]) ;
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [cartPressed, setCartPressed] = useState(false);
-    const value = { isLoggedIn, setIsLoggedIn, cartPressed, setCartPressed};
+    const [cart, setCart] = useState({});
+    const value = { isLoggedIn, setIsLoggedIn, cartPressed, setCartPressed, cart, setCart};
   return (
     <div>
       <ThemeProvider theme={LightTheme}>
@@ -34,6 +36,7 @@ const App = () => {
               <Route path="/register" element={<Register itemCount={itemCount} setItemCount={setItemCount} requestItem={requestItem} setRequestItem={setRequestItem}   />}>  </Route> 
               <Route path="*" element={<Home itemCount={itemCount} setItemCount={setItemCount} requestItem={requestItem} setRequestItem={setRequestItem}   />}>  </Route> 
               <Route path="/cart" element={<Order itemCount={itemCount} setItemCount={setItemCount} requestItem={requestItem} setRequestItem={setRequestItem}  />}>  </Route>
+              <Route path="/checkout" element={<Checkout itemCount={itemCount} setItemCount={setItemCount} requestItem={requestItem} setRequestItem={setRequestItem}  />}>  </Route>
               
           </Routes>
           </userAuth.Provider>

@@ -12,7 +12,7 @@ module.exports = {
             console.log('new usewr', newUser)
             const userToken = jwt.sign({_id:newUser._id}, SECRET)
             res.status(201).cookie('userToken', userToken, {httpOnly:true, expires:new Date(Date.now() + 60000)})
-            .json({successMessage:"Usuario registrado ", user:newUser})
+            .json({successMessage:"Usuario registrado ", id:newUser._id})
             //console.log("userto", userToken)
         }catch(error){
             res.status(401).json(error)
@@ -33,7 +33,7 @@ module.exports = {
             }else{
                 const userToken = jwt.sign({_id:user._id}, SECRET)
                 console.log(userToken)
-                res.status(201).cookie('userToken', userToken, {httpOnly:false, expires:new Date(Date.now() + 1800000)}).json({successMessage:"User login OK "})
+                res.status(201).cookie('userToken', userToken, {httpOnly:false, expires:new Date(Date.now() + 1800000)}).json({successMessage:"User login OK ", id: user._id})
             }
         }catch(error){
             res.status(400).json({error: "Incorrect credentials, try again..."})

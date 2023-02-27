@@ -4,7 +4,6 @@ import {Box, Grid, Autocomplete, Typography, Button, TextField, Card, CardAction
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import {useForm} from 'react-hook-form';
 import RemoveIcon from '@mui/icons-material/Remove';
-import AddIcon from '@mui/icons-material/Add';
 import { useContext } from 'react';
 import { userAuth } from '../contexts/userAuth';
 import axios from 'axios';
@@ -230,7 +229,7 @@ const Order = (props) => {
                                                                 id="combo-box-demo"
                                                                 options={size_options}
                                                                 onChange = { (e,v) => setSizeValue(v)}
-                                                                //isOptionEqualToValue = { (option, value) => option.value === value.value}
+                                                                isOptionEqualToValue = { (option, value) => option.value === value.value}
                                                                 sx={{ width: 220, p: 2, display:'block' }}
                                                                 renderInput={(params) => <TextField {...params} label="Tamaño" {...register("size", { required: true }) }
                                                                 error={!!errors?.size}                        
@@ -240,7 +239,7 @@ const Order = (props) => {
                                                                 disablePortal
                                                                 id="combo-box-demo"
                                                                 options={crust_options}
-                                                                //isOptionEqualToValue = { (option, value) => option.value === value.value}
+                                                                isOptionEqualToValue = { (option, value) => option.value === value.value}
                                                                 sx={{ width: 220, p: 2, display:'block' }}
                                                                 renderInput={(params) => <TextField {...params} label="Masa" {...register("crust", { required: true })}
                                                                 error={!!errors?.crust}                        
@@ -251,7 +250,7 @@ const Order = (props) => {
                                                                 id="combo-box-demo"
                                                                 options={qty_options}
                                                                 onChange = {(e,v) => setAmoutValue(v)}
-                                                                //isOptionEqualToValue = { (option, value) => option.value === value.value}
+                                                                isOptionEqualToValue = { (option, value) => option.value === value.value}
                                                                 sx={{ width: 220, p: 2, display:'block' }}
                                                                 renderInput={(params) => <TextField {...params} label="Cantidad" {...register("amount", { required: true })}
                                                                 error={!!errors?.amount}                        

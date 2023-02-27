@@ -48,6 +48,7 @@ const onSubmit = (data) => {
         //alert('afae')
         setLoginOK(true);
         setLoginNotOK(false);
+        console.log('login response data', response);
         console.log('antes', isLoggedIn);
         setIsLoggedIn(true)
         cartPressed ?  setTimeout(() => { navigate('/')}, 2100) : setTimeout(() => { navigate('/cart')}, 2100)

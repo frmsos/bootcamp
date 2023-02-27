@@ -1,13 +1,13 @@
-import {React, useEffect, useState} from 'react';
+import {React, useEffect, useState, useRef} from 'react';
 import Navbar from './Navbar';
 import {Box, Grid, Autocomplete, Typography, Button, TextField, Card, CardActions, CardContent, CardMedia, IconButton} from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import {useForm} from 'react-hook-form';
 import RemoveIcon from '@mui/icons-material/Remove';
-import AddIcon from '@mui/icons-material/Add';
 import { useContext } from 'react';
 import { userAuth } from '../contexts/userAuth';
 import axios from 'axios';
+import { Link, useNavigate } from 'react-router-dom';
 
 
 
@@ -19,6 +19,10 @@ const Order = (props) => {
     const crust_options = [ "Masa fina", "Masa gruesa"];
     const size_options = [ "Pequeño",  "Mediano",  "Grande" ] ;
     const qty_options =[ "1",  "2", "3"];
+    const formaggio = { Pequeño: 60000, Mediano: 70000, Grande: 80000 }
+    const mozzarella = { Pequeño: 35000, Mediano: 45000, Grande: 55000 }
+    const marinara = { Pequeño: 35000, Mediano: 45000, Grande: 55000 }
+    const margherita = { Pequeño: 45000, Mediano: 55000, Grande: 65000 }
     let name = "";
     const theme = createTheme();
     const {register, handleSubmit, formState: {errors}} = useForm();
@@ -28,13 +32,11 @@ const Order = (props) => {
     let showButton;
     const [orderType, setOrderType] = useState("");
     let subTotal = 0;
-    const {isLoggedIn, setIsLoggedIn, setCartPressed} = useContext(userAuth);
-    const [toppingsData, setToppingsData] = useState(null);
-    const [sizesData, setSizesData] = useState(null);
-    const [crustsData, setCrustsData] = useState(null);
-    const [sizeValue, setSizeValue] = useState(null);
-    const [amountValue, setAmoutValue] = useState(null);
-
+    const {isLoggedIn, setIsLoggedIn, setCartPressed, setCart} = useContext(userAuth);
+    const toppingsData = useRef({});
+    const sizesData = useRef({});
+    const crustsData = useRef({});
+    const navigate = useNavigate();
 
 
 
@@ -43,16 +45,26 @@ const Order = (props) => {
 
 
     //FUNCTIONS DECLARATIONS
+    const handleSubmitOrder = (e) => {
+        e.preventDefault();
+        console.log('submit order', order);
+        setCart(order);
+        navigate('/checkout');
+    }
     const onSubmit = (data, pizzatopping, operation) => {
+        let modifiedVector;
+        const sizeData = `size_${pizzatopping}`;
+        const crustData = `crust_${pizzatopping}`;
+        const amountData = `amount_${pizzatopping}`;
         const item = {
             topping : pizzatopping,
-            size : data.size,
-            crust: data.crust,
-            amount : data.amount
+            size : data[sizeData],
+            crust: data[crustData],
+            amount : data[amountData]
         }
-        let modifiedVector;
+        console.log('data vector is', data)
         if( operation === 'add')
-        {
+        {   
             setOrder( {...order, items: [...order.items, item]} );
             //setOpMode(null);
         }
@@ -64,23 +76,11 @@ const Order = (props) => {
             modifiedVector[indexFound] = item;
             setOrder({...order, items: modifiedVector})
         }
-
-        //is there para ver si ya esta,
-
-        //si no, esto
-        
-
-        // si ya esta, hay que actualizar
-        //con filter un nueva vector
-        //...new vector , datanew set order
-        //se va a sobreescribir el vector order
-        //console.log(item)
+        setOrder({...order, type: orderType})
         console.log('order',order)
-      //  console.log("prueba print", order.items[0].topping)
 
     };
     const isThere = (pizzatopping, requestItem, operation) =>{
-        //alert(pizzatopping)
         for(let i = 0; i < requestItem.length; i++)
         {
             if(requestItem[i].topping === pizzatopping)
@@ -118,10 +118,10 @@ const Order = (props) => {
 
         if (size !== null)
         {
-            console.log('print in here', toppingsData)
-            let cost = toppingsData.toppings.filter( item => item.topping === topping)
+            console.log('print in here', toppingsData.current)
+            let cost = toppingsData.current.toppings.filter( item => item.topping === topping)
             toppingCost = (cost[0].unitaryCost);
-            cost = sizesData.sizes.filter( item => item.size === size)
+            cost = sizesData.current.sizes.filter( item => item.size === size)
             sizeCost = (cost[0].unitaryCost);
         }
         costoItem = amount * (toppingCost + sizeCost);
@@ -129,12 +129,7 @@ const Order = (props) => {
         return costoItem;
 
     }
-    const calcularParcial = topping =>{
-        //console.log('sss', topping, amountValue, sizeValue)
-        let costo = calcularCosto( topping, amountValue, sizeValue );
-        
-        return costo;
-    }
+
     const calcularSubtotal = ()=>{
         
         if(order.items.length !== 0){
@@ -150,15 +145,32 @@ const Order = (props) => {
         }
         return 0;
     }
-
+    const checkError = (errors, field ,topping) =>{
+        //console.log('register', errors);
+        let errorName = `${field}_${topping}`;
+        return (!!errors?.errorName)
+    }
+    const mostrarCostoUnitario = (topping, size) =>{
+        switch(topping){
+            case 'formaggio':
+                return formaggio[size]
+            case 'mozzarella':
+                return mozzarella[size]
+            case 'margherita':
+                return margherita[size]
+            case 'marinara':
+                return marinara[size]
+            default:
+            return 0;
+        } 
+    }
 
     useEffect( () => {
         //IMPORTAMOS LOS VALORES ALMACENADOS EN LA DB, RELATIVOS A LOS SABORES, TAMANOS Y CRUST CON SUS COSTOS
         axios.get('http://localhost:8000/api/pizzapp/toppings/get',{withCredentials : true})
         .then(response => {
-            console.log(response.data);
-            setToppingsData(response.data)
-            //console.log('state',toppingsData)
+            toppingsData.current = response.data;
+            console.log(toppingsData.current);
         })
         .catch( errorMsg =>{
             setIsLoggedIn(false);
@@ -166,8 +178,8 @@ const Order = (props) => {
         })
         axios.get('http://localhost:8000/api/pizzapp/sizes/get',{withCredentials : true})
         .then(response => {
-           // console.log(response.data);
-            setSizesData(response.data)
+            sizesData.current = response.data;
+            console.log('sizes', response.data);
         })
         .catch( errorMsg =>{
             setIsLoggedIn(false);
@@ -175,8 +187,9 @@ const Order = (props) => {
         })
         axios.get('http://localhost:8000/api/pizzapp/crusts/get',{withCredentials : true})
         .then(response => {
-           // console.log(response.data);
-            setCrustsData(response.data)
+            crustsData.current = response.data;
+            console.log('crust', response.data);
+
         })
         .catch( errorMsg =>{
             setIsLoggedIn(false);
@@ -205,8 +218,6 @@ const Order = (props) => {
                                     renderInput={(params) => <TextField {...params} required label="Tipo de orden" {...register("type", { required: true })}
                                     error={!!errors?.type}                        
                                     helperText = { errors?.type ? "Debe elegir una de las opciones" : null }/>}
-                                    
-                                    
                                 />
                                 {  props.requestItem.map(  (pizzatopping,index) => {
                                     name = pizzatopping.charAt(0).toUpperCase() + pizzatopping.slice(1);  
@@ -225,42 +236,40 @@ const Order = (props) => {
                                                         {`${name}`}
                                                         </Typography>
                                                         <Grid item xs={12} key={index} spacing={1} id='Card' >
+                                                            <Typography>
+                                                                Pequeño  Gs.{mostrarCostoUnitario(pizzatopping, 'Pequeño')} || Mediano Gs. {mostrarCostoUnitario(pizzatopping, 'Mediano')} || Grande Gs. {mostrarCostoUnitario(pizzatopping, 'Grande')}
+                                                            </Typography>
                                                             <Autocomplete
                                                                 disablePortal
                                                                 id="combo-box-demo"
                                                                 options={size_options}
-                                                                onChange = { (e,v) => setSizeValue(v)}
-                                                                //isOptionEqualToValue = { (option, value) => option.value === value.value}
+                                                                isOptionEqualToValue = { (option, value) => option.value === value.value}
                                                                 sx={{ width: 220, p: 2, display:'block' }}
-                                                                renderInput={(params) => <TextField {...params} label="Tamaño" {...register("size", { required: true }) }
-                                                                error={!!errors?.size}                        
+                                                                renderInput={(params) => <TextField {...params} label="Tamaño" {...register(`size_${pizzatopping}`, { required: true }) }
+                                                                //error={!!errors?.size}
+                                                                error = {checkError(errors, 'Size', pizzatopping)}                        
                                                                 helperText = { errors?.size ? "Debe elegir una de las opciones" : null }/>}
                                                             />
                                                             <Autocomplete
                                                                 disablePortal
                                                                 id="combo-box-demo"
                                                                 options={crust_options}
-                                                                //isOptionEqualToValue = { (option, value) => option.value === value.value}
+                                                                isOptionEqualToValue = { (option, value) => option.value === value.value}
                                                                 sx={{ width: 220, p: 2, display:'block' }}
-                                                                renderInput={(params) => <TextField {...params} label="Masa" {...register("crust", { required: true })}
-                                                                error={!!errors?.crust}                        
+                                                                renderInput={(params) => <TextField {...params} label="Masa" {...register(`crust_${pizzatopping}`, { required: true })}
+                                                                error = {checkError(errors, 'crust', pizzatopping)}                          
                                                                 helperText = { errors?.crust ? "Debe elegir una de las opciones" : null }/>}
                                                             />
                                                             <Autocomplete
                                                                 disablePortal
                                                                 id="combo-box-demo"
                                                                 options={qty_options}
-                                                                onChange = {(e,v) => setAmoutValue(v)}
-                                                                //isOptionEqualToValue = { (option, value) => option.value === value.value}
+                                                                isOptionEqualToValue = { (option, value) => option.value === value.value}
                                                                 sx={{ width: 220, p: 2, display:'block' }}
-                                                                renderInput={(params) => <TextField {...params} label="Cantidad" {...register("amount", { required: true })}
-                                                                error={!!errors?.amount}                        
+                                                                renderInput={(params) => <TextField {...params} label="Cantidad" {...register(`amount_${pizzatopping}`, { required: true })}
+                                                                error = {checkError(errors, 'amount', pizzatopping)}                         
                                                                 helperText = { errors?.amount ? "Debe elegir una de las opciones" : null }/>}
-                                                            />
-                                                            <Typography variant='h5' sx={{fontWeight:'normal', m:2, color: 'red'}}>
-                                                                Gs. {calcularParcial(pizzatopping)}
-                                                            </Typography>  
-                                                                
+                                                            /> 
                                                         </Grid>
                                                     </CardContent>
                                                     <CardActions>
@@ -328,6 +337,19 @@ const Order = (props) => {
                         <Typography variant='h5' sx={{fontWeight:'bold', m:2}} >
                                 Subtotal Gs.{ calcularSubtotal()}
                         </Typography>
+                        <Box component="form" noValidate onSubmit={e=> handleSubmitOrder(e)}>
+                            {order.items.length === 0 ? null :
+                            <Button
+                                type="submit"
+                                fullWidth
+                                variant="contained"
+                                id = 'AddToCard'
+                                sx={{ mt: 3, mb: 2, ml: 1, bgcolor : "#008C45", width: "50%", display: 'block' }}
+                                >
+                                Proceder
+                            </Button>
+                            }
+                        </Box>
                     </div>
                 </div>           
 

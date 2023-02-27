@@ -4,6 +4,8 @@ export const userAuth = createContext({
     isLoggedIn: false,
     setIsLoggedIn: ()=>{},
     cartPressed: false,
-    setCartPressed: ()=>{}
+    setCartPressed: ()=>{},
+    cart: {},
+    setCard: ()=>{}
 });
 
