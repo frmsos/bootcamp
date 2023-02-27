@@ -42,4 +42,7 @@
 #Card{
     display: block;
 }
+#doNotShowAddr{
+    display: none;
+}
 

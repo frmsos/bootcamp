@@ -22,7 +22,7 @@ const [showPassword, setShowPassword] = useState(false);
 const navigate = useNavigate();
 const [loginOK, setLoginOK] = useState(false);
 const [loginNotOK, setLoginNotOK] = useState(false);
-const {isLoggedIn, setIsLoggedIn, cartPressed, setCartPressed} = useContext(userAuth);
+const {isLoggedIn, setIsLoggedIn, cartPressed, setCartPressed, userID, setUserID} = useContext(userAuth);
 //FUNCTIONS DECLARATION
 function Copyright(props) {
     return (
@@ -51,12 +51,14 @@ const onSubmit = (data) => {
         console.log('login response data', response);
         console.log('antes', isLoggedIn);
         setIsLoggedIn(true)
+        setUserID(response.data.id);
         cartPressed ?  setTimeout(() => { navigate('/')}, 2100) : setTimeout(() => { navigate('/cart')}, 2100)
         setTimeout(() => { navigate('/')}, 2100)
     } )
     .catch( (errorMsg) =>{
         setLoginOK(false);
         setLoginNotOK(true);
+        setUserID(null);
         setIsLoggedIn(false);
         setCartPressed(false);
     }  )
@@ -66,7 +68,8 @@ const handleClickPassword = () => setShowPassword(!showPassword);
 
 useEffect( ()=>{
     window.localStorage.setItem('loginStatus', JSON.stringify(isLoggedIn))
-    }, [isLoggedIn])
+    window.localStorage.setItem('userID', JSON.stringify(userID))
+    }, [isLoggedIn, userID])
 
     //JSX BEGINS
     return (

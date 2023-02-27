@@ -21,7 +21,8 @@ const App = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [cartPressed, setCartPressed] = useState(false);
     const [cart, setCart] = useState({});
-    const value = { isLoggedIn, setIsLoggedIn, cartPressed, setCartPressed, cart, setCart};
+    const [userID, setUserID] = useState(0);
+    const value = { isLoggedIn, setIsLoggedIn, cartPressed, setCartPressed, cart, setCart, userID, setUserID};
   return (
     <div>
       <ThemeProvider theme={LightTheme}>

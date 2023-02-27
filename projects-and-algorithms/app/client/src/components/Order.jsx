@@ -65,7 +65,7 @@ const Order = (props) => {
         console.log('data vector is', data)
         if( operation === 'add')
         {   
-            setOrder( {...order, items: [...order.items, item]} );
+            setOrder( {type: orderType, items: [...order.items, item]} );
             //setOpMode(null);
         }
         else{
@@ -74,9 +74,9 @@ const Order = (props) => {
             //console.log(isThereBool, indexFound);
             modifiedVector = order.items;
             modifiedVector[indexFound] = item;
-            setOrder({...order, items: modifiedVector})
+            setOrder({type:orderType, items: modifiedVector})
         }
-        setOrder({...order, type: orderType})
+        //setOrder({...order, type: orderType})
         console.log('order',order)
 
     };

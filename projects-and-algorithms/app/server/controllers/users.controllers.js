@@ -42,5 +42,30 @@ module.exports = {
     logOutUser:(req,res)=>{
         res.clearCookie('userToken')
         res.json({success:'User logout'})
-    }
-}
+    },
+    getUserbyID : async (req, res)=>{
+        console.log('get user by id server', req.params.id);
+        const user = await User.findOne({ _id: req.params.id })
+        try{
+            res.status(201).json( {user : user })
+        }
+        catch(error){
+            res.status(400).json({error: error})
+        }
+        
+    },
+    updateAddressbyID: async (req, res)=>{
+        console.log('update add by id', req.body.addresses);
+        const user = await User.findOneAndUpdate(  
+        { _id: req.params.id},
+        { $push: { addresses: req.body.addresses } },).exec()
+        try{
+            res.status(201).json( {user : user })
+        }
+        catch(error){
+            res.status(400).json({error: error})
+        }
+        
+    },
+    
+}        

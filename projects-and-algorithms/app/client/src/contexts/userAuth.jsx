@@ -6,6 +6,8 @@ export const userAuth = createContext({
     cartPressed: false,
     setCartPressed: ()=>{},
     cart: {},
-    setCard: ()=>{}
+    setCard: ()=>{},
+    userID: 0,
+    setUserID: ()=>{}
 });
 
