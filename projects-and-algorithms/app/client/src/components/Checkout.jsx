@@ -12,7 +12,7 @@ import InputAddress from './InputAddress';
 
 const Checkout = (props) => {
     //VARIABLES DECLARATION
-    const {isLoggedIn, setIsLoggedIn, setCartPressed, cart, setCart, userID} = useContext(userAuth);
+    const {isLoggedIn, setIsLoggedIn, setCartPressed, cart, setCart, setUserID, userID, totalCost} = useContext(userAuth);
     const [addresses, setAddresses] = useState({});
     const states = [ {label: 'Alto Paraguay' }, {label: 'Alto Paraná'}, {label: 'Amambay'}, {label: 'Asunción - Capital'}, {label: 'Boquerón'} , 
     {label: 'Caaguazú'}  , {label: 'Caazapá'}, {label: 'Canindeyú'} ,  {label:'Central'},  {label:'Concepción'},  {label:'Cordillera'}, 
@@ -22,7 +22,7 @@ const Checkout = (props) => {
     const [opMode, setOpMode] = useState(null);
     const [addrID, setAddrID] = useState(0);
     const [vectorAddrIndex, setVectorAddrIndex] = useState(null);
-    const isDelivery = useRef();
+    let isDelivery = true;
     
 
 
@@ -49,7 +49,8 @@ const Checkout = (props) => {
         console.log('cart is', cart)
 
     }
-
+    isDelivery = (cart.type === 'Delivery' )
+    console.log('is del value', cart);
     useEffect( ()=> {
         if( userID !==0){
             axios.get(`http://localhost:8000/api/pizzapp/users/${userID}`,{withCredentials : true}) 
@@ -57,11 +58,13 @@ const Checkout = (props) => {
             .catch(error => console.log('error on edit page submit', error));
             console.log( 'useeefecttt', addresses)
         }
-        isDelivery.current = cart.type === 'Delivery';
-        console.log('is delelirt', isDelivery.current)
+        else{
+            setUserID(JSON.parse(window.localStorage.getItem('userID')))
+        }
+        
+    },[userID,isDelivery, cart.type]
 
-    },[userID]
-
+    
 
 
     )
@@ -71,7 +74,7 @@ const Checkout = (props) => {
                 
             <div>
                         <div className='containerPage'>
-                        { isDelivery.current ?
+                        { isDelivery ?  
                         <div>
                         <div className='containerSides'>
                                 user id is: ta ta ta tan{userID}
@@ -114,10 +117,43 @@ const Checkout = (props) => {
                             <InputAddress  showAddr={showAddr} setShowAddr={setShowAddr} opMode={opMode} addrID={addrID} vectorAddrIndex={vectorAddrIndex} addresses={addresses} userID={userID} cart={cart} setCard={setCart}/>
                         </div>
                     </div>
-                        : null  }
+                    : null}
+                
 
                     <div className='containerSides'>
                         <Typography variant='h4' sx={{fontWeight:'bold', m:2} }> Carrito de Salida - Checkout </Typography>
+                        <Typography variant='h5' sx={{fontWeight:'bold', m:2} }> {cart.type} </Typography>
+                        { isDelivery  && cart.address ?
+                            <Box sx={{ minWidth: 275 }}>
+                            <CardContent>
+                                <Typography variant="h5" component="div">
+                                    {`Dirección seleccionada`}
+                                </Typography>
+                                <Typography variant="body2">
+                                    Calle: {cart.address.street}
+                                </Typography>
+                                <Typography variant="body2">
+                                    Ciudad: {cart.address.city}
+                                </Typography>
+                                <Typography variant="body2">
+                                    Departamento: {cart.address.state}
+                                </Typography>
+                            </CardContent>
+                        </Box>
+                        :null}
+                        <Box sx={{ minWidth: 275 }}>
+                            <CardContent>
+                                <Typography variant="h5" component="div">
+                                    {`Costo Total `}
+                                </Typography>
+                                <Typography variant="h5" sx={{color:'red'}}>
+                                    Gs. {totalCost}
+                                </Typography>
+                            </CardContent>
+                            <Button size="small" variant="contained" color="success" sx={{m:2, width: 150}} onClick={ e=> handleClickAddAddress(e, "add")}>Pedir</Button>
+                            <Button size="small" variant="contained" color="error" sx={{m:2, width: 150}} onClick={ e=> handleClickAddAddress(e, "add")}>Cancelar pedido</Button>
+                        </Box>
+
                     </div>
                 </div>
 
