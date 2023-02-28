@@ -22,6 +22,8 @@ const Checkout = (props) => {
     const [opMode, setOpMode] = useState(null);
     const [addrID, setAddrID] = useState(0);
     const [vectorAddrIndex, setVectorAddrIndex] = useState(null);
+    const isDelivery = useRef();
+    
 
 
     const handleClickAddAddress = (e, opMode, addressID, index) =>{
@@ -39,13 +41,26 @@ const Checkout = (props) => {
         }
 
     }
+    const handleChooseAddr = (e, chooseAddr) =>{
+        e.preventDefault();
+        console.log('choose addr', chooseAddr);
+        //Formar vector final de orden
+        setCart( {...cart, address: chooseAddr}  )
+        console.log('cart is', cart)
+
+    }
 
     useEffect( ()=> {
-        axios.get(`http://localhost:8000/api/pizzapp/users/63fab4f8fb63ef81fd959442`,{withCredentials : true}) 
-        .then(response => setAddresses(response.data.user.addresses))
-        .catch(error => console.log('error on edit page submit', error));
-        console.log( 'useeefecttt', addresses)
-    },[]
+        if( userID !==0){
+            axios.get(`http://localhost:8000/api/pizzapp/users/${userID}`,{withCredentials : true}) 
+            .then(response => setAddresses(response.data.user.addresses))
+            .catch(error => console.log('error on edit page submit', error));
+            console.log( 'useeefecttt', addresses)
+        }
+        isDelivery.current = cart.type === 'Delivery';
+        console.log('is delelirt', isDelivery.current)
+
+    },[userID]
 
 
 
@@ -55,49 +70,52 @@ const Checkout = (props) => {
             <Navbar itemCount={props.itemCount} setItemCount={props.setItemCount}/>
                 
             <div>
-                
-                {/* {addresses.length !==0 ? addresses[0].street : null} */}
-                <div className='containerPage'>
-                    <div className='containerSides'>
-                            user id is: ta ta ta tan{userID}
-                            bingpot
-                            <Box>
-                                <Typography variant='h4' sx={{fontWeight:'bold', m:2} }> Dirección de envío </Typography>
-                                <Typography variant='body1' sx={{fontWeight:'normal', m:2} }> Favor seleccionar una dirección de envío: </Typography>
-                                {   addresses.length > 0 ? 
-                                        addresses.map(  (address, index) => {
-                                            return(
-                                                <Box sx={{ minWidth: 275 }}>
-                                                    <CardContent>
-                                                        <Typography variant="h5" component="div">
-                                                            {`Dirección ${index + 1}`}
-                                                        </Typography>
-                                                        <Typography variant="body2">
-                                                            Calle: {address.street}
-                                                        </Typography>
-                                                        <Typography variant="body2">
-                                                            Ciudad: {address.city}
-                                                        </Typography>
-                                                        <Typography variant="body2">
-                                                            Departamento: {address.state}
-                                                        </Typography>
-                                                    </CardContent>
-                                                    <CardActions>
-                                                        <Button size="small" >Elegir</Button>
-                                                        <Button size="small" onClick={e=> handleClickAddAddress(e, "edit", address._id, index)}>Editar</Button>
-                                                        <Button size="small">Quitar</Button>
-                                                    </CardActions>
-                                                </Box>
-                                            )
-                                        } )
-                                        
-                                    : null  }
-                                    <Button size="small" variant="contained" color="success" sx={{m:2}} onClick={ e=> handleClickAddAddress(e, "add")}>Añadir nueva</Button> 
-                                </Box>
+                        <div className='containerPage'>
+                        { isDelivery.current ?
+                        <div>
+                        <div className='containerSides'>
+                                user id is: ta ta ta tan{userID}
+                                bingpot
+                                <Box>
+                                    <Typography variant='h4' sx={{fontWeight:'bold', m:2} }> Dirección de envío </Typography>
+                                    <Typography variant='body1' sx={{fontWeight:'normal', m:2} }> Favor seleccionar una dirección de envío: </Typography>
+                                    {   addresses.length > 0 ? 
+                                            addresses.map(  (address, index) => {
+                                                return(
+                                                    <Box sx={{ minWidth: 275 }}>
+                                                        <CardContent>
+                                                            <Typography variant="h5" component="div">
+                                                                {`Dirección ${index + 1}`}
+                                                            </Typography>
+                                                            <Typography variant="body2">
+                                                                Calle: {address.street}
+                                                            </Typography>
+                                                            <Typography variant="body2">
+                                                                Ciudad: {address.city}
+                                                            </Typography>
+                                                            <Typography variant="body2">
+                                                                Departamento: {address.state}
+                                                            </Typography>
+                                                        </CardContent>
+                                                        <CardActions>
+                                                            <Button size="small" onClick={e=> handleChooseAddr(e, address)}>Elegir</Button>
+                                                            <Button size="small" onClick={e=> handleClickAddAddress(e, "edit", address._id, index)}>Editar</Button>
+                                                            <Button size="small">Quitar</Button>
+                                                        </CardActions>
+                                                    </Box>
+                                                )
+                                            } )
+                                            
+                                        : null  }
+                                        <Button size="small" variant="contained" color="success" sx={{m:2}} onClick={ e=> handleClickAddAddress(e, "add")}>Añadir nueva</Button> 
+                                    </Box>
+                            </div>
+                        <div className='containerSides' id={showAddr}>
+                            <InputAddress  showAddr={showAddr} setShowAddr={setShowAddr} opMode={opMode} addrID={addrID} vectorAddrIndex={vectorAddrIndex} addresses={addresses} userID={userID} cart={cart} setCard={setCart}/>
+                        </div>
                     </div>
-                    <div className='containerSides' id={showAddr}>
-                        <InputAddress  showAddr={showAddr} setShowAddr={setShowAddr} opMode={opMode} addrID={addrID} vectorAddrIndex={vectorAddrIndex} addresses={addresses}/>
-                    </div>
+                        : null  }
+
                     <div className='containerSides'>
                         <Typography variant='h4' sx={{fontWeight:'bold', m:2} }> Carrito de Salida - Checkout </Typography>
                     </div>

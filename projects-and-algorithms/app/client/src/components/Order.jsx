@@ -32,7 +32,7 @@ const Order = (props) => {
     let showButton;
     const [orderType, setOrderType] = useState("");
     let subTotal = 0;
-    const {isLoggedIn, setIsLoggedIn, setCartPressed, setCart} = useContext(userAuth);
+    const {isLoggedIn, setIsLoggedIn, setCartPressed, setCart,setTotalCost} = useContext(userAuth);
     const toppingsData = useRef({});
     const sizesData = useRef({});
     const crustsData = useRef({});
@@ -100,6 +100,10 @@ const Order = (props) => {
             return false;
         else
             return [false, null]
+    }
+    const costoTotal = (subTotal) =>{
+        setTotalCost(subTotal + 15000);
+        return subTotal + 15000;
     }
     const handleToppingRemove = (event, pizzatopping, requestItem) =>{
         event.preventDefault();
@@ -335,7 +339,16 @@ const Order = (props) => {
                             </ul>
                         </Typography>
                         <Typography variant='h5' sx={{fontWeight:'bold', m:2}} >
-                                Subtotal Gs.{ calcularSubtotal()}
+                                Subtotal   -   Gs.{ calcularSubtotal()}
+                        </Typography>
+                        <Typography variant='h5' sx={{fontWeight:'bold', m:2}} >
+                                    Delivery    -    Gs.  15000
+                        </Typography>
+                        <Typography variant='h5' sx={{fontWeight:'bold', m:2, color: 'red'}} >
+                                    Total    -    Gs.{ costoTotal(calcularSubtotal())}
+                        </Typography>
+                        <Typography variant='h6' sx={{fontWeight:'bold', m:2, color: 'red'}} >
+                                    Impuesto al Valor Agregado (10%)    -    Gs.{ Math.ceil((calcularSubtotal() + 15000)/11)}
                         </Typography>
                         <Box component="form" noValidate onSubmit={e=> handleSubmitOrder(e)}>
                             {order.items.length === 0 ? null :
