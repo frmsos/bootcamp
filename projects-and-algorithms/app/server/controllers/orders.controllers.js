@@ -7,19 +7,17 @@ const orders = require("../models/order.models");
 //definimos las acciones
 
 module.exports = {
-    // getOrder : (request, response) => { 
-    //     console.log('get all crusts items server');
-    //     crusts.find()
-    //     .then( allCrusts => response.json( { crusts : allCrusts } ))
-    //     .catch( error => response.status(400).json({message : "Error getting all crusts items", error: error}  ))
-    // }
-    // ,
-    // getOrdersByUserID : (request, response) => {
-    //     console.log('get orders by user id server', request.params.id);
-    //     crusts.findOne({ userID: request.params.id })
-    //     .then(reqCrusts => response.json( {crusts : reqCrusts }))
-    //     .catch( error => response.json({message : "Error getting crusts by ID", error: error}  ))
-    // },
+    getOrderbyUserID : async (req, res)=>{
+        console.log('get user by id server', req.params.userid);
+        const orderHistory = await orders.find({ userID: req.params.userid })
+        try{
+            res.status(201).json( {orderHistory : orderHistory })
+        }
+        catch(error){
+            res.status(400).json({error: error})
+        }
+        
+    },
     registerOrder: async (req, res) =>{
         console.log(req.body)
         try{

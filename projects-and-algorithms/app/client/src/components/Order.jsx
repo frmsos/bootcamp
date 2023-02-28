@@ -8,6 +8,7 @@ import { useContext } from 'react';
 import { userAuth } from '../contexts/userAuth';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
+import OrderHistory from './OrderHistory';
 
 
 
@@ -174,7 +175,7 @@ const Order = (props) => {
         axios.get('http://localhost:8000/api/pizzapp/toppings/get',{withCredentials : true})
         .then(response => {
             toppingsData.current = response.data;
-            console.log(toppingsData.current);
+           // console.log(toppingsData.current);
         })
         .catch( errorMsg =>{
             setIsLoggedIn(false);
@@ -183,7 +184,7 @@ const Order = (props) => {
         axios.get('http://localhost:8000/api/pizzapp/sizes/get',{withCredentials : true})
         .then(response => {
             sizesData.current = response.data;
-            console.log('sizes', response.data);
+            //console.log('sizes', response.data);
         })
         .catch( errorMsg =>{
             setIsLoggedIn(false);
@@ -192,8 +193,7 @@ const Order = (props) => {
         axios.get('http://localhost:8000/api/pizzapp/crusts/get',{withCredentials : true})
         .then(response => {
             crustsData.current = response.data;
-            console.log('crust', response.data);
-
+            //console.log('crust', response.data);
         })
         .catch( errorMsg =>{
             setIsLoggedIn(false);
@@ -312,6 +312,7 @@ const Order = (props) => {
                             </div>
                     <div className='containerSides'>
                         <Typography variant='h3' sx={{fontWeight:'bold', m:2} }> Historial de Pedidos </Typography>
+                            <OrderHistory/>
                     </div>
                     <div className='containerSides'>
                         <Typography variant='h3' sx={{fontWeight:'bold', m:2} }> Resumen de Orden </Typography>

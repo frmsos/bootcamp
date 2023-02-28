@@ -11,5 +11,6 @@ module.exports = app => {
     app.get("/api/pizzapp/crusts/get", authenticate, crustsController.getCrusts);
     app.get("/api/pizzapp/crusts/get/:id", authenticate, crustsController.getCrustsByID);
     app.post("/api/pizzapp/order/", ordersController.registerOrder);
+    app.get("/api/pizzapp/orderhistory/:userid", ordersController.getOrderbyUserID);
 
 };

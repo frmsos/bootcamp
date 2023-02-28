@@ -26,7 +26,6 @@ const orderSchema = new mongoose.Schema({
                     type: String,
                     required: false,
                     unique: false
-
                 }
         },
     items: [
