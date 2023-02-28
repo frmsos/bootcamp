@@ -54,8 +54,8 @@ module.exports = {
         }
         
     },
-    updateAddressbyID: async (req, res)=>{
-        console.log('update add by id', req.body.addresses);
+    addAddressbyID: async (req, res)=>{
+        console.log('add addr by id', req.body.addresses);
         const user = await User.findOneAndUpdate(  
         { _id: req.params.id},
         { $push: { addresses: req.body.addresses } },).exec()
@@ -67,5 +67,19 @@ module.exports = {
         }
         
     },
+    updateAddressbyID: async (req, res)=>{
+        console.log('update add by id', req.params.id);
+        const user = await User.findOneAndUpdate(  
+        { _id: req.params.id, 'addresses._id': req.params.addrid},
+        { $set: {"addresses.$" :req.body.addresses}  },)
+        try{
+            res.status(201).json( {user : user })
+        }
+        catch(error){
+            res.status(400).json({error: error})
+        }
+        
+    },
+
     
 }        

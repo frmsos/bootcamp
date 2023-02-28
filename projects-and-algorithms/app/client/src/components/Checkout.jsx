@@ -20,10 +20,11 @@ const Checkout = (props) => {
     const {register, handleSubmit, formState: {errors}} = useForm();
     const [showAddr, setShowAddr] = useState("doNotShowAddr");
     const [opMode, setOpMode] = useState(null);
-    const [id, setID] = useState(0);
+    const [addrID, setAddrID] = useState(0);
+    const [vectorAddrIndex, setVectorAddrIndex] = useState(null);
 
 
-    const handleClickAddAddress = (e, opMode, id) =>{
+    const handleClickAddAddress = (e, opMode, addressID, index) =>{
         e.preventDefault();
         setShowAddr("showAddr");
         if(opMode === 'add'){
@@ -32,7 +33,8 @@ const Checkout = (props) => {
         else{
             if(opMode === 'edit'){
                 setOpMode('edit');
-                setID(id)
+                setAddrID(addressID);
+                setVectorAddrIndex(index);
             }
         }
 
@@ -43,7 +45,7 @@ const Checkout = (props) => {
         .then(response => setAddresses(response.data.user.addresses))
         .catch(error => console.log('error on edit page submit', error));
         console.log( 'useeefecttt', addresses)
-    },[addresses]
+    },[]
 
 
 
@@ -82,7 +84,7 @@ const Checkout = (props) => {
                                                     </CardContent>
                                                     <CardActions>
                                                         <Button size="small" >Elegir</Button>
-                                                        <Button size="small" onClick={e=> handleClickAddAddress(e, "edit", address._id)}>Editar</Button>
+                                                        <Button size="small" onClick={e=> handleClickAddAddress(e, "edit", address._id, index)}>Editar</Button>
                                                         <Button size="small">Quitar</Button>
                                                     </CardActions>
                                                 </Box>
@@ -94,8 +96,7 @@ const Checkout = (props) => {
                                 </Box>
                     </div>
                     <div className='containerSides' id={showAddr}>
-                        <Typography variant='h4' sx={{fontWeight:'bold', m:2} }> Carrito de Salida - Checkout </Typography>
-                        <InputAddress  showAddr={showAddr} setShowAddr={setShowAddr} opMode={opMode} id={id}/>
+                        <InputAddress  showAddr={showAddr} setShowAddr={setShowAddr} opMode={opMode} addrID={addrID} vectorAddrIndex={vectorAddrIndex} addresses={addresses}/>
                     </div>
                     <div className='containerSides'>
                         <Typography variant='h4' sx={{fontWeight:'bold', m:2} }> Carrito de Salida - Checkout </Typography>
