@@ -41,6 +41,28 @@ const Checkout = (props) => {
         }
 
     }
+    const handlePlaceOrder = ( e ) =>{
+        e.preventDefault();
+        console.log('place order', cart.items)
+        axios.post('http://localhost:8000/api/pizzapp/order', 
+        {
+            userID: userID,
+            typeOrder: cart.typeOrder,
+            address: cart.address,
+            items: cart.items
+        }, 
+        )
+        .then( (response) => {
+            console.log('orden exitosa', response.data);
+            alert('Orden registrada');
+
+        } )
+        .catch( (errorMsg) =>{
+            console.log('orden error', errorMsg);
+            alert('no se pudo cargar');
+
+        }  )
+    }
     const handleChooseAddr = (e, chooseAddr) =>{
         e.preventDefault();
         console.log('choose addr', chooseAddr);
@@ -49,8 +71,8 @@ const Checkout = (props) => {
         console.log('cart is', cart)
 
     }
-    isDelivery = (cart.type === 'Delivery' )
-    console.log('is del value', cart);
+    isDelivery = (cart.typeOrder === 'Delivery' )
+    console.log('is del value', cart, isDelivery);
     useEffect( ()=> {
         if( userID !==0){
             axios.get(`http://localhost:8000/api/pizzapp/users/${userID}`,{withCredentials : true}) 
@@ -118,11 +140,9 @@ const Checkout = (props) => {
                         </div>
                     </div>
                     : null}
-                
-
                     <div className='containerSides'>
                         <Typography variant='h4' sx={{fontWeight:'bold', m:2} }> Carrito de Salida - Checkout </Typography>
-                        <Typography variant='h5' sx={{fontWeight:'bold', m:2} }> {cart.type} </Typography>
+                        <Typography variant='h5' sx={{fontWeight:'bold', m:2} }> {cart.typeOrder} </Typography>
                         { isDelivery  && cart.address ?
                             <Box sx={{ minWidth: 275 }}>
                             <CardContent>
@@ -150,7 +170,7 @@ const Checkout = (props) => {
                                     Gs. {totalCost}
                                 </Typography>
                             </CardContent>
-                            <Button size="small" variant="contained" color="success" sx={{m:2, width: 150}} onClick={ e=> handleClickAddAddress(e, "add")}>Pedir</Button>
+                            <Button size="small" variant="contained" color="success" sx={{m:2, width: 150}} onClick={ e=> handlePlaceOrder(e)}>Pedir</Button>
                             <Button size="small" variant="contained" color="error" sx={{m:2, width: 150}} onClick={ e=> handleClickAddAddress(e, "add")}>Cancelar pedido</Button>
                         </Box>
 

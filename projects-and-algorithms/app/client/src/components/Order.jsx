@@ -26,13 +26,13 @@ const Order = (props) => {
     let name = "";
     const theme = createTheme();
     const {register, handleSubmit, formState: {errors}} = useForm();
-    const [order, setOrder] = useState({type: "", items: []});
+    const [order, setOrder] = useState({typeOrder: "", items: []});
     const [opMode, setOpMode] = useState("");
     let costoItem = 0;
     let showButton;
     const [orderType, setOrderType] = useState("");
     let subTotal = 0;
-    const {isLoggedIn, setIsLoggedIn, setCartPressed, setCart,setTotalCost} = useContext(userAuth);
+    const {isLoggedIn, setIsLoggedIn, setCartPressed, setCart,setTotalCost, userID} = useContext(userAuth);
     const toppingsData = useRef({});
     const sizesData = useRef({});
     const crustsData = useRef({});
@@ -65,7 +65,7 @@ const Order = (props) => {
         console.log('data vector is', data)
         if( operation === 'add')
         {   
-            setOrder( {type: orderType, items: [...order.items, item]} );
+            setOrder( {typeOrder: orderType, userID: userID, items: [...order.items, item]} );
             //setOpMode(null);
         }
         else{
@@ -74,7 +74,7 @@ const Order = (props) => {
             //console.log(isThereBool, indexFound);
             modifiedVector = order.items;
             modifiedVector[indexFound] = item;
-            setOrder({type:orderType, items: modifiedVector})
+            setOrder({typeOrder:orderType, userID: userID, items: modifiedVector})
         }
         //setOrder({...order, type: orderType})
         console.log('order',order)
