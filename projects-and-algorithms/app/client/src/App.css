@@ -45,4 +45,25 @@
 #doNotShowAddr{
     display: none;
 }
+#formModifData{
+    display: inline-block;
+    margin: 2rem;
+    border: 0.1rem grey solid;
+    padding: 2rem;
+    max-width: 453px;
+}
+.inputFields{
+    margin-top: 1.5rem;
+    width: 210px;
+}
+.labelForm{
+    width: 10rem;
+}
+.addrContainer{
+    max-width: 380px;
+    margin: 2rem;
+    border: 0.1rem grey solid;
+    padding: 2rem;
 
+
+}

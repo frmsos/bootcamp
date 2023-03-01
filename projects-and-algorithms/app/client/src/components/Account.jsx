@@ -1,4 +1,4 @@
-import React from 'react';
+import {useState, useEffect} from 'react';
 import Navbar from './Navbar';
 import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
@@ -6,119 +6,118 @@ import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
 import Autocomplete from '@mui/material/Autocomplete';
 import Typography from '@mui/material/Typography';
-import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-const departamentos = [ {label: 'Alto Paraguay' }, {label: 'Alto Paraná'}, {label: 'Amambay'}, {label: 'Asunción - Capital'}, {label: 'Boquerón'} , 
-{label: 'Caaguazú'}  , {label: 'Caazapá'}, {label: 'Canindeyú'} ,  {label:'Central'},  {label:'Concepción'},  {label:'Cordillera'}, 
-{label:'Guairá'},  {label:'Itapúa'},  {label:'Misiones'},  {label:'Ñeembucú'},  {label:'Paraguarí'},  {label:'Presidente Hayes'},  {label:'San Pedro'} ];
+import {set, useForm} from 'react-hook-form';
+import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
+import { useContext } from 'react';
+import { userAuth } from '../contexts/userAuth';
+import axios from 'axios';
+import { width } from '@mui/system';
 
 
-const Item = styled(Paper)(({ theme }) => ({
-    backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
-    ...theme.typography.body2,
-    padding: theme.spacing(1),
-    textAlign: 'center',
-    color: theme.palette.text.secondary,
-}));  
-const theme = createTheme();
 
 
-const Account = () => {
-    const handleSubmit = (event) => {
-        event.preventDefault();
-        const data = new FormData(event.currentTarget);
-        console.log({
-        email: data.get('email'),
-        password: data.get('password'),
-        });
-    };
+
+
+const Account = (props) => {
+    const departamentos = [ {label: 'Alto Paraguay' }, {label: 'Alto Paraná'}, {label: 'Amambay'}, {label: 'Asunción - Capital'}, {label: 'Boquerón'} , 
+    {label: 'Caaguazú'}  , {label: 'Caazapá'}, {label: 'Canindeyú'} ,  {label:'Central'},  {label:'Concepción'},  {label:'Cordillera'}, 
+    {label:'Guairá'},  {label:'Itapúa'},  {label:'Misiones'},  {label:'Ñeembucú'},  {label:'Paraguarí'},  {label:'Presidente Hayes'},  {label:'San Pedro'} ];
+    const { userID, setUserID } = useContext(userAuth);
+    const {register, handleSubmit, formState: {errors}} = useForm();
+    const [accountData, setAccountData] = useState({firstName: "", lastName:"", email:"", password:"", addresses: []  });
+    const [name, setName] = useState("");
+    let idUser = 0;
+    const onSubmit = (data) => {
+        console.log('data to be modified to account', data);
+    }
+    console.log('account data', accountData);
+
+    useEffect( () => {
+        if( userID !==0){
+            axios.get(`http://localhost:8000/api/pizzapp/users/${userID}`,{withCredentials : true})
+            .then(response => {
+                console.log('user account info get by id', response.data.user);
+                setAccountData(response.data.user);
+            })
+            .catch( errMsg => {
+                console.log('error getting order history' , errMsg)
+        })}
+        else{
+            setUserID(JSON.parse(window.localStorage.getItem('userID')));
+        }
+        
+    },[userID, setUserID ]);
+
+
+
     return (
         <div>
-            <Navbar/>
-            <ThemeProvider theme={theme}>
-                <Box sx={{ flexGrow: 1, p : 5}}>
-                    <Typography variant='h3' sx={{fontWeight:'bold'}}> Información de la Cuenta </Typography>
-                    <Grid container spacing={2} sx={{p:2}}>
-                        <Grid item xs={5}>
-                            <Item>
-                                <Typography variant='h4' sx={{fontWeight:'bold'}}>  Datos del usuario </Typography>
-                                <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
-                                    <Grid container spacing={2}>
-                                        <Grid item xs={12} sm={6}>
-                                            <TextField
-                                                autoComplete="given-name"
-                                                name="firstName"
-                                                required
-                                                fullWidth
-                                                id="firstName"
-                                                label="Nombre"
-                                                autoFocus
-                                            />
-                                        </Grid>
-                                        <Grid item xs={12} sm={6}>
-                                            <TextField
-                                                required
-                                                fullWidth
-                                                id="lastName"
-                                                label="Apellido"
-                                                name="lastName"
-                                                autoComplete="family-name"
-                                            />
-                                        </Grid>
-                                        <Grid item xs={12}>
-                                            <TextField
-                                            required
-                                            fullWidth
-                                            id="email"
-                                            label="Dirección de correo electrónico"
-                                            name="email"
-                                            autoComplete="email"
-                                            />
-                                        </Grid>
-                                        <Grid item xs={12}>
-                                            <TextField
-                                                required
-                                                fullWidth
-                                                id="city"
-                                                label="Ciudad"
-                                                name="city"
-                                                autoComplete="city"
-                                            />
-                                        </Grid>
-                                        <Grid item xs={12}>
-                                            <Autocomplete
-                                                disablePortal
-                                                id="combo-box-demo"
-                                                options={departamentos}
-                                                sx={{ width: 300 }}
-                                                renderInput={(params) => <TextField {...params} label="Departamento" />}
-                                            />
-                                        </Grid>
-                                        <Grid item xs={12}>
-                                            <Button
-                                                type="submit"
-                                                fullWidth
-                                                variant="contained"
-                                                sx={{ mt: 3, mb: 2 }}
-                                            >
-                                                    Actualizar datos
-                                            </Button>
-                                        </Grid>
-
-                                </Grid>
-                                </Box>
-                            </Item>
-                        </Grid>
-                        <Grid item xs={5}>
-                            <Item>
-                                <Typography variant='h4' sx={{fontWeight:'bold'}}> Historial de Pedidos </Typography>
-                            </Item>
-                            
-                        </Grid>
-                    </Grid>
-                </Box>
-            </ThemeProvider>
+            {/* <Navbar itemCount={props.itemCount} setItemCount={props.setItemCount}/> */}
+            <Box component="form" noValidate onSubmit={handleSubmit(onSubmit)} sx={{ mt: 3 }}>
+                <Typography variant="h3" sx={{m:2, fontWeight:'bold'}}> <ManageAccountsIcon fontSize='large'/> Datos de la Cuenta</Typography>
+            </Box>
+            <form id="formModifData">
+                <div>
+                    <label for="firstName" className='labelForm'>Nombre</label>
+                    <input type="text" value={accountData.firstName} onChange = { e=> setAccountData({...accountData, firstName: e.target.value}) } className="inputFields"  />
+                </div>
+                <div>
+                    <label for="lastName" className='labelForm'>Apellido</label>
+                    <input type="text" value={accountData.lastName} onChange = { e=> setAccountData({...accountData, lastName: e.target.value}) } className="inputFields"  />
+                </div>
+                <div>
+                    <label for="email" className='labelForm'>Email</label>
+                    <input type="text" value={accountData.email} onChange = { e=> setAccountData({...accountData, email: e.target.value}) } className="inputFields"  />
+                </div>
+                <div>
+                    <label for="password"  className='labelForm'>Contraseña</label>
+                    <input type="text" placeholder='Ingrese la nueva contraseña' onChange = { e=> setAccountData({...accountData, email: e.target.value}) } className="inputFields"  />
+                    <div><small id="emailHelp" class="form-text text-muted">Deje en blanco si no desea modificar.</small></div>
+                </div>
+                { accountData.addresses.length > 0 ? 
+                    accountData.addresses.map(  (item, index) => { return(
+                    <>
+                        <h5 style={{marginTop:'1rem'}}>Dirección</h5>
+                        <div>
+                            <label for="text"  className='labelForm'> Calle</label>
+                            <input type="text" value = {item.street} className="inputFields"  />
+                        </div>
+                        <div>
+                            <label for="text"  className='labelForm'> Ciudad</label>
+                            <input type="text" value = {item.city} className="inputFields"  />
+                        </div>
+                        <div style={{marginTop:'1rem'}}>
+                            <label className='labelForm'>
+                                Departamento
+                                <select style={{marginTop:'1rem'}}>
+                                <option value="Alto Paraguay" selected={ item.state ===  "Alto Paraguay"} >Alto Paraguay</option>
+                                <option value="Alto Paraná"  selected={ item.state ===  "Alto Paraná"} >Alto Paraná</option>
+                                <option value="Amambay" selected={  item.state === "Amambay"} >Amambay</option>
+                                <option value="Asunción - Capital" selected={ item.state === "Asunción - Capital" } >Asunción - Capital</option>
+                                <option value="Boquerón" selected={ item.state === "Boquerón" } >Boquerón</option>
+                                <option value="Caaguazú" selected={  item.state === "Caaguazú"} >Caaguazú</option>
+                                <option value="Caazapá" selected={  item.state === "Caazapá"} >Caazapá</option>
+                                <option value="Canindeyú" selected={ item.state ===  "Canindeyú"} >Canindeyú</option>
+                                <option value="Central" selected={ item.state === "Central" } >Central</option>
+                                <option value="Concepción" selected={ item.state === "Concepción"  } >Concepción</option>
+                                <option value="Cordillera" >Cordillera</option>
+                                <option value="Guairá" >Guairá</option>
+                                <option value="Itapúa" selected={ item.state ==="Itapúa"  } >Itapúa</option>
+                                <option value="Misiones" selected={ item.state === "Misiones" } >Misiones</option>
+                                <option value="Ñeembucú" selected={ item.state === "Ñeembucú"} >Ñeembucú</option>
+                                <option value="Paraguarí" selected={ item.state === "Paraguarí"} >Paraguarí</option>
+                                <option value="Presidente Hayes"   selected={item.state === "Presidente Hayes"} >"Presidente Hayes</option>
+                                <option value="San Pedro" selected={item.state ==="San Pedro"}>San Pedro</option>
+                                </select>
+                            </label>
+                        </div>
+                    </>
+            )}) : null}
+                <button type="submit" class="btn btn-primary" style={{margin:25}}>Submit</button>
+                </form>
+            
         </div>
     );
 }
