@@ -8,7 +8,7 @@ import Autocomplete from '@mui/material/Autocomplete';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import {set, useForm} from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 import { useContext } from 'react';
 import { userAuth } from '../contexts/userAuth';
@@ -27,12 +27,47 @@ const Account = (props) => {
     const { userID, setUserID } = useContext(userAuth);
     const {register, handleSubmit, formState: {errors}} = useForm();
     const [accountData, setAccountData] = useState({firstName: "", lastName:"", email:"", password:"", addresses: []  });
-    const [name, setName] = useState("");
+    const [isPassChanged, setIsPassChanged] = useState(false);
     let idUser = 0;
     const onSubmit = (data) => {
-        console.log('data to be modified to account', data);
+        console.log('is pass changed', isPassChanged)
+        console.log('data to be modified to account', accountData);
     }
-    console.log('account data', accountData);
+    const updateAddrValue = ( value, index, field) => {
+        let items = {...accountData};
+        let item = items.addresses[index];
+        switch(field){
+            case 'street':
+                item.street = value;
+                break;
+            case 'city':
+                item.city = value;
+                break;
+            case 'state':
+                item.state = value;
+                break;
+            default:
+                return null;
+        }
+        
+        items.addresses[index] = item;
+        console.log('esto es update addr', items);
+        setAccountData(items);
+    }
+    const checkErrorsArryForm = (field, index) => {
+        if( field=== 'street') {
+            return(accountData.addresses[index].street.length < 4 )    
+        }
+        else {
+            return( accountData.addresses[index].city.length < 4 )
+        }
+    }
+
+
+    const updatePass = (e) =>{
+        setAccountData({...accountData, password: e.target.value});
+        setIsPassChanged(true);
+    }
 
     useEffect( () => {
         if( userID !==0){
@@ -54,26 +89,37 @@ const Account = (props) => {
 
     return (
         <div>
-            {/* <Navbar itemCount={props.itemCount} setItemCount={props.setItemCount}/> */}
+            <Navbar itemCount={props.itemCount} setItemCount={props.setItemCount}/>
             <Box component="form" noValidate onSubmit={handleSubmit(onSubmit)} sx={{ mt: 3 }}>
                 <Typography variant="h3" sx={{m:2, fontWeight:'bold'}}> <ManageAccountsIcon fontSize='large'/> Datos de la Cuenta</Typography>
             </Box>
-            <form id="formModifData">
+            <form id="formModifData"  onSubmit={handleSubmit(onSubmit)}>
                 <div>
-                    <label for="firstName" className='labelForm'>Nombre</label>
-                    <input type="text" value={accountData.firstName} onChange = { e=> setAccountData({...accountData, firstName: e.target.value}) } className="inputFields"  />
+                    <label htmlFor="firstName" className='labelForm'>Nombre</label>
+                    <input type="text" value={accountData.firstName} 
+                    className="inputFields"
+                    {...register("firstName", {onChange :  e=> setAccountData({...accountData, firstName: e.target.value}),   required: true, minLength: 2, maxLength: 25 })}
+                    />
+                    {errors.firstName && <span style={{color:'red'}}>Ingrese un nombre válido, como mínimo de 2 caracteres</span>}
                 </div>
                 <div>
-                    <label for="lastName" className='labelForm'>Apellido</label>
-                    <input type="text" value={accountData.lastName} onChange = { e=> setAccountData({...accountData, lastName: e.target.value}) } className="inputFields"  />
+                    <label htmlFor="lastName" className='labelForm'>Apellido</label>
+                    <input type="text" value={accountData.lastName}
+                    {...register("lastName", {onChange :  e=> setAccountData({...accountData, lastName: e.target.value}),   required: true, minLength: 2, maxLength: 25 })}
+                    />
+                    {errors.lastName && <span style={{color:'red'}}>Ingrese un apellido válido, como mínimo de 2 caracteres</span>}
                 </div>
                 <div>
-                    <label for="email" className='labelForm'>Email</label>
-                    <input type="text" value={accountData.email} onChange = { e=> setAccountData({...accountData, email: e.target.value}) } className="inputFields"  />
+                    <label htmlFor="email" className='labelForm'>Email</label>
+                    <input type="text" value={accountData.email} 
+                    className="inputFields"  
+                    {...register("email", {required: true, onChange :  e=> setAccountData({...accountData, email: e.target.value}) ,pattern: {value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,}})}
+                    />
+                    {errors.email && <span style={{color:'red'}}>Ingrese una dirección de correo válida</span>}
                 </div>
                 <div>
-                    <label for="password"  className='labelForm'>Contraseña</label>
-                    <input type="text" placeholder='Ingrese la nueva contraseña' onChange = { e=> setAccountData({...accountData, email: e.target.value}) } className="inputFields"  />
+                    <label htmlFor="password"  className='labelForm'>Contraseña</label>
+                    <input type="password" placeholder='Ingrese la nueva contraseña' onChange = { e=>  updatePass(e)} className="inputFields"  />
                     <div><small id="emailHelp" class="form-text text-muted">Deje en blanco si no desea modificar.</small></div>
                 </div>
                 { accountData.addresses.length > 0 ? 
@@ -81,17 +127,20 @@ const Account = (props) => {
                     <>
                         <h5 style={{marginTop:'1rem'}}>Dirección</h5>
                         <div>
-                            <label for="text"  className='labelForm'> Calle</label>
-                            <input type="text" value = {item.street} className="inputFields"  />
+                            <label htmlFor="text"  className='labelForm'> Calle</label>
+                            <input type="text" value = {item.street} 
+                            className="inputFields"  onChange = { e=> updateAddrValue(e.target.value, index, 'street')}
+                            />
                         </div>
+                        { checkErrorsArryForm('street', index) && <span style={{color:'red'}}>Ingrese una ciudad válida, como mínimo de 4 caracteres</span>}
                         <div>
-                            <label for="text"  className='labelForm'> Ciudad</label>
-                            <input type="text" value = {item.city} className="inputFields"  />
+                            <label htmlFor="text"  className='labelForm'> Ciudad</label>
+                            <input type="text" value = {item.city} onChange = { e=> updateAddrValue(e.target.value, index, 'city')} className="inputFields"  />
                         </div>
                         <div style={{marginTop:'1rem'}}>
                             <label className='labelForm'>
                                 Departamento
-                                <select style={{marginTop:'1rem'}}>
+                                <select style={{marginTop:'1rem'}} onChange = { e=> updateAddrValue(e.target.value, index, 'state')} >
                                 <option value="Alto Paraguay" selected={ item.state ===  "Alto Paraguay"} >Alto Paraguay</option>
                                 <option value="Alto Paraná"  selected={ item.state ===  "Alto Paraná"} >Alto Paraná</option>
                                 <option value="Amambay" selected={  item.state === "Amambay"} >Amambay</option>
