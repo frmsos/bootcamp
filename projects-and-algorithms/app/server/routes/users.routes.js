@@ -7,7 +7,9 @@ module.exports = (app) =>{
     app.get('/api/pizzapp/logout', UserController.logOutUser)
     app.get('/api/pizzapp/users/:id', UserController.getUserbyID)
     app.post('/api/pizzapp/users/addresses/:id', UserController.addAddressbyID)
-    app.put('/api/pizzapp/users/address/:id/:addrid', UserController.updateAddressbyID) 
+    app.put('/api/pizzapp/users/address/:id/:addrid', UserController.updateAddressbyID)
+    app.put('/api/pizzapp/user/refactor/:id/', UserController.updateUserNoPass)
+    app.put('/api/pizzapp/user/update/:id/', UserController.updateUserByID)   
     
     
     

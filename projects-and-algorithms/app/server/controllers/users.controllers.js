@@ -23,13 +23,13 @@ module.exports = {
         const user = await User.findOne({email:req.body.email})
         console.log(" login user is", user )
         if(!user){
-            res.status(400).json({error: "Incorrect credentials, try again..."})
+            res.status(401).json({error: "Incorrect credentials, try again..."})
         }
         try{
             const validPass = await bcrypt.compare(req.body.password, user.password )
             //console.log(validPass, " PASSWORD VALIDA")
             if(!validPass){
-                res.status(400).json({error: "Incorrect credentials, try again..."})
+                res.status(401).json({error: "Incorrect credentials, try again..."})
             }else{
                 const userToken = jwt.sign({_id:user._id}, SECRET)
                 console.log(userToken)
@@ -78,5 +78,31 @@ module.exports = {
         catch(error){
             res.status(400).json({error: error})
         }},
+    updateUserNoPass : async( req, res) => {
+        console.log('update user NO PASS', req.params.id);
+        const user = await User.findOneAndUpdate(  
+            { _id: req.params.id},
+            { $set: {"firstName" : req.body.firstName, "lastName":  req.body.lastName,
+            "email": req.body.email, "addresses" : req.body.addresses}})
+            try{
+                res.status(201).json( {user : user })
+            }
+            catch{
+                res.status(400).json({error: error})
+            }
+    },
+    updateUserByID : async(req, res) =>{
+        console.log('update all user props WITH PASS', req.params.id);
+        const user = await User.findOneAndUpdate(  
+            { _id: req.params.id},
+            req.body,
+            {runValidators: true})
+        try{
+            res.status(201).json( {user : user })
+        }
+        catch{
+            res.status(400).json({error: error})
+        }
+    }
     
 }        

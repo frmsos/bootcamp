@@ -14,8 +14,9 @@ import { useContext } from 'react';
 import { userAuth } from '../contexts/userAuth';
 import axios from 'axios';
 import { width } from '@mui/system';
-
-
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import {IconButton} from '@mui/material';
 
 
 
@@ -32,6 +33,47 @@ const Account = (props) => {
     const onSubmit = (data) => {
         console.log('is pass changed', isPassChanged)
         console.log('data to be modified to account', accountData);
+
+        //si no se actuailizo el pass
+        if( !isPassChanged || accountData.password === ""  )
+        {
+            axios.put(`http://localhost:8000/api/pizzapp/user/refactor/${userID}`, 
+            {
+                firstName: accountData.firstName,
+                lastName: accountData.lastName,
+                email: accountData.email,
+                addresses: accountData.addresses,
+            }, {withCredentials:true }
+            )
+            .then( (response) => {
+                console.log('ok updating all with no pass', response)
+            } )
+            .catch( (errorMsg) =>{
+                console.log('not ok updating all with no pass', errorMsg)
+            }  )
+        }
+         //si se actualizo el pass
+        else{
+            if(isPassChanged){
+                axios.put(`http://localhost:8000/api/pizzapp/user/update/${userID}`, 
+                {
+                    firstName: accountData.firstName,
+                    lastName: accountData.lastName,
+                    email: accountData.email,
+                    password: accountData.password,
+                    addresses: accountData.addresses,
+                }, {withCredentials:true }
+                )
+                .then( (response) => {
+                    console.log('ok updating with pass', response)
+                } )
+                .catch( (errorMsg) =>{
+                    console.log('not ok updating with pass', errorMsg)
+                }  )
+            }
+
+        }
+        
     }
     const updateAddrValue = ( value, index, field) => {
         let items = {...accountData};
@@ -63,7 +105,8 @@ const Account = (props) => {
         }
     }
 
-
+    const handleClickPassword = () => setShowPassword(!showPassword);
+    const [showPassword, setShowPassword] = useState(false);
     const updatePass = (e) =>{
         setAccountData({...accountData, password: e.target.value});
         setIsPassChanged(true);
@@ -90,7 +133,7 @@ const Account = (props) => {
     return (
         <div>
             <Navbar itemCount={props.itemCount} setItemCount={props.setItemCount}/>
-            <Box component="form" noValidate onSubmit={handleSubmit(onSubmit)} sx={{ mt: 3 }}>
+            <Box component="form" noValidate  sx={{ mt: 3 }}>
                 <Typography variant="h3" sx={{m:2, fontWeight:'bold'}}> <ManageAccountsIcon fontSize='large'/> Datos de la Cuenta</Typography>
             </Box>
             <form id="formModifData"  onSubmit={handleSubmit(onSubmit)}>
@@ -105,6 +148,7 @@ const Account = (props) => {
                 <div>
                     <label htmlFor="lastName" className='labelForm'>Apellido</label>
                     <input type="text" value={accountData.lastName}
+                    className="inputFields"
                     {...register("lastName", {onChange :  e=> setAccountData({...accountData, lastName: e.target.value}),   required: true, minLength: 2, maxLength: 25 })}
                     />
                     {errors.lastName && <span style={{color:'red'}}>Ingrese un apellido válido, como mínimo de 2 caracteres</span>}
@@ -119,9 +163,14 @@ const Account = (props) => {
                 </div>
                 <div>
                     <label htmlFor="password"  className='labelForm'>Contraseña</label>
-                    <input type="password" placeholder='Ingrese la nueva contraseña' onChange = { e=>  updatePass(e)} className="inputFields"  />
+                    <input autocomplete='false' type= {showPassword ? "text" : "password"} placeholder='Ingrese la nueva contraseña' onChange = { e=>  updatePass(e)} className="inputFields"  
+                    
+                    />
+                    <IconButton onClick={handleClickPassword}>                                   
+                        {showPassword ? <Visibility /> : <VisibilityOff />}
+                    </IconButton>
                     <div><small id="emailHelp" class="form-text text-muted">Deje en blanco si no desea modificar.</small></div>
-                </div>
+                </div>  
                 { accountData.addresses.length > 0 ? 
                     accountData.addresses.map(  (item, index) => { return(
                     <>
@@ -157,14 +206,14 @@ const Account = (props) => {
                                 <option value="Misiones" selected={ item.state === "Misiones" } >Misiones</option>
                                 <option value="Ñeembucú" selected={ item.state === "Ñeembucú"} >Ñeembucú</option>
                                 <option value="Paraguarí" selected={ item.state === "Paraguarí"} >Paraguarí</option>
-                                <option value="Presidente Hayes"   selected={item.state === "Presidente Hayes"} >"Presidente Hayes</option>
+                                <option value="Presidente Hayes"   selected={item.state === "Presidente Hayes"} >Presidente Hayes</option>
                                 <option value="San Pedro" selected={item.state ==="San Pedro"}>San Pedro</option>
                                 </select>
                             </label>
                         </div>
                     </>
             )}) : null}
-                <button type="submit" class="btn btn-primary" style={{margin:25}}>Submit</button>
+                <button type="submit" class="btn btn-primary" style={{margin:25, backgroundColor: "#FFBD33", border:'none'}}>Modificar</button>
                 </form>
             
         </div>
