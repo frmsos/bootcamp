@@ -15,7 +15,7 @@ const OrderHistory = () => {
     console.log('order history component',orderHistoryArray, userID );
     
     useEffect( ()=> {
-        if( userID !==0) {
+        if( userID !==0 && userID !== null && userID !== undefined) {
             axios.get(`http://localhost:8000/api/pizzapp/orderhistory/${userID}`,{withCredentials : true})
             .then(response => {
                 console.log('orderhistory', response.data.orderHistory);

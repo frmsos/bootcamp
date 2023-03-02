@@ -12,6 +12,7 @@ import Checkout from './components/Checkout';
 import Account from './components/Account';
 import Order from './components/Order';
 import { userAuth } from './contexts/userAuth';
+import ProtectedRoutes from './components/ProtectedRoutes';
 const App = () => {
 
   //FUNCTIONS DECLARATION
@@ -32,15 +33,18 @@ const App = () => {
         <BrowserRouter>
         <userAuth.Provider value={value}>
           <Routes>
-              {/* <Route path="/:id" element={<ProductDetails  showDetailsPage={showDetailsPage} setShowDetailsPage={setShowDetailsPage} />}>  </Route>
-              <Route path="/:id/edit" element={  <EditPage/> } >  </Route> */}
             
               <Route path="/login" element={<Login itemCount={itemCount} setItemCount={setItemCount} requestItem={requestItem} setRequestItem={setRequestItem}  />}>  </Route> 
               <Route path="/register" element={<Register itemCount={itemCount} setItemCount={setItemCount} requestItem={requestItem} setRequestItem={setRequestItem}   />}>  </Route> 
               <Route path="*" element={<Home itemCount={itemCount} setItemCount={setItemCount} requestItem={requestItem} setRequestItem={setRequestItem}   />}>  </Route> 
-              <Route path="/cart" element={<Order itemCount={itemCount} setItemCount={setItemCount} requestItem={requestItem} setRequestItem={setRequestItem}  />}>  </Route>
-              <Route path="/checkout" element={<Checkout itemCount={itemCount} setItemCount={setItemCount} requestItem={requestItem} setRequestItem={setRequestItem}  />}>  </Route>
-              <Route path="/account" element={<Account itemCount={itemCount} setItemCount={setItemCount} requestItem={requestItem} setRequestItem={setRequestItem}  />}>  </Route>
+              <Route path="/home" element={<Home itemCount={itemCount} setItemCount={setItemCount} requestItem={requestItem} setRequestItem={setRequestItem}   />}>  </Route> 
+              <Route element={<ProtectedRoutes itemCount={itemCount} setItemCount={setItemCount} requestItem={requestItem} setRequestItem={setRequestItem}/>}>
+                <Route path="/account" element={<Account itemCount={itemCount} setItemCount={setItemCount} requestItem={requestItem} setRequestItem={setRequestItem}  />}>  </Route>
+                <Route path="/cart" element={<Order itemCount={itemCount} setItemCount={setItemCount} requestItem={requestItem} setRequestItem={setRequestItem}  />}>  </Route>
+                <Route path="/checkout" element={<Checkout itemCount={itemCount} setItemCount={setItemCount} requestItem={requestItem} setRequestItem={setRequestItem}  />}>  </Route> 
+              </Route>
+                
+              
               
           </Routes>
           </userAuth.Provider>

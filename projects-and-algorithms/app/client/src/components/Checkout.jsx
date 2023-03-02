@@ -50,7 +50,7 @@ const Checkout = (props) => {
             typeOrder: cart.typeOrder,
             address: cart.address,
             items: cart.items
-        }, 
+        },{withCredentials:true }
         )
         .then( (response) => {
             console.log('orden exitosa', response.data);

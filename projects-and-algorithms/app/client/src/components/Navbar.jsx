@@ -9,6 +9,7 @@ import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt';
 import { Link, useNavigate } from 'react-router-dom';
 import { useContext } from 'react';
 import { userAuth } from '../contexts/userAuth';
+import axios from 'axios';
 
 //VARIABLES DECLARATIONS
 const settings = ['Cuenta', 'Salir'];
@@ -18,7 +19,7 @@ const settings = ['Cuenta', 'Salir'];
 function ResponsiveAppBar(props) {
     const [anchorElNav, setAnchorElNav] = useState(null);
     const [anchorElUser, setAnchorElUser] = useState(null);
-    const {isLoggedIn, setIsLoggedIn, setCartPressed} = useContext(userAuth);
+    const {isLoggedIn, setIsLoggedIn, setCartPressed, setUserID} = useContext(userAuth);
     const navigate = useNavigate();
     
 
@@ -33,9 +34,39 @@ function ResponsiveAppBar(props) {
         setAnchorElNav(null);
     };
 
-  const handleCloseUserMenu = () => {
+  const handleCloseUserMenu = ( )=> {
     setAnchorElUser(null);
   };
+
+  const logOutUser = () =>{
+    console.log('logging out user from navbar');
+    axios.get('http://localhost:8000/api/pizzapp/order',{withCredentials:true }
+    )
+    .then( (response) => {
+        console.log('logout ok', response.data);
+        setUserID(null);
+        setIsLoggedIn(false);
+        window.localStorage.removeItem("loginStatus");
+        window.localStorage.removeItem("userID");
+        navigate('/home')
+    } )
+    .catch( (errorMsg) =>{
+        console.log('logout error', errorMsg);
+        setUserID(0);
+        setIsLoggedIn(false);
+        window.localStorage.removeItem("loginStatus");
+        window.localStorage.removeItem("userID");
+        navigate('/home')
+    }  )
+
+  }
+
+  const handleConfigClicked = (e, setting) => {
+    e.preventDefault();
+    setting === 'cuenta' ? navigate('/account') : logOutUser()
+  }
+
+  
   const handleCartPressed = e =>{
     e.preventDefault();
     setCartPressed(true);
@@ -130,7 +161,7 @@ function ResponsiveAppBar(props) {
           <Link to="/login" style={{textDecoration: 'none'}}>
             <Button
                   onClick={handleCloseNavMenu}
-                  sx={{ my: 2, color: 'white', display: 'block' }}
+                  sx={{ my: 1, color: 'white', display: 'block' }}
                 >
                   <LoginIcon sx={{mr:1 }} />
                   Iniciar sesión
@@ -139,7 +170,7 @@ function ResponsiveAppBar(props) {
           <Link to="/register" style={{textDecoration: 'none'}}>
             <Button
                   onClick={handleCloseNavMenu}
-                  sx={{ m: 2, color: 'white', display: 'block' }}
+                  sx={{ m: 1, color: 'white', display: 'block' }}
                 >
                   <PersonAddAltIcon sx={{mr:2}}/>
                   Registrarme
@@ -147,47 +178,34 @@ function ResponsiveAppBar(props) {
           </Link>
         </div>
         : null}
-        <Box sx={{ flexGrow: 0 }}>
+        <Box sx={{ flexGrow: 0, display: 'flex' }}>
         {isLoggedIn ? 
-            <Tooltip title="Configuraciones">
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-              <AccountCircleIcon sx={{m:2}}/>
-              </IconButton>
-            </Tooltip>
+        <div>
+            <Button
+              onClick={e=>handleConfigClicked(e, 'cuenta')}
+              sx={{ m: 0.5, color: 'white' }}
+            >
+                Cuenta
+            </Button>
+            <Button
+              onClick={e=>handleConfigClicked(e, 'salir')}
+              sx={{ m: 0.5, color: 'white' }}
+            >
+                Salir
+          </Button>
+          </div>
         : null}
         {/* <Link to="/cart" style={{textDecoration: 'none'}}> */}
             <Button
                   onClick={e=>handleCartPressed(e)}
-                  sx={{ m: 1, color: 'white' }}
+                  sx={{ m: 0.5, color: 'white' }}
                 >
                   <Badge color="secondary" badgeContent={props.itemCount}>
-                  <ShoppingCartIcon sx={{mr:2}}/>
+                  <ShoppingCartIcon sx={{mr:0}}/>
                   </Badge>
             </Button>
           {/* </Link> */}
         
-          <Menu
-            sx={{ mt: '45px' }}
-            id="menu-appbar"
-            anchorEl={anchorElUser}
-            anchorOrigin={{
-              vertical: 'top',
-              horizontal: 'right',
-            }}
-            keepMounted
-            transformOrigin={{
-              vertical: 'top',
-              horizontal: 'right',
-            }}
-            open={Boolean(anchorElUser)}
-            onClose={handleCloseUserMenu}
-          >
-            {settings.map((setting) => (
-              <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                <Typography textAlign="center">{setting}</Typography>
-              </MenuItem>
-            ))}
-            </Menu>
           </Box>
         </Toolbar>
       </Container>

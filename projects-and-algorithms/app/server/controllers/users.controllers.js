@@ -103,6 +103,9 @@ module.exports = {
         catch{
             res.status(400).json({error: error})
         }
+    },
+    getUser: (req, res) => {
+        console.log('test')
     }
     
 }        

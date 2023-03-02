@@ -13,17 +13,6 @@ import axios from 'axios';
 import { useContext } from 'react';
 import { userAuth } from '../contexts/userAuth';
 
-export default function Login(props) {
-
-//VARIABLES DECLARATION
-const theme = createTheme();
-const {register, handleSubmit, formState: {errors}} = useForm();
-const [showPassword, setShowPassword] = useState(false);
-const navigate = useNavigate();
-const [loginOK, setLoginOK] = useState(false);
-const [loginNotOK, setLoginNotOK] = useState(false);
-const {isLoggedIn, setIsLoggedIn, cartPressed, setCartPressed, userID, setUserID} = useContext(userAuth);
-//FUNCTIONS DECLARATION
 function Copyright(props) {
     return (
         <Typography variant="body2" color="text.secondary" align="center" {...props}>
@@ -36,6 +25,19 @@ function Copyright(props) {
         </Typography>
     );
 }
+
+export default function Login(props) {
+
+//VARIABLES DECLARATION
+const theme = createTheme();
+const {register, handleSubmit, formState: {errors}} = useForm();
+const [showPassword, setShowPassword] = useState(false);
+const navigate = useNavigate();
+const [loginOK, setLoginOK] = useState(false);
+const [loginNotOK, setLoginNotOK] = useState(false);
+const {isLoggedIn, setIsLoggedIn, cartPressed, setCartPressed, userID, setUserID} = useContext(userAuth);
+//FUNCTIONS DECLARATION
+
 const onSubmit = (data) => {
     console.log(data);
     axios.post('http://localhost:8000/api/pizzapp/login', 
@@ -45,11 +47,9 @@ const onSubmit = (data) => {
     }, {withCredentials:true }
     )
     .then( (response) => {
-        //alert('afae')
         setLoginOK(true);
         setLoginNotOK(false);
         console.log('login response data', response);
-        console.log('antes', isLoggedIn);
         setIsLoggedIn(true)
         setUserID(response.data.id);
         cartPressed ?  setTimeout(() => { navigate('/')}, 2100) : setTimeout(() => { navigate('/cart')}, 2100)
@@ -58,7 +58,7 @@ const onSubmit = (data) => {
     .catch( (errorMsg) =>{
         setLoginOK(false);
         setLoginNotOK(true);
-        setUserID(null);
+        setUserID(0);
         setIsLoggedIn(false);
         setCartPressed(false);
     }  )
@@ -73,7 +73,8 @@ useEffect( ()=>{
 
     //JSX BEGINS
     return (
-        <ThemeProvider theme={theme}>
+        <div>   
+            <ThemeProvider theme={theme}>
             <Stack sx={{ width: '100%' }} spacing={2}>
                 {  loginNotOK ?  <Alert severity="error">Error: verifique los datos introducidos y vuelva a probar</Alert> : null} 
                 {/* <Alert severity="warning">This is a warning alert — check it out!</Alert>
@@ -82,18 +83,19 @@ useEffect( ()=>{
             </Stack>
             <Grid container component="main" sx={{ height: '100vh' }}>
                 <CssBaseline />
-                <Grid
-                item
-                xs={false}
-                sm={4}
-                md={7}
-                sx={{
-                    backgroundImage: `url(${loginImage})`,
-                    backgroundRepeat: 'no-repeat',
-                    backgroundSize: 'cover',
-                    backgroundPosition: 'center',
-                }}
-                />
+                
+                    <Grid
+                    item
+                    xs={false}
+                    sm={4}
+                    md={7}
+                    sx={{
+                        backgroundImage: `url(${loginImage})`,
+                        backgroundRepeat: 'no-repeat',
+                        backgroundSize: 'cover',
+                        backgroundPosition: 'center',
+                    }}
+                    />
                 <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
                 <Box
                     sx={{
@@ -103,8 +105,9 @@ useEffect( ()=>{
                     flexDirection: 'column',
                     alignItems: 'center',
                     }}
-                >   
-                    <img src={logoBlack} alt="logo"/>
+                >   <Link to="/home">
+                        <img src={logoBlack} alt="logo"/>
+                    </Link>
                     <Avatar sx={{ m: 1, bgcolor: '#008C45' }}>
                     <LockOutlinedIcon />
                     </Avatar>
@@ -169,5 +172,6 @@ useEffect( ()=>{
                 </Grid>
             </Grid>
         </ThemeProvider>
+        </div>
     );
 } //JSX ENDS

@@ -113,7 +113,7 @@ const Account = (props) => {
     }
 
     useEffect( () => {
-        if( userID !==0){
+        if( userID !==0 && userID !== null && userID !== undefined){
             axios.get(`http://localhost:8000/api/pizzapp/users/${userID}`,{withCredentials : true})
             .then(response => {
                 console.log('user account info get by id', response.data.user);
@@ -163,13 +163,13 @@ const Account = (props) => {
                 </div>
                 <div>
                     <label htmlFor="password"  className='labelForm'>Contraseña</label>
-                    <input autocomplete='false' type= {showPassword ? "text" : "password"} placeholder='Ingrese la nueva contraseña' onChange = { e=>  updatePass(e)} className="inputFields"  
+                    <input autoComplete='false' type= {showPassword ? "text" : "password"} placeholder='Ingrese la nueva contraseña' onChange = { e=>  updatePass(e)} className="inputFields"  
                     
                     />
                     <IconButton onClick={handleClickPassword}>                                   
                         {showPassword ? <Visibility /> : <VisibilityOff />}
                     </IconButton>
-                    <div><small id="emailHelp" class="form-text text-muted">Deje en blanco si no desea modificar.</small></div>
+                    <div><small id="emailHelp" className="form-text text-muted">Deje en blanco si no desea modificar.</small></div>
                 </div>  
                 { accountData.addresses.length > 0 ? 
                     accountData.addresses.map(  (item, index) => { return(
@@ -213,7 +213,7 @@ const Account = (props) => {
                         </div>
                     </>
             )}) : null}
-                <button type="submit" class="btn btn-primary" style={{margin:25, backgroundColor: "#FFBD33", border:'none'}}>Modificar</button>
+                <button type="submit" className="btn btn-primary" style={{margin:25, backgroundColor: "#FFBD33", border:'none'}}>Modificar</button>
                 </form>
             
         </div>
