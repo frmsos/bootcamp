@@ -24,6 +24,9 @@ const Order = (props) => {
     const mozzarella = { Pequeño: 35000, Mediano: 45000, Grande: 55000 }
     const marinara = { Pequeño: 35000, Mediano: 45000, Grande: 55000 }
     const margherita = { Pequeño: 45000, Mediano: 55000, Grande: 65000 }
+    const ferrara = { Pequeño: 65000, Mediano: 75000, Grande: 85000 }
+    const marzano = { Pequeño: 55000, Mediano: 65000, Grande: 75000 }
+    const rucula = { Pequeño: 50000, Mediano: 60000, Grande: 70000 }
     let name = "";
     const theme = createTheme();
     const {register, handleSubmit, formState: {errors}} = useForm();
@@ -165,6 +168,12 @@ const Order = (props) => {
                 return margherita[size]
             case 'marinara':
                 return marinara[size]
+            case 'ferrara':
+                return ferrara[size]
+            case 'rucula':
+                return rucula[size]
+            case 'marzano':
+            return marzano[size]
             default:
             return 0;
         } 

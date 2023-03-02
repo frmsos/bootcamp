@@ -7,20 +7,26 @@ import AddIcon from '@mui/icons-material/Add';
 
 export default function GridMenu(props) {
     //VARIABLES DEFINITIONS
-    const pizzaToppings = ["repetir","sorpresa", "formaggio", "mozzarella", "marinara", "margherita"];
-    const pizzaDescription = ["Repite tus pizzas favoritas. Primero, debes iniciar sesión.", "Te sorprendemos con las recomendaciones del chef de la casa.",
+    const pizzaToppings = ["ferrara","rucula", "formaggio", "mozzarella", "marinara", "margherita", "marzano"];
+    const pizzaDescription = ["Preparada con salsa de tomates, mozzarella, queso azul, ajo y romero.", "Con rucula fresca de la huerta acompañada con queso fiordillate, mozzarela y salsa de marinara.",
                             "Deliciosa pizza de 4 quesos preseleccionados: Gorgonzola, Ricotta, Provola, Parmesano.", "Tradicional pizza con mozzarella fresa, Fiordillate y búfala.","Preparada con la receta tradicional: salsa de tomate, ajo y orégano.",
-                        "Pizza con tomates y albahaca de la huerta y mozzarella de Campania."];
+                        "Pizza con tomates y albahaca de la huerta y mozzarella de Campania.", "Mozzarella fresca, tomates cherry de la huerta, parmesano y aceite de oliva."];
     let name = "";
     let showButton;
+    let prevreqItem=[];
 
 
     //FUNCTIONS DEFINITION
-    const handleToppingSelect = (event, pizzatopping) =>{
+    const handleToppingSelect = async(event, pizzatopping) =>{
+        prevreqItem = await JSON.parse(window.localStorage.getItem('requestItem'));
+        const prevCount = props.itemCount +1;
+        prevreqItem.push(pizzatopping);
         event.preventDefault();
         props.setRequestItem( prev => [...prev, pizzatopping]);
-        props.setItemCount(prev=> prev + 1);
-        console.log('add', props.itemCount, props.requestItem);
+        await props.setItemCount(prev=> prev + 1);
+        console.log('add', props.itemCount, props.requestItem, prevreqItem);
+        await window.localStorage.setItem('itemCount', JSON.stringify(prevCount))
+        await window.localStorage.setItem('requestItem', JSON.stringify(prevreqItem))
     }
 
     const isThere = (pizzatopping, requestItem) =>{
@@ -34,13 +40,15 @@ export default function GridMenu(props) {
         }
         return false;
     }
-    const handleToppingRemove = (event, pizzatopping, requestItem) =>{
+    const handleToppingRemove = async(event, pizzatopping, requestItem) =>{
         event.preventDefault();
         console.log("recibiendo...", pizzatopping, requestItem)
         const newRequestedItem = requestItem.filter(item => item !== pizzatopping );
         props.setRequestItem( newRequestedItem);
+        const prevCount = props.itemCount  - 1;
         props.setItemCount(prev=> prev - 1);
         console.log('removed', props.itemCount, newRequestedItem);
+        await window.localStorage.setItem('itemCount', JSON.stringify(prevCount))
     }
 
     

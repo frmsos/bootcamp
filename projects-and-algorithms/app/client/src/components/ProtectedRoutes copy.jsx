@@ -14,15 +14,15 @@ const ProtectedRoutes = () => {
 
     //funcion de validacion de acceso valido
     const ValidateAuth =  () => {
-        const { setIsLoggedIn,setUserID, isLoggedIn, userID } = useContext(userAuth);
-        //const userid = (JSON.parse(window.localStorage.getItem('userID')));
-        console.log('calling validate auth', isLoggedIn, userID)
+        const { setIsLoggedIn,setUserID, isLoggedIn } = useContext(userAuth);
+        const userid = (JSON.parse(window.localStorage.getItem('userID')));
+        console.log('calling validate auth', isLoggedIn, userid)
         //console.log('user id en validate is', userID )
         //console.log('test', userid !==0 && userid !== null && userid !== undefined)
         if( isLoggedIn ) 
         {
             console.log('aca');
-            axios.get(`http://localhost:8000/api/pizzapp/users/${userID}`,{withCredentials : true}) 
+            axios.get(`http://localhost:8000/api/pizzapp/users/${userid}`,{withCredentials : true}) 
             .then(() => 
             {
                 console.log('se revalida el acceso');
@@ -34,7 +34,7 @@ const ProtectedRoutes = () => {
                 error => {
                     console.log('error revalidating', error);
                     setIsLoggedIn(false);
-                    setUserID(0);
+                    setUserID("ffffffffffffffffffffffff");
                     window.localStorage.removeItem("loginStatus");
                     window.localStorage.removeItem("userID");
                     setFetchStatus(true);
@@ -48,7 +48,7 @@ const ProtectedRoutes = () => {
             setIsReady(false)
             setFetchStatus(true);
         }
-        console.log('dfed', userID)
+        console.log('dfed', userid)
         return false;
     } 
     

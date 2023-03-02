@@ -22,11 +22,13 @@ const ProtectedRoutes = () => {
 
 
     useEffect( ()=>{
-        console.log('calling validate auth', isLoggedIn, userID)
+        
+        const userid = (JSON.parse(window.localStorage.getItem('userID')));
+        console.log('calling validate authzzzz', isLoggedIn, userid)
         if( isLoggedIn ) 
         {
-            console.log('aca');
-            axios.get(`http://localhost:8000/api/pizzapp/users/${userID}`,{withCredentials : true}) 
+            console.log('aca', userid);
+            axios.get(`http://localhost:8000/api/pizzapp/users/${userid}`,{withCredentials : true}) 
             .then(() => 
             {
                 console.log('se revalida el acceso');
@@ -38,9 +40,9 @@ const ProtectedRoutes = () => {
                 error => {
                     console.log('error revalidating', error);
                     setIsLoggedIn(false);
-                    setUserID(0);
+                    setUserID("ffffffffffffffffffffffff");
                     window.localStorage.removeItem("loginStatus");
-                    window.localStorage.removeItem("userID");
+                    //window.localStorage.removeItem("userID");
                     //setFetchStatus(true);
                     setIsReady(true)
                     setIsAuth(false);

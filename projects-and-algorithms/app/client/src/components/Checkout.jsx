@@ -5,6 +5,11 @@ import axios from 'axios';
 import {Avatar, Button, CssBaseline, TextField, Paper, Box, Autocomplete, Grid, Typography, IconButton, Alert, Stack, Card, CardActions, CardContent} from '@mui/material';
 import {useForm} from 'react-hook-form';
 import InputAddress from './InputAddress';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
 
 
 
@@ -22,8 +27,19 @@ const Checkout = (props) => {
     const [opMode, setOpMode] = useState(null);
     const [addrID, setAddrID] = useState(0);
     const [vectorAddrIndex, setVectorAddrIndex] = useState(null);
+    const [isAddr, setIsAddr] = useState(false);
+    const [indexAddr, setIndexAddr] = useState();
     let isDelivery = true;
+    const [open, setOpen] = useState(false);
+
     
+    const handleClickOpen = () => {
+        setOpen(true);
+      };
+    
+      const handleClose = () => {
+        setOpen(false);
+      };
 
 
     const handleClickAddAddress = (e, opMode, addressID, index) =>{
@@ -41,10 +57,17 @@ const Checkout = (props) => {
         }
 
     }
+
+    const isChosenAddr = (index)=>{
+        return indexAddr === index
+    }
+
     const handlePlaceOrder = ( e ) =>{
         e.preventDefault();
         console.log('place order', cart.items)
-        axios.post('http://localhost:8000/api/pizzapp/order', 
+
+        if(isAddr){
+                    axios.post('http://localhost:8000/api/pizzapp/order', 
         {
             userID: userID,
             typeOrder: cart.typeOrder,
@@ -63,13 +86,21 @@ const Checkout = (props) => {
 
         }  )
     }
-    const handleChooseAddr = (e, chooseAddr) =>{
+    else{
+        handleClickOpen();
+    }
+    }
+
+
+    const handleChooseAddr = (e, chooseAddr, index) =>{
         e.preventDefault();
         console.log('choose addr', chooseAddr);
         //Formar vector final de orden
         setCart( {...cart, address: chooseAddr}  )
         console.log('cart is', cart)
-
+        setIsAddr(true);
+        setIndexAddr(index);
+        
     }
     isDelivery = (cart.typeOrder === 'Delivery' )
     console.log('is del value', cart, isDelivery);
@@ -93,21 +124,48 @@ const Checkout = (props) => {
     return (
         <div>
             <Navbar itemCount={props.itemCount} setItemCount={props.setItemCount}/>
+
+            <div>
+
+            <Dialog
+                    open={open}
+                    onClose={handleClose}
+                    aria-labelledby="alert-dialog-title"
+                    aria-describedby="alert-dialog-description"
+                >
+                    <DialogTitle id="alert-dialog-title">
+                    {"Complete los campos obligatorios"}
+                    </DialogTitle>
+                    <DialogContent>
+                    <DialogContentText id="alert-dialog-description">
+                        Debe seleccionar una de las direcciones de envío para proceder con su pedido.
+                    </DialogContentText>
+                    </DialogContent>
+                    <DialogActions>
+                    <Button onClick={handleClose} autoFocus>
+                        OK
+                    </Button>
+                    </DialogActions>
+                </Dialog>
+
+            </div>
+
+
+            
                 
             <div>
                         <div className='containerPage'>
                         { isDelivery ?  
                         <div>
                         <div className='containerSides'>
-                                user id is: ta ta ta tan{userID}
-                                bingpot
+
                                 <Box>
                                     <Typography variant='h4' sx={{fontWeight:'bold', m:2} }> Dirección de envío </Typography>
                                     <Typography variant='body1' sx={{fontWeight:'normal', m:2} }> Favor seleccionar una dirección de envío: </Typography>
                                     {   addresses.length > 0 ? 
                                             addresses.map(  (address, index) => {
                                                 return(
-                                                    <Box sx={{ minWidth: 275 }}>
+                                                    <Box sx={{ minWidth: 275 }} id={ isChosenAddr(index) ? "addrChoose"  : 'notchoose' }>
                                                         <CardContent>
                                                             <Typography variant="h5" component="div">
                                                                 {`Dirección ${index + 1}`}
@@ -123,7 +181,7 @@ const Checkout = (props) => {
                                                             </Typography>
                                                         </CardContent>
                                                         <CardActions>
-                                                            <Button size="small" onClick={e=> handleChooseAddr(e, address)}>Elegir</Button>
+                                                            <Button size="small" onClick={e=> handleChooseAddr(e, address, index)}>Elegir</Button>
                                                             <Button size="small" onClick={e=> handleClickAddAddress(e, "edit", address._id, index)}>Editar</Button>
                                                             <Button size="small">Quitar</Button>
                                                         </CardActions>

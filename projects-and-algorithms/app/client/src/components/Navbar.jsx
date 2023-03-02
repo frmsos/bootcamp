@@ -44,7 +44,7 @@ function ResponsiveAppBar(props) {
     )
     .then( (response) => {
         console.log('logout ok', response.data);
-        setUserID(null);
+        setUserID("ffffffffffffffffffffffff");
         setIsLoggedIn(false);
         window.localStorage.removeItem("loginStatus");
         window.localStorage.removeItem("userID");
@@ -52,7 +52,7 @@ function ResponsiveAppBar(props) {
     } )
     .catch( (errorMsg) =>{
         console.log('logout error', errorMsg);
-        setUserID(0);
+        setUserID("ffffffffffffffffffffffff");
         setIsLoggedIn(false);
         window.localStorage.removeItem("loginStatus");
         window.localStorage.removeItem("userID");
@@ -73,7 +73,8 @@ function ResponsiveAppBar(props) {
     isLoggedIn ?  navigate('/cart') :  navigate('/login');
   }
   useEffect( ()=>{
-    setIsLoggedIn(window.localStorage.getItem('loginStatus', JSON.stringify(isLoggedIn)))
+    setIsLoggedIn(window.localStorage.getItem('loginStatus', JSON.stringify(isLoggedIn)));
+    props.setItemCount(JSON.parse(window.localStorage.getItem('itemCount')));
   }, [isLoggedIn])
   
     

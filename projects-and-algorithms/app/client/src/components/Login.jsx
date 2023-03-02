@@ -58,7 +58,7 @@ const onSubmit = (data) => {
     .catch( (errorMsg) =>{
         setLoginOK(false);
         setLoginNotOK(true);
-        setUserID(0);
+        setUserID("ffffffffffffffffffffffff");
         setIsLoggedIn(false);
         setCartPressed(false);
     }  )
@@ -69,6 +69,7 @@ const handleClickPassword = () => setShowPassword(!showPassword);
 useEffect( ()=>{
     window.localStorage.setItem('loginStatus', JSON.stringify(isLoggedIn))
     window.localStorage.setItem('userID', JSON.stringify(userID))
+    window.localStorage.setItem('requestItem', JSON.stringify([]))
     }, [isLoggedIn, userID])
 
     //JSX BEGINS
