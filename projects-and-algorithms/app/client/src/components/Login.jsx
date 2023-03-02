@@ -12,6 +12,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { useContext } from 'react';
 import { userAuth } from '../contexts/userAuth';
+import config from './config';
 
 function Copyright(props) {
     return (
@@ -40,7 +41,7 @@ const {isLoggedIn, setIsLoggedIn, cartPressed, setCartPressed, userID, setUserID
 
 const onSubmit = (data) => {
     console.log(data);
-    axios.post('http://localhost:8000/api/pizzapp/login', 
+    axios.post(`${config.url}/api/pizzapp/login`, 
     {
         email: data.email,
         password: data.password

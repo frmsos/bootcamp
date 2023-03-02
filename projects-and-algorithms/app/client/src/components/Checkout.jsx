@@ -1,8 +1,8 @@
-import {React, useEffect, useState, useRef, useContext} from 'react';
+import {React, useEffect, useState, useContext} from 'react';
 import Navbar from './Navbar';
 import { userAuth } from '../contexts/userAuth';
 import axios from 'axios';
-import {Avatar, Button, CssBaseline, TextField, Paper, Box, Autocomplete, Grid, Typography, IconButton, Alert, Stack, Card, CardActions, CardContent} from '@mui/material';
+import { Button,  Box,  Typography, Alert, Stack, CardActions, CardContent} from '@mui/material';
 import {useForm} from 'react-hook-form';
 import InputAddress from './InputAddress';
 import Dialog from '@mui/material/Dialog';
@@ -10,18 +10,21 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-
+import {  useNavigate } from 'react-router-dom';
 
 
 //FUNCTIONS DECLARATION
 
 const Checkout = (props) => {
     //VARIABLES DECLARATION
+    // eslint-disable-next-line
     const {isLoggedIn, setIsLoggedIn, setCartPressed, cart, setCart, setUserID, userID, totalCost} = useContext(userAuth);
     const [addresses, setAddresses] = useState({});
+    // eslint-disable-next-line
     const states = [ {label: 'Alto Paraguay' }, {label: 'Alto Paraná'}, {label: 'Amambay'}, {label: 'Asunción - Capital'}, {label: 'Boquerón'} , 
     {label: 'Caaguazú'}  , {label: 'Caazapá'}, {label: 'Canindeyú'} ,  {label:'Central'},  {label:'Concepción'},  {label:'Cordillera'}, 
     {label:'Guairá'},  {label:'Itapúa'},  {label:'Misiones'},  {label:'Ñeembucú'},  {label:'Paraguarí'},  {label:'Presidente Hayes'},  {label:'San Pedro'} ];
+    // eslint-disable-next-line
     const {register, handleSubmit, formState: {errors}} = useForm();
     const [showAddr, setShowAddr] = useState("doNotShowAddr");
     const [opMode, setOpMode] = useState(null);
@@ -31,15 +34,18 @@ const Checkout = (props) => {
     const [indexAddr, setIndexAddr] = useState();
     let isDelivery = true;
     const [open, setOpen] = useState(false);
+    const [placeOrderOK, setPlaceOrderOK] = useState(false);
+    const [placeOrderNotOK, setPlaceOrderNotOK] = useState(false);
+    const navigate = useNavigate();
 
     
     const handleClickOpen = () => {
         setOpen(true);
-      };
+        };
     
-      const handleClose = () => {
+        const handleClose = () => {
         setOpen(false);
-      };
+        };
 
 
     const handleClickAddAddress = (e, opMode, addressID, index) =>{
@@ -67,7 +73,7 @@ const Checkout = (props) => {
         console.log('place order', cart.items)
 
         if(isAddr){
-                    axios.post('http://localhost:8000/api/pizzapp/order', 
+        axios.post('http://localhost:8000/api/pizzapp/order', 
         {
             userID: userID,
             typeOrder: cart.typeOrder,
@@ -77,13 +83,19 @@ const Checkout = (props) => {
         )
         .then( (response) => {
             console.log('orden exitosa', response.data);
-            alert('Orden registrada');
+            window.localStorage.removeItem("itemCount");
+           // window.localStorage.setItem([]);
+            setPlaceOrderOK(true);
+            setPlaceOrderNotOK(false);
+            window.localStorage.setItem('requestItem', JSON.stringify([]))
+            window.localStorage.setItem('itemCount', JSON.stringify(0))
+            setTimeout(() => { navigate('/home');}, 2500);
 
         } )
         .catch( (errorMsg) =>{
             console.log('orden error', errorMsg);
-            alert('no se pudo cargar');
-
+            setPlaceOrderOK(false);
+            setPlaceOrderNotOK(true);
         }  )
     }
     else{
@@ -114,7 +126,7 @@ const Checkout = (props) => {
         else{
             setUserID(JSON.parse(window.localStorage.getItem('userID')))
         }
-        
+         // eslint-disable-next-line
     },[userID,isDelivery, cart.type]
 
     
@@ -123,7 +135,13 @@ const Checkout = (props) => {
     )
     return (
         <div>
-            <Navbar itemCount={props.itemCount} setItemCount={props.setItemCount}/>
+
+        <Stack sx={{ width: '100%' }} spacing={2}>
+            { placeOrderNotOK ?  <Alert severity="error">Error: verifique los datos introducidos y vuelva a probar</Alert> : null} 
+            { placeOrderOK ? <Alert severity="success">Orden procesada, redirigiendo a la página principal</Alert> : null}
+        </Stack>
+
+        <Navbar itemCount={props.itemCount} setItemCount={props.setItemCount}/>
 
             <div>
 
@@ -153,7 +171,7 @@ const Checkout = (props) => {
 
             
                 
-            <div>
+                    <div>
                         <div className='containerPage'>
                         { isDelivery ?  
                         <div>

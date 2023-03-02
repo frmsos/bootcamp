@@ -1,4 +1,4 @@
-import {React, useState} from 'react';
+import {React, useState, useEffect} from 'react';
 import {Avatar, Button, CssBaseline, TextField, Paper, Box, Autocomplete, Grid, Typography, IconButton, Alert, Stack} from '@mui/material';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
@@ -10,6 +10,8 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import { InputAdornment } from '@mui/material';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { useContext } from 'react';
+import { userAuth } from '../contexts/userAuth';
 
 
 export default function Login() {
@@ -23,6 +25,7 @@ export default function Login() {
     const [registerOK, setRegisterOK] = useState(false);
     const [registerNotOK, setRegisterNotOK] = useState(false);
     const navigate = useNavigate();
+    const {setIsLoggedIn, isLoggedIn , setUserID, userID} = useContext(userAuth);
     ////////
     //FUNCTIONS DECLARATION
     const onSubmit = (data) => {
@@ -40,11 +43,13 @@ export default function Login() {
             password: data.password
         }, {withCredentials:true }
         )
-        .then( () => {
+        .then( (response) => {
             //alert('afae')
             setRegisterOK(true);
             setRegisterNotOK(false);
-            setTimeout(() => { navigate('/');}, 2500);
+            setIsLoggedIn(true)
+            setUserID(response.data.id);
+            setTimeout(() => { navigate('/home');}, 2500);
         } )
         .catch( (errorMsg) =>{
             setRegisterOK(false);
@@ -64,6 +69,13 @@ export default function Login() {
         );
     }
     const handleClickPassword = () => setShowPassword(!showPassword);
+
+    useEffect( ()=>{
+        window.localStorage.setItem('loginStatus', JSON.stringify(isLoggedIn))
+        window.localStorage.setItem('userID', JSON.stringify(userID))
+        window.localStorage.setItem('requestItem', JSON.stringify([]))
+        }, [isLoggedIn, userID])
+
     ///////
     ////JSX BEGINS
     return (

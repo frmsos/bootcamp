@@ -1,8 +1,7 @@
-import {React, useEffect, useState, useRef, useContext}  from 'react'
+import {React, useEffect, useState, useContext}  from 'react'
 import { userAuth } from '../contexts/userAuth';
 import axios from 'axios';
 import { Outlet, useNavigate } from 'react-router-dom';
-import Home from './Home';
 
 
 
@@ -10,7 +9,7 @@ const ProtectedRoutes = () => {
     const navigate = useNavigate();
     const [isReady, setIsReady] = useState(false);
     const [isAuth, setIsAuth] = useState(false);
-    const { setIsLoggedIn,setUserID, isLoggedIn, userID } = useContext(userAuth);
+    const { setIsLoggedIn,setUserID, isLoggedIn } = useContext(userAuth);
     //funcion de validacion de acceso valido
     // const ValidateAuth =   () => {
         
@@ -55,7 +54,7 @@ const ProtectedRoutes = () => {
             setIsReady(true)
             setIsAuth(false)
         }
-
+        // eslint-disable-next-line
     },[]
 
     )
@@ -66,7 +65,7 @@ const ProtectedRoutes = () => {
     if( isReady )
     {
         console.log('ssss', isReady)
-        return isAuth ? <Outlet/> : navigate('/home')
+        return isAuth ? <Outlet/> : navigate('/login')
     }
     else{
         console.log('ava')
