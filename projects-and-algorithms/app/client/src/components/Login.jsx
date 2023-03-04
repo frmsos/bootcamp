@@ -53,7 +53,7 @@ const onSubmit = (data) => {
         console.log('login response data', response);
         setIsLoggedIn(true)
         setUserID(response.data.id);
-        cartPressed ?  setTimeout(() => { navigate('/')}, 2100) : setTimeout(() => { navigate('/cart')}, 2100)
+        cartPressed ?  setTimeout(() => { navigate('/home')}, 2100) : setTimeout(() => { navigate('/order')}, 2100)
         setTimeout(() => { navigate('/')}, 2100)
     } )
     .catch( (errorMsg) =>{

@@ -1,9 +1,8 @@
 import {useEffect, useState} from 'react';
-import {AppBar, Box, Toolbar, IconButton, Typography, Menu, Container, Button, Tooltip, MenuItem, Badge} from '@mui/material';
+import {AppBar, Box, Toolbar, IconButton, Typography, Menu, Container, Button, MenuItem, Badge} from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import logo2 from '../images/logoWhite.png';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import LoginIcon from '@mui/icons-material/Login';
 import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt';
 import { Link, useNavigate } from 'react-router-dom';
@@ -12,31 +11,24 @@ import { userAuth } from '../contexts/userAuth';
 import axios from 'axios';
 
 //VARIABLES DECLARATIONS
-const settings = ['Cuenta', 'Salir'];
 
 
 //FUNCTIONS DECLATARION
 function ResponsiveAppBar(props) {
     const [anchorElNav, setAnchorElNav] = useState(null);
-    const [anchorElUser, setAnchorElUser] = useState(null);
+
     const {isLoggedIn, setIsLoggedIn, setCartPressed, setUserID} = useContext(userAuth);
     const navigate = useNavigate();
     
-
     const handleOpenNavMenu = (event) => {
         setAnchorElNav(event.currentTarget);
-    };
-    const handleOpenUserMenu = (event) => {
-        setAnchorElUser(event.currentTarget);
     };
 
     const handleCloseNavMenu = () => {
         setAnchorElNav(null);
     };
 
-  const handleCloseUserMenu = ( )=> {
-    setAnchorElUser(null);
-  };
+
 
   const logOutUser = () =>{
     console.log('logging out user from navbar');
@@ -70,7 +62,7 @@ function ResponsiveAppBar(props) {
   const handleCartPressed = e =>{
     e.preventDefault();
     setCartPressed(true);
-    isLoggedIn ?  navigate('/cart') :  navigate('/login');
+    isLoggedIn ?  navigate('/order') :  navigate('/login');
   }
   useEffect( ()=>{
     setIsLoggedIn(window.localStorage.getItem('loginStatus', JSON.stringify(isLoggedIn)));
