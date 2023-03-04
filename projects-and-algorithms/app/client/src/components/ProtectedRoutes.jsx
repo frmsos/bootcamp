@@ -2,6 +2,7 @@ import {React, useEffect, useState, useContext}  from 'react'
 import { userAuth } from '../contexts/userAuth';
 import axios from 'axios';
 import { Outlet, useNavigate } from 'react-router-dom';
+import config from './config';
 
 
 
@@ -27,7 +28,7 @@ const ProtectedRoutes = () => {
         if( isLoggedIn ) 
         {
             console.log('aca', userid);
-            axios.get(`http://localhost:8000/api/pizzapp/users/${userid}`,{withCredentials : true}) 
+            axios.get(`${config.url}/api/pizzapp/users/${userid}`,{withCredentials : true}) 
             .then(() => 
             {
                 console.log('se revalida el acceso');

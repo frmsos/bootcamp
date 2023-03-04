@@ -8,6 +8,7 @@ import axios from 'axios';
 import {  useNavigate } from 'react-router-dom';
 import OrderHistory from './OrderHistory';
 import OrderItems from './OrderItems';
+import config from './config';
 
 
 
@@ -41,9 +42,10 @@ const Order = (props) => {
     }
 
     const costoTotal = (subTotal) =>{
-        setTotalCost(subTotal + 15000);
+        setTotalCost(subTotal + 15000); //mas costo de delivery
         return subTotal + 15000;
     }
+
     const calcularCosto = ( topping, amount, size) => {
         let toppingCost = 0;
         let sizeCost = 0;
@@ -80,7 +82,7 @@ const Order = (props) => {
 
     useEffect( () => {
         //IMPORTAMOS LOS VALORES ALMACENADOS EN LA DB, RELATIVOS A LOS SABORES, TAMANOS Y CRUST CON SUS COSTOS
-        axios.get('http://localhost:8000/api/pizzapp/toppings/get',{withCredentials : true})
+        axios.get(`${config.url}/api/pizzapp/toppings/get`,{withCredentials : true})
         .then(response => {
             toppingsData.current = response.data;
            // console.log(toppingsData.current);
@@ -89,7 +91,7 @@ const Order = (props) => {
             setIsLoggedIn(false);
             setCartPressed(false);
         })
-        axios.get('http://localhost:8000/api/pizzapp/sizes/get',{withCredentials : true})
+        axios.get(`${config.url}/api/pizzapp/sizes/get`,{withCredentials : true})
         .then(response => {
             sizesData.current = response.data;
             //console.log('sizes', response.data);
@@ -98,7 +100,7 @@ const Order = (props) => {
             setIsLoggedIn(false);
             setCartPressed(false);
         })
-        axios.get('http://localhost:8000/api/pizzapp/crusts/get',{withCredentials : true})
+        axios.get(`${config.url}/api/pizzapp/crusts/get`,{withCredentials : true})
         .then(response => {
             crustsData.current = response.data;
             //console.log('crust', response.data);
@@ -109,9 +111,6 @@ const Order = (props) => {
         })
         // eslint-disable-next-line
     }, [costoItem]  ); 
-
-
-
     
     return (
         <div>

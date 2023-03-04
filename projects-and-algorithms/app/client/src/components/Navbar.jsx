@@ -9,6 +9,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useContext } from 'react';
 import { userAuth } from '../contexts/userAuth';
 import axios from 'axios';
+import config from './config';
 
 //VARIABLES DECLARATIONS
 
@@ -32,7 +33,7 @@ function ResponsiveAppBar(props) {
 
   const logOutUser = () =>{
     console.log('logging out user from navbar');
-    axios.get('http://localhost:8000/api/pizzapp/order',{withCredentials:true }
+    axios.get(`${config.url}/api/pizzapp/order`,{withCredentials:true }
     )
     .then( (response) => {
         console.log('logout ok', response.data);

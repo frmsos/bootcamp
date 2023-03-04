@@ -12,6 +12,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { useContext } from 'react';
 import { userAuth } from '../contexts/userAuth';
+import config from './config';
 
 
 export default function Login() {
@@ -30,7 +31,7 @@ export default function Login() {
     //FUNCTIONS DECLARATION
     const onSubmit = (data) => {
         console.log(data);
-        axios.post('http://localhost:8000/api/pizzapp/register', 
+        axios.post(`${config.url}/api/pizzapp/register`, 
         {
             firstName: data.firstName,
             lastName: data.lastName,

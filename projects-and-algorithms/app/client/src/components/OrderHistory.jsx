@@ -8,6 +8,7 @@ import Typography from '@mui/material/Typography';
 import axios from 'axios';
 import { useContext } from 'react';
 import { userAuth } from '../contexts/userAuth';
+import config from './config';
 
 const OrderHistory = () => {
     const [orderHistoryArray, setOrderHistoryArray] = useState([]);
@@ -16,7 +17,7 @@ const OrderHistory = () => {
     
     useEffect( ()=> {
         if( userID !==0 && userID !== null && userID !== undefined) {
-            axios.get(`http://localhost:8000/api/pizzapp/orderhistory/${userID}`,{withCredentials : true})
+            axios.get(`${config.url}/api/pizzapp/orderhistory/${userID}`,{withCredentials : true})
             .then(response => {
                 console.log('orderhistory', response.data.orderHistory);
                 setOrderHistoryArray(response.data.orderHistory);

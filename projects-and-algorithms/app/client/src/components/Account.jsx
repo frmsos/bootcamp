@@ -1,43 +1,37 @@
 import {useState, useEffect} from 'react';
 import Navbar from './Navbar';
-import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
-import Paper from '@mui/material/Paper';
-import Grid from '@mui/material/Grid';
-import Autocomplete from '@mui/material/Autocomplete';
 import Typography from '@mui/material/Typography';
-import TextField from '@mui/material/TextField';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useForm } from 'react-hook-form';
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 import { useContext } from 'react';
 import { userAuth } from '../contexts/userAuth';
 import axios from 'axios';
-import { width } from '@mui/system';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import {IconButton} from '@mui/material';
+import config from './config';
 
 
 
 
 const Account = (props) => {
-    const departamentos = [ {label: 'Alto Paraguay' }, {label: 'Alto Paraná'}, {label: 'Amambay'}, {label: 'Asunción - Capital'}, {label: 'Boquerón'} , 
-    {label: 'Caaguazú'}  , {label: 'Caazapá'}, {label: 'Canindeyú'} ,  {label:'Central'},  {label:'Concepción'},  {label:'Cordillera'}, 
-    {label:'Guairá'},  {label:'Itapúa'},  {label:'Misiones'},  {label:'Ñeembucú'},  {label:'Paraguarí'},  {label:'Presidente Hayes'},  {label:'San Pedro'} ];
     const { userID, setUserID } = useContext(userAuth);
     const {register, handleSubmit, formState: {errors}} = useForm();
     const [accountData, setAccountData] = useState({firstName: "", lastName:"", email:"", password:"", addresses: []  });
     const [isPassChanged, setIsPassChanged] = useState(false);
-    let idUser = 0;
-    const onSubmit = (data) => {
+    const [showPassword, setShowPassword] = useState(false);
+
+    //Funcion onsubmit: se llama al presionar el boton de modificar
+
+    const onSubmit = () => {
         console.log('is pass changed', isPassChanged)
         console.log('data to be modified to account', accountData);
 
         //si no se actuailizo el pass
         if( !isPassChanged || accountData.password === ""  )
         {
-            axios.put(`http://localhost:8000/api/pizzapp/user/refactor/${userID}`, 
+            axios.put(`${config.url}/api/pizzapp/user/refactor/${userID}`, 
             {
                 firstName: accountData.firstName,
                 lastName: accountData.lastName,
@@ -55,7 +49,7 @@ const Account = (props) => {
          //si se actualizo el pass
         else{
             if(isPassChanged){
-                axios.put(`http://localhost:8000/api/pizzapp/user/update/${userID}`, 
+                axios.put(`${config.url}/api/pizzapp/user/update/${userID}`, 
                 {
                     firstName: accountData.firstName,
                     lastName: accountData.lastName,
@@ -75,6 +69,9 @@ const Account = (props) => {
         }
         
     }
+    //funcion updateaddrvalue: actualiza los valores del objecto address que contiene tres parametros (calle, ciudad, estado)
+    //recibe el valor a cambiar, el indice del vector para modificarlo y el parametro a modificar
+    //actualiza el estado accountdata que contiene el objeto con los datos que deben estar actualizados
     const updateAddrValue = ( value, index, field) => {
         let items = {...accountData};
         let item = items.addresses[index];
@@ -96,6 +93,7 @@ const Account = (props) => {
         console.log('esto es update addr', items);
         setAccountData(items);
     }
+    //funcion checkErrorsArryForm: se verifica que el campo ciudad deba tener como minimo 4 caracteres
     const checkErrorsArryForm = (field, index) => {
         if( field=== 'street') {
             return(accountData.addresses[index].street.length < 4 )    
@@ -105,16 +103,18 @@ const Account = (props) => {
         }
     }
 
+    //funcion que se encarga de cambiar el estado showpassword asociado al boton que muestra el contenido de la contrasena
     const handleClickPassword = () => setShowPassword(!showPassword);
-    const [showPassword, setShowPassword] = useState(false);
     const updatePass = (e) =>{
         setAccountData({...accountData, password: e.target.value});
         setIsPassChanged(true);
     }
 
+    // obtenemos la info del user
+
     useEffect( () => {
         if( userID !==0 && userID !== null && userID !== undefined){
-            axios.get(`http://localhost:8000/api/pizzapp/users/${userID}`,{withCredentials : true})
+            axios.get(`${config.url}/api/pizzapp/users/${userID}`,{withCredentials : true})
             .then(response => {
                 console.log('user account info get by id', response.data.user);
                 setAccountData(response.data.user);

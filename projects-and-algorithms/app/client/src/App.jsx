@@ -12,7 +12,7 @@ import Checkout from './components/Checkout';
 import Account from './components/Account';
 import Order from './components/Order';
 import { userAuth } from './contexts/userAuth';
-import ProtectedRoutes from './components/ProtectedRoutes';
+import ProtectedRoutes from './components/ProtectedRoutes2';
 const App = () => {
 
   //FUNCTIONS DECLARATION

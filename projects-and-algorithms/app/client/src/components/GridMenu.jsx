@@ -17,6 +17,8 @@ export default function GridMenu(props) {
 
 
     //FUNCTIONS DEFINITION
+    //se encarga de actualizar el vector de items pedidos y el contador del carrito.
+//se llama al presionar el boton de agregar
     const handleToppingSelect = async(event, pizzatopping) =>{
         prevreqItem = await JSON.parse(window.localStorage.getItem('requestItem'));
         const prevCount = props.itemCount +1;
@@ -28,7 +30,9 @@ export default function GridMenu(props) {
         await window.localStorage.setItem('itemCount', JSON.stringify(prevCount))
         await window.localStorage.setItem('requestItem', JSON.stringify(prevreqItem))
     }
-
+    
+//funcion utilizada para validar si un elemento ya se encuentra en el vector de items solicitados
+//segun el caso debe mostrarse el boton de agregar o quitar.
     const isThere = (pizzatopping, requestItem) =>{
         //alert(pizzatopping)
         for(let i = 0; i < requestItem.length; i++)
@@ -40,6 +44,7 @@ export default function GridMenu(props) {
         }
         return false;
     }
+    //funcion que se llama al presionar el boton de quitar, se encarga de remover el item del vector de items y actualizar el contador del carrito
     const handleToppingRemove = async(event, pizzatopping, requestItem) =>{
         event.preventDefault();
         console.log("recibiendo...", pizzatopping, requestItem)

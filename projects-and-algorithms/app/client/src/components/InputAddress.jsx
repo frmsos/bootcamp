@@ -2,6 +2,7 @@ import {React, useEffect, useState} from 'react';
 import {Avatar, Button, CssBaseline, TextField, Paper, Box, Autocomplete, Grid, Typography, IconButton, Alert, Stack} from '@mui/material';
 import {useForm} from 'react-hook-form';
 import axios from 'axios';
+import config from './config';
 
 
 
@@ -18,7 +19,7 @@ const InputAddress = (props) => {
     const onSubmit = (data) =>{
         console.log('onsubmit', data);
         if( !isEditMode){
-            axios.post(`http://localhost:8000/api/pizzapp/users/addresses/${props.userID}`, 
+            axios.post(`${config.url}/api/pizzapp/users/addresses/${props.userID}`, 
             {
                 addresses: {
                     street: data.street,
@@ -38,7 +39,7 @@ const InputAddress = (props) => {
             }  )
         }
         else{
-            axios.put(`http://localhost:8000/api/pizzapp/users/address/63fab4f8fb63ef81fd959442/${props.addrID}`, 
+            axios.put(`${config.url}/api/pizzapp/users/address/63fab4f8fb63ef81fd959442/${props.addrID}`, 
             {
                 addresses: {
                     street: data.street,
