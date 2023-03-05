@@ -70,7 +70,6 @@ const handleClickPassword = () => setShowPassword(!showPassword);
 useEffect( ()=>{
     window.localStorage.setItem('loginStatus', JSON.stringify(isLoggedIn))
     window.localStorage.setItem('userID', JSON.stringify(userID))
-    window.localStorage.setItem('requestItem', JSON.stringify([]))
     }, [isLoggedIn, userID])
 
     //JSX BEGINS

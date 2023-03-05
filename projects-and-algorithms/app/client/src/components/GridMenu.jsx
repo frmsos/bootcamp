@@ -57,11 +57,17 @@ export default function GridMenu(props) {
     }
 
     console.log('print fron storage',JSON.parse(window.localStorage.getItem('xxxx')));
-    
+
+    useEffect( () => {
+        console.log( 'useefff gridmenu', JSON.parse(window.localStorage.getItem('requestItem')))
+        if( JSON.parse(window.localStorage.getItem('requestItem')) == null ){
+            window.localStorage.setItem('requestItem', JSON.stringify([]))
+        }
+
+    }, [])  
     //JSX BEGINS
     return (
-        <div className='GridMenuContainer'> 
-            
+        <div className='GridMenuContainer'>
             <Grid container spacing={2}>
                 
                     {  pizzaToppings.map(  (pizzatopping,index) => {

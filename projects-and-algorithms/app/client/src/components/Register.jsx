@@ -72,9 +72,8 @@ export default function Login() {
     const handleClickPassword = () => setShowPassword(!showPassword);
 
     useEffect( ()=>{
-        window.localStorage.setItem('loginStatus', JSON.stringify(isLoggedIn))
-        window.localStorage.setItem('userID', JSON.stringify(userID))
-        window.localStorage.setItem('requestItem', JSON.stringify([]))
+        window.localStorage.setItem('loginStatus', JSON.stringify(isLoggedIn));
+        window.localStorage.setItem('userID', JSON.stringify(userID));
         }, [isLoggedIn, userID])
 
     ///////
