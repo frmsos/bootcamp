@@ -56,6 +56,7 @@ export default function GridMenu(props) {
         await window.localStorage.setItem('itemCount', JSON.stringify(prevCount))
     }
 
+    console.log('print fron storage',JSON.parse(window.localStorage.getItem('xxxx')));
     
     //JSX BEGINS
     return (

@@ -5,9 +5,10 @@ import { useNavigate } from 'react-router-dom';
 import config from './config';
 
 const ValidateAuth = () => {
-    const {isLoggedIn, setIsLoggedIn,setUserID, userID, } = useContext(userAuth);
+    const {isLoggedIn, setIsLoggedIn } = useContext(userAuth);
     const [checkStatus, setCheckStatus] = useState(false);
     const loggedIn = useRef();
+    const userID = JSON.parse(window.localStorage.getItem('userID'))
     //hay que revalidar que el token siga siendo valida
 
     useEffect( ()=>{
@@ -15,7 +16,7 @@ const ValidateAuth = () => {
         //si se tiene un userID no valido, se debe redirigir
         if( userID === 0 || userID === undefined || userID === null )
         {
-            console.log('se ingreso un user id no valido')
+            console.log('se ingreso un user id no valido', userID)
             loggedIn.current = false;
             setCheckStatus(true);
 
