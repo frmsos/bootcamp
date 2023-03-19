@@ -39,8 +39,9 @@ const [loginNotOK, setLoginNotOK] = useState(false);
 const {isLoggedIn, setIsLoggedIn, cartPressed, setCartPressed, userID, setUserID} = useContext(userAuth);
 //FUNCTIONS DECLARATION
 
-const onSubmit = (data) => {
-    console.log(data);
+const onSubmit = (data, event) => {
+    console.log('on submit login handler', data, event);
+    event.preventDefault();
     axios.post(`${config.url}/api/pizzapp/login`, 
     {
         email: data.email,
